@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car
+from database.models import User, Car, Team, Fan, Establishment, Review
 
 ma = Marshmallow()
 
@@ -59,3 +59,19 @@ cars_schema = CarSchema(many=True)
 
 
 # TODO: Add your schemas below
+class TeamSchema(ma.Schema):
+    id = fields.Integer(primary_key=True)
+    sport = fields.String(required=True)
+    name = fields.String(required=True)
+    league = fields.String(required=True)
+    division = fields.String()
+    conference =fields.String()
+    class Meta:
+        fields = ("id", "sport", "name", "league", "division", "conference")
+    
+    @post_load
+    def create_team(self, data, **kwargs):
+        return Team(**data)
+    
+team_schema = TeamSchema()
+teams_schema = TeamSchema(many=True)

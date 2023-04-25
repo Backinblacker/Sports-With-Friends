@@ -31,3 +31,33 @@ class Car(db.Model):
     user = db.relationship("User")
 
 # TODO: Add your models below, remember to add a new migration and upgrade database
+class Team(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    sport = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    league = db.Column(db.String(100), nullable=False)
+    division = db.Column(db.String(100))
+    conference = db.Column(db.String(100))
+
+class Fan(db.Model):
+    user_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(225), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    team = db.relationship("Team")
+    
+class Establishment(db.Model):
+    establishment_id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.String(225), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    state = db.Column(db.String(100), nullable=False)
+    zip_code = db.Column(db.Integer, nullable=False)
+    website = db.Column(db.String(225))
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    team = db.relationship("Team")
+    
+class Review(db.Model):
+    review_id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    rating = db.Column(db.Integer, nullable=False)

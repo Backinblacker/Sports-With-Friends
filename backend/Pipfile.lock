@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "d7761d4b41b834c6fb19f047b9f079492d447c6a5a370b6e9fd83a2b0a3e76a7"
+            "sha256": "b334b293cff4349ccccb53871b9144d9b8152757424c6388e1355b642eb6875d"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.10"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -325,11 +323,11 @@
         },
         "packaging": {
             "hashes": [
-                "sha256:714ac14496c3e68c99c29b00845f7a2b85f3bb6f1078fd9f72fd20f0570002b2",
-                "sha256:b6ad297f8907de0fa2fe1ccbd26fdaf387f5f47c7275fedf8cce89f99446cf97"
+                "sha256:994793af429502c4ea2ebf6bf664629d07c1a9fe974af92966e4b8d2df7edc61",
+                "sha256:a392980d2b6cffa644431898be54b0045151319d1e7ec34f0cfed48767dd334f"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==23.0"
+            "version": "==23.1"
         },
         "protobuf": {
             "hashes": [
