@@ -100,10 +100,17 @@ class EstablishmentSchema(ma.Schema):
     state = fields.String(required=True)
     zip_code = fields.Integer(required=True)
     website = fields.String()
+    opening_time = fields.Time(required=True)
+    closing_time = fields.Time(required=True)
+    menu_url = fields.String()
+    specials = fields.String()
+    event = fields.String()
+    social_media = fields.String()
+    entertainment = specials = fields.String()
     team_id = fields.Integer()
     team = ma.Nested(TeamSchema, many=True)
     class Meta:
-        fields = ("establishment_id", "name", "address", "city", "state", "zip_code", "website", "team_id", "team")
+        fields = ("establishment_id", "name", "address", "city", "state", "zip_code", "website", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id", "team")
     
     @post_load
     def create_fan(self,data,**kwargs):

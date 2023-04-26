@@ -54,6 +54,13 @@ class Establishment(db.Model):
     state = db.Column(db.String(100), nullable=False)
     zip_code = db.Column(db.Integer, nullable=False)
     website = db.Column(db.String(225))
+    opening_time = db.Column(db.Time, nullable=False)
+    closing_time = db.Column(db.Time, nullable=False)
+    menu_url = db.Column(db.String(225))
+    specials = db.Column(db.String(225))
+    event = db.Column(db.String(500))
+    social_media = db.Column(db.String(225))
+    entertainment = db.Column(db.String(225))
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team = db.relationship("Team")
     
