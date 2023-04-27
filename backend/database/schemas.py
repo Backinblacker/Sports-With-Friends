@@ -35,7 +35,6 @@ class UserSchema(ma.Schema):
     closing_time = fields.Time()
     menu_url = fields.String()
     specials = fields.String()
-    event = fields.String()
     social_media = fields.String()
     entertainment = fields.String()
     team_id = fields.Integer()
@@ -114,3 +113,19 @@ class ReviewSchema(ma.Schema):
     
 review_schema = ReviewSchema()
 reviews_schema = ReviewSchema(many=True)
+
+class EventSchema(ma.Schema):
+    event_id = fields.Integer(primary_key=True)
+    text = fields.String(required=True)
+    event_image_url = fields.String(required=True)
+    team_id = fields.Integer()
+    team = ma.Nested(TeamSchema, many=True)
+    class Meta:
+        fields = ("event_id", "text", "event_image_url, team_id")
+    
+    @post_load
+    def create_fan(self,data,**kwargs):
+        return EventSchema(**data)
+    
+event_schema = EventSchema()
+eventss_schema = EventSchema(many=True)

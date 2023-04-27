@@ -15,7 +15,6 @@ class User(db.Model):
     closing_time = db.Column(db.Time)
     menu_url = db.Column(db.String(255))
     specials = db.Column(db.String(255))
-    event = db.Column(db.String(255))
     social_media = db.Column(db.String(255))
     entertainment = db.Column(db.String(255))
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
@@ -61,3 +60,10 @@ class Review(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    
+class Event(db.Model):
+    event = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(500), nullable=False)
+    event_image = db.Column(db.String(500), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    team = db.relationship('Team')
