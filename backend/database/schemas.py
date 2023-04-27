@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car, Team, Fan, Establishment, Review
+from database.models import User, Car, Team, Fan, Review
 
 ma = Marshmallow()
 
@@ -31,8 +31,18 @@ class UserSchema(ma.Schema):
     first_name = fields.String(required=True)
     last_name = fields.String(required=True)
     email = fields.String(required=True)
+    is_establishment = fields.Boolean()
+    opening_time = fields.Time()
+    closing_time = fields.Time()
+    menu_url = fields.String()
+    specials = fields.String()
+    event = fields.String()
+    social_media = fields.String()
+    entertainment = fields.String()
+    team_id = fields.Integer()
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email",)
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id",)
+
 
 register_schema = RegisterSchema()
 user_schema = UserSchema()
@@ -91,33 +101,6 @@ class FanSchema(ma.Schema):
 
 fan_schema = FanSchema()
 fans_schema = FanSchema(many=True)
-
-class EstablishmentSchema(ma.Schema):
-    establishment_id = fields.Integer(primary_key=True)
-    name = fields.String(required=True)
-    address = fields.String(required=True)
-    city = fields.String(required=True)
-    state = fields.String(required=True)
-    zip_code = fields.Integer(required=True)
-    website = fields.String()
-    opening_time = fields.Time(required=True)
-    closing_time = fields.Time(required=True)
-    menu_url = fields.String()
-    specials = fields.String()
-    event = fields.String()
-    social_media = fields.String()
-    entertainment = specials = fields.String()
-    team_id = fields.Integer()
-    team = ma.Nested(TeamSchema, many=True)
-    class Meta:
-        fields = ("establishment_id", "name", "address", "city", "state", "zip_code", "website", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id", "team")
-    
-    @post_load
-    def create_fan(self,data,**kwargs):
-        return Establishment(**data)
-
-establishment_schema = EstablishmentSchema()
-establishmentss_schema = EstablishmentSchema(many=True)
 
 class ReviewSchema(ma.Schema):
     review_id = fields.Integer(primary_key=True)

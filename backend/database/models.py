@@ -4,12 +4,23 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(255), nullable=False, unique=True)
+    username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     first_name = db.Column(db.String(255), nullable=False)
     last_name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False, unique=True)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    is_establishment = db.Column(db.Boolean)
+    opening_time = db.Column(db.Time)
+    closing_time = db.Column(db.Time)
+    menu_url = db.Column(db.String(255))
+    specials = db.Column(db.String(255))
+    event = db.Column(db.String(255))
+    social_media = db.Column(db.String(255))
+    entertainment = db.Column(db.String(255))
+    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    team = db.relationship('Team', backref='user')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
@@ -32,6 +43,7 @@ class Car(db.Model):
 
 # TODO: Add your models below, remember to add a new migration and upgrade database
 class Team(db.Model):
+    __tablename__ = 'team'
     id = db.Column(db.Integer, primary_key=True)
     sport = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(100), nullable=False)
@@ -43,24 +55,6 @@ class Fan(db.Model):
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(225), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team = db.relationship("Team")
-    
-class Establishment(db.Model):
-    establishment_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    address = db.Column(db.String(225), nullable=False)
-    city = db.Column(db.String(100), nullable=False)
-    state = db.Column(db.String(100), nullable=False)
-    zip_code = db.Column(db.Integer, nullable=False)
-    website = db.Column(db.String(225))
-    opening_time = db.Column(db.Time, nullable=False)
-    closing_time = db.Column(db.Time, nullable=False)
-    menu_url = db.Column(db.String(225))
-    specials = db.Column(db.String(225))
-    event = db.Column(db.String(500))
-    social_media = db.Column(db.String(225))
-    entertainment = db.Column(db.String(225))
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team = db.relationship("Team")
     
