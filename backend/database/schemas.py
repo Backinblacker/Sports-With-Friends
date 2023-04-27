@@ -28,8 +28,7 @@ class UserSchema(ma.Schema):
     """
     id = fields.Integer(primary_key=True)
     username = fields.String(required=True)
-    first_name = fields.String(required=True)
-    last_name = fields.String(required=True)
+    name = fields.String(required=True)
     email = fields.String(required=True)
     is_establishment = fields.Boolean()
     opening_time = fields.Time()
