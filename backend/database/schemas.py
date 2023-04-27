@@ -128,4 +128,4 @@ class EventSchema(ma.Schema):
         return EventSchema(**data)
     
 event_schema = EventSchema()
-eventss_schema = EventSchema(many=True)
+events_schema = EventSchema(many=True)
