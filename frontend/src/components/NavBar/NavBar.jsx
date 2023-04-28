@@ -16,6 +16,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
+          {/* If user is is_estab show establishment page */}
           {user ? (
             <button onClick={logoutUser}>Logout</button>
           ) : (

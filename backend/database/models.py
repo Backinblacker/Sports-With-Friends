@@ -24,7 +24,7 @@ class User(db.Model):
     specials = db.Column(db.String(255))
     social_media = db.Column(db.String(255))
     entertainment = db.Column(db.String(255))
-    teams = db.relationship("Team", secondary=establishment_teams, backref='establishments')
+    teams = db.relationship("Team", secondary=establishment_teams, backref='establishment')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

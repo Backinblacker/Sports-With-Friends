@@ -15,6 +15,7 @@ function setUserObject(user) {
     username: user.username,
     id: user.id,
     first_name: user.first_name,
+    //Add is_establishment
   };
 }
 
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }) => {
         email: registerData.email,
         first_name: registerData.firstName,
         last_name: registerData.lastName,
+        //add is_establi
       };
       let response = await axios.post(`${BASE_URL}/register`, finalData);
       if (response.status === 201) {

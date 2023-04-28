@@ -65,6 +65,7 @@ const RegisterPage = () => {
             onChange={handleInputChange}
           />
         </label>
+
         <label>
           Are you an establishment?
           <input
