@@ -66,4 +66,4 @@ class Event(db.Model):
     text = db.Column(db.String(500), nullable=False)
     event_image = db.Column(db.String(500), nullable=False)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team = db.relationship('Team')
+    team = db.relationship('Team', backref='user')

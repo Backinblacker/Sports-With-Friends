@@ -74,6 +74,7 @@ class EventDetailResource(Resource):
         db.session.commit()
         return review_schema.dump(review), 200
     
+    # Delete Event
     def delete(self, event_id):
         event_from_db = Event.query.get_or_404(event_id)
         db.session.delete(event_from_db)

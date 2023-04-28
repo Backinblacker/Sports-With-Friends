@@ -11,12 +11,18 @@ class RegisterSchema(ma.Schema):
     """
     id = fields.Integer(primary_key=True)
     username = fields.String(required=True)
-    password = fields.String(required=True)
-    first_name = fields.String(required=True)
-    last_name = fields.String(required=True)
+    name = fields.String(required=True)
     email = fields.String(required=True)
+    is_establishment = fields.Boolean()
+    opening_time = fields.Time()
+    closing_time = fields.Time()
+    menu_url = fields.String()
+    specials = fields.String()
+    social_media = fields.String()
+    entertainment = fields.String()
+    team_id = fields.Integer()
     class Meta:
-        fields = ("id", "username",  "password", "first_name", "last_name", "email")
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id")
 
     @post_load
     def create_user(self, data, **kwargs):
@@ -39,7 +45,7 @@ class UserSchema(ma.Schema):
     entertainment = fields.String()
     team_id = fields.Integer()
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id",)
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id")
 
 
 register_schema = RegisterSchema()
