@@ -3,12 +3,18 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+establishment_teams = db.Table('establishment_teams',
+                    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+                    db.Column('team_id', db.Integer, db.ForeignKey('team.id'))
+                    )
+
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    name = db.Column(db.String(255), nullable=False)
+    first_name = db.Column(db.String(255), nullable=False)
+    last_name = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     is_establishment = db.Column(db.Boolean)
     opening_time = db.Column(db.Time)
@@ -17,8 +23,7 @@ class User(db.Model):
     specials = db.Column(db.String(255))
     social_media = db.Column(db.String(255))
     entertainment = db.Column(db.String(255))
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team = db.relationship('Team', backref='user')
+    teams = db.relationship("Team", secondary=establishment_teams, backref='establishments')
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
@@ -49,21 +54,17 @@ class Team(db.Model):
     division = db.Column(db.String(100))
     conference = db.Column(db.String(100))
 
-class Fan(db.Model):
-    user_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(225), nullable=False)
-    team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team = db.relationship("Team")
     
 class Review(db.Model):
+    __tablename__ = 'review'
     review_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     
 class Event(db.Model):
-    event = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'event'
+    id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     event_image = db.Column(db.String(500), nullable=False)
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team = db.relationship('Team', backref='user')
+    team = db.relationship('Team', backref='events')

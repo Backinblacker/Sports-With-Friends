@@ -8,7 +8,7 @@ from database.models import db
 from database.schemas import ma
 from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
-from resources.resources import PostReviewResource, ReviewDetailResource, EventDetailResource, PostEventResource
+from resources.resources import PostReviewResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource
 from dotenv import load_dotenv
 from os import environ
 
@@ -61,4 +61,5 @@ def create_routes():
     api.add_resource(ReviewDetailResource, '/api/user_reviews/<int:review_id>')
     api.add_resource(PostEventResource, '/api/events')
     api.add_resource(EventDetailResource, '/api/user_reviews/<int:event_id>')
+    api.add_resource(UserToEstablishmentResource, '/api/user/<int:user_id>')
     return api

@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car, Team, Fan, Review
+from database.models import User, Car, Team, Review
 
 ma = Marshmallow()
 
@@ -11,23 +11,35 @@ class RegisterSchema(ma.Schema):
     """
     id = fields.Integer(primary_key=True)
     username = fields.String(required=True)
-    name = fields.String(required=True)
+    password = fields.String(required=True)
+    first_name = fields.String(required=True)
+    last_name = fields.String(required=True)
     email = fields.String(required=True)
-    is_establishment = fields.Boolean()
-    opening_time = fields.Time()
-    closing_time = fields.Time()
-    menu_url = fields.String()
-    specials = fields.String()
-    social_media = fields.String()
-    entertainment = fields.String()
-    team_id = fields.Integer()
+    is_establishment = fields.Boolean(default=False)
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id")
+        fields = ("id", "username",  "password", "first_name", "last_name", "email", "is_establishment")
 
     @post_load
     def create_user(self, data, **kwargs):
         return User(**data)
+
+class TeamSchema(ma.Schema):
+    id = fields.Integer(primary_key=True)
+    sport = fields.String(required=True)
+    name = fields.String(required=True)
+    league = fields.String(required=True)
+    division = fields.String()
+    conference =fields.String()
+    class Meta:
+        fields = ("id", "sport", "name", "league", "division", "conference")
     
+    @post_load
+    def create_team(self, data, **kwargs):
+        return Team(**data)
+    
+team_schema = TeamSchema()
+teams_schema = TeamSchema(many=True)
+
 class UserSchema(ma.Schema):
     """
     Schema used for displaying users, does NOT include password
@@ -37,15 +49,16 @@ class UserSchema(ma.Schema):
     name = fields.String(required=True)
     email = fields.String(required=True)
     is_establishment = fields.Boolean()
+    # Only shows up if user is an establishment
     opening_time = fields.Time()
     closing_time = fields.Time()
     menu_url = fields.String()
     specials = fields.String()
     social_media = fields.String()
     entertainment = fields.String()
-    team_id = fields.Integer()
+    teams = fields.Nested(TeamSchema, many=True)
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "team_id")
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams")
 
 
 register_schema = RegisterSchema()
@@ -73,38 +86,6 @@ cars_schema = CarSchema(many=True)
 
 
 # TODO: Add your schemas below
-class TeamSchema(ma.Schema):
-    id = fields.Integer(primary_key=True)
-    sport = fields.String(required=True)
-    name = fields.String(required=True)
-    league = fields.String(required=True)
-    division = fields.String()
-    conference =fields.String()
-    class Meta:
-        fields = ("id", "sport", "name", "league", "division", "conference")
-    
-    @post_load
-    def create_team(self, data, **kwargs):
-        return Team(**data)
-    
-team_schema = TeamSchema()
-teams_schema = TeamSchema(many=True)
-
-class FanSchema(ma.Schema):
-    user_id = fields.Integer(primary_key=True)
-    username = fields.String(required=True)
-    email = fields.String(required=True)
-    team_id = fields.Integer()
-    team = ma.Nested(TeamSchema, many=True)
-    class Meta:
-        fields = ("user_id", "username", "email", "team_id", "team")
-    
-    @post_load
-    def create_fan(self,data,**kwargs):
-        return Fan(**data)
-
-fan_schema = FanSchema()
-fans_schema = FanSchema(many=True)
 
 class ReviewSchema(ma.Schema):
     review_id = fields.Integer(primary_key=True)

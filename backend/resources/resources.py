@@ -1,8 +1,8 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
-from database.models import db, Review, Event
-from database.schemas import review_schema, reviews_schema, event_schema
+from database.models import db, Review, Event, User
+from database.schemas import review_schema, reviews_schema, event_schema, user_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -70,7 +70,7 @@ class EventDetailResource(Resource):
         if 'text' in request.json:
             review.text=request.json['text']
         if 'event_image_url' in request.json:
-            review.text=request.json['event_image_url']
+            review.event_imate_url=request.json['event_image_url']
         db.session.commit()
         return review_schema.dump(review), 200
     
@@ -80,3 +80,26 @@ class EventDetailResource(Resource):
         db.session.delete(event_from_db)
         db.session.commit()
         return '', 204
+    
+class UserResource(Resource):
+    def get(self, user_id):
+        user = User.query.filter_by(id=user_id).first_or_404()
+        return user_schema.dump(user, options={"include": ["teams"]})
+    
+class UserToEstablishmentResource(Resource):
+    def put(self,user_id):
+        establishment = User.query.filter_by(id=user_id).first_or_404()
+        if 'opening_time' in request.json:
+            establishment.opening_time=request.json['opening_time']
+        if 'closing_time' in request.json:
+            establishment.closing_time=request.json['closing_time']
+        if 'menu_url' in request.json:
+            establishment.menu_url=request.json['menu_url']
+        if 'specials' in request.json:
+            establishment.specials=request.json['specials']
+        if 'social_media' in request.json:
+            establishment.social_media=request.json['social_media']
+        if 'entertainment' in request.json:
+            establishment.entertainment=request.json['entertainment']
+        db.session.commit()
+        return user_schema.dump(establishment), 200
