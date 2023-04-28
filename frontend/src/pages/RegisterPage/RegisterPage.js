@@ -10,6 +10,7 @@ const RegisterPage = () => {
     password: "",
     firstName: "",
     lastName: "",
+    isEstablishment: false,
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     defaultValues,
@@ -64,6 +65,82 @@ const RegisterPage = () => {
             onChange={handleInputChange}
           />
         </label>
+        <label>
+          Are you an establishment?
+          <input
+            type="checkbox"
+            name="isEstablishment"
+            checked={formData.isEstablishment}
+            onChange={handleInputChange}
+          />
+        </label>
+        {formData.isEstablishment && (
+          <div>
+            <label>
+              Establishment Name:{" "}
+              <input
+                type="text"
+                name="establishmentName"
+                value={formData.establishmentName}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Opening Time:{" "}
+              <input
+                type="time"
+                name="openingTime"
+                value={formData.openingTime}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Closing Time:{" "}
+              <input
+                type="time"
+                name="closingTime"
+                value={formData.closingTime}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Menu URL:{" "}
+              <input
+                type="text"
+                name="menuUrl"
+                value={formData.menuUrl}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Specials:{" "}
+              <input
+                type="text"
+                name="specials"
+                value={formData.specials}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Social Media:{" "}
+              <input
+                type="text"
+                name="socialMedia"
+                value={formData.socialMedia}
+                onChange={handleInputChange}
+              />
+            </label>
+            <label>
+              Entertainment:{" "}
+              <input
+                type="text"
+                name="entertainment"
+                value={formData.entertainment}
+                onChange={handleInputChange}
+              />
+            </label>
+            </div>
+        )}
         <button>Register!</button>
       </form>
     </div>
