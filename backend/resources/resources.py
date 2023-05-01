@@ -65,6 +65,14 @@ class EventListResource(Resource):
         event = Event.query.get_or_404(team_id)
         return event_schema.dump(event), 200
 
+class EstablishmentEventListResource(Resource):
+    # Get Event by user_id
+    # This will need to have a if is_establishment = true in front end
+    @jwt_required()
+    def get(self, user_id):
+        event = Event.query.get_or_404(user_id)
+        return event_schema.dump(event), 200
+
 class EventDetailResource(Resource):
     # Get Event
     @jwt_required()
