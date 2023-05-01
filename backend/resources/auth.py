@@ -36,8 +36,17 @@ class LoginResource(Resource):
         additional_claims = {
             'id': user.id,
             'username': user.username,
-            'first_name': user.first_name
+            'first_name': user.first_name,
             # add is_establishment
+            'is_establishment': user.isEstablishment,
+            'establishment_name': user.establishment_name,
+            'opening_time': user.opening_time,
+            'closing_time': user.closing_time,
+            'menu_url': user.menu_url,
+            'specials': user.specials,
+            'social_media':user.social_media,
+            'entertainment': user.entertainment,
+            'teams':user.teams
         }
         access_token = create_access_token(identity=str(user.id), additional_claims=additional_claims, expires_delta=expires)
         return {'access': access_token}, 200

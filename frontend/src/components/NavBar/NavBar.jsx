@@ -12,11 +12,16 @@ const Navbar = () => {
       <ul>
         <li className="brand">
           <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            <b>React/Flask JWT</b>
+            <b>Sports with Friends</b>
           </Link>
         </li>
         <li>
           {/* If user is is_estab show establishment page */}
+          {is_establishment ? (
+            <Link to="/establishment" />
+          ) : (
+            <Link to="/user" />
+          )}
           {user ? (
             <button onClick={logoutUser}>Logout</button>
           ) : (

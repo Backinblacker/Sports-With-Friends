@@ -16,6 +16,15 @@ function setUserObject(user) {
     id: user.id,
     first_name: user.first_name,
     //Add is_establishment
+    is_establishment: user.is_establishment,
+    establishment_name: user.establishment_name,
+    opening_time: user.opening_time,
+    closing_time: user.closing_time,
+    menu_url: user.menu_url,
+    specials: user.specials,
+    social_media:user.social_media,
+    entertainment: user.entertainment,
+    teams:user.teams
   };
 }
 
@@ -37,6 +46,15 @@ export const AuthProvider = ({ children }) => {
         first_name: registerData.firstName,
         last_name: registerData.lastName,
         //add is_establi
+        is_establishment: user.is_establishment,
+        establishment_name: user.establishment_name,
+        opening_time: user.opening_time,
+        closing_time: user.closing_time,
+        menu_url: user.menu_url,
+        specials: user.specials,
+        social_media:user.social_media,
+        entertainment: user.entertainment,
+        teams:user.teams
       };
       let response = await axios.post(`${BASE_URL}/register`, finalData);
       if (response.status === 201) {
