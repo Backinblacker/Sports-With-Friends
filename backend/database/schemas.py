@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car, Team, Review
+from database.models import User, Car, Team, Review, Event
 
 ma = Marshmallow()
 
@@ -97,24 +97,24 @@ class ReviewSchema(ma.Schema):
         fields = ("review_id", "text", "rating")
     
     @post_load
-    def create_fan(self,data,**kwargs):
+    def create_review(self,data,**kwargs):
         return Review(**data)
     
 review_schema = ReviewSchema()
 reviews_schema = ReviewSchema(many=True)
 
 class EventSchema(ma.Schema):
-    event_id = fields.Integer(primary_key=True)
+    id = fields.Integer(primary_key=True)
     text = fields.String(required=True)
-    event_image_url = fields.String(required=True)
+    event_image = fields.String(required=True)
     team_id = fields.Integer()
     team = ma.Nested(TeamSchema, many=True)
     class Meta:
-        fields = ("event_id", "text", "event_image_url, team_id")
+        fields = ("id", "text", "event_image", "team_id")
     
     @post_load
-    def create_fan(self,data,**kwargs):
-        return EventSchema(**data)
+    def create_event(self,data,**kwargs):
+        return Event(**data)
     
 event_schema = EventSchema()
 events_schema = EventSchema(many=True)

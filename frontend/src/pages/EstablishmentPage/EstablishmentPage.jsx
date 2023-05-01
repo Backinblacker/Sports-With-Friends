@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useCustomForm from "../../hooks/useCustomForm";
+import useAuth from "../../hooks/useAuth";
 
 const EstablishmentPage = () => {
+  const [user, token] = useAuth()
+    const auth = "Bearer " + token;
   const { registerEstablishmentUser } = useContext(AuthContext);
   const defaultValues = {
     establishmentName: "",
@@ -11,19 +14,20 @@ const EstablishmentPage = () => {
     menuUrl: "",
     specials: "",
     socialMedia: "",
-    entertainment:""
+    entertainment:"",
+    teams:"",
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     defaultValues,
     (data) => {
-      registerEstablishmentUser({ ...data, isEstablishment: true });
+      registerEstablishmentUser({ ...data, is_establishment: true });
     }
   );
 
   return (
     <div className="container">
       <form className="form" onSubmit={handleSubmit}>
-        {formData.isEstablishment && (
+        {formData.is_establishment && (
           <div>
             <label>
               Establishment Name:{" "}
@@ -90,7 +94,7 @@ const EstablishmentPage = () => {
             </label>
             </div>
         )}
-        <button>Register!</button>
+        <button>Update Profile</button>
       </form>
     </div>
   );
