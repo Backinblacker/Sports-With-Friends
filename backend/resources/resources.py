@@ -58,6 +58,13 @@ class PostEventResource(Resource):
         db.session.commit()
         return event_schema.dump(new_event), 201
 
+class EventListResource(Resource):
+    # Get Event by team_id
+    @jwt_required()
+    def get(self, team_id):
+        event = Event.query.get_or_404(team_id)
+        return event_schema.dump(event), 200
+
 class EventDetailResource(Resource):
     # Get Event
     @jwt_required()
