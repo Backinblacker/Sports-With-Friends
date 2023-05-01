@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import useCustomForm from "../../hooks/useCustomForm";
 
-const RegisterEstablishmentPage = () => {
+const EstablishmentPage = () => {
   const { registerEstablishmentUser } = useContext(AuthContext);
   const defaultValues = {
     establishmentName: "",
@@ -15,7 +15,9 @@ const RegisterEstablishmentPage = () => {
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     defaultValues,
-    registerEstablishmentUser
+    (data) => {
+      registerEstablishmentUser({ ...data, isEstablishment: true });
+    }
   );
 
   return (
@@ -94,4 +96,4 @@ const RegisterEstablishmentPage = () => {
   );
 };
 
-export default RegisterEstablishmentPage;
+export default EstablishmentPage;

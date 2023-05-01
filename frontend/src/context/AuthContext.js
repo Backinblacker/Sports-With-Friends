@@ -45,18 +45,35 @@ export const AuthProvider = ({ children }) => {
         email: registerData.email,
         first_name: registerData.firstName,
         last_name: registerData.lastName,
-        //add is_establi
-        is_establishment: user.is_establishment,
-        establishment_name: user.establishment_name,
-        opening_time: user.opening_time,
-        closing_time: user.closing_time,
-        menu_url: user.menu_url,
-        specials: user.specials,
-        social_media:user.social_media,
-        entertainment: user.entertainment,
-        teams:user.teams
+        is_establishment: registerData.is_establishment,
       };
       let response = await axios.post(`${BASE_URL}/register`, finalData);
+      if (response.status === 201) {
+        console.log("Successful registration! Log in to access token");
+        setIsServerError(false);
+        navigate("/login");
+      } else {
+        navigate("/register");
+      }
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
+
+  const registerEstablishmentUser = async (registerData) => {
+    try {
+      let finalData = {
+        establishment_name: registerData.establishment_name,
+        opening_time: registerData.opening_time,
+        closing_time: registerData.closing_time,
+        menu_url: registerData.menu_url,
+        specials: registerData.specials,
+        social_media:registerData.social_media,
+        entertainment: registerData.entertainment,
+        teams: registerData.teams
+      };
+      // need
+      let response = await axios.put(`${BASE_URL}/user/${user.id}`, finalData);
       if (response.status === 201) {
         console.log("Successful registration! Log in to access token");
         setIsServerError(false);
@@ -104,6 +121,7 @@ export const AuthProvider = ({ children }) => {
     loginUser,
     logoutUser,
     registerUser,
+    registerEstablishmentUser,
     isServerError,
   };
 

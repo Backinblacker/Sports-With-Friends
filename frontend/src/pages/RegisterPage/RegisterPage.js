@@ -67,7 +67,7 @@ const RegisterPage = () => {
         </label>
 
         <label>
-          Are you an establishment?
+          Are you setting up an establishment profile?
           <input
             type="checkbox"
             name="isEstablishment"

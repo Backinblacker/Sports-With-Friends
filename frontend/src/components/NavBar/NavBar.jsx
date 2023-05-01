@@ -17,7 +17,7 @@ const Navbar = () => {
         </li>
         <li>
           {/* If user is is_estab show establishment page */}
-          {is_establishment ? (
+          {true ? (
             <Link to="/establishment" />
           ) : (
             <Link to="/user" />
