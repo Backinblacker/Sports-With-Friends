@@ -16,7 +16,7 @@ const SearchPage = () => {
     //   );
       setSearchResults(response.data.items);
     } catch (error) {
-      console.log("Error in fetchBooks request", error);
+      console.log("Error in fetchEstablishments request", error);
     }
   };
   //Hint: Use PostMan to confirm URL structure

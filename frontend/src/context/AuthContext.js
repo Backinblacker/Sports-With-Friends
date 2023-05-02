@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }) => {
         teams: registerData.teams
       };
       // need
-      let response = await axios.put(`${BASE_URL}/user/${user.id}`, finalData);
+      let response = await axios.put(`http://127.0.0.1:5000/api/user/${user.id}/`, finalData);
       if (response.status === 201) {
         console.log("Successful registration! Log in to access token");
         setIsServerError(false);

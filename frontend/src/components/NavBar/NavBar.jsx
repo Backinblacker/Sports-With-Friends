@@ -15,7 +15,14 @@ const Navbar = () => {
             <b>Sports with Friends</b>
           </Link>
         </li>
-        <li>
+        <li className="dropdown">
+          <button className="dropbtn">Menu
+            <i className="fa fa-caret-down"></i>
+          </button>
+          <div className="dropdown-content">
+            <Link to="/home">Home</Link>
+            <Link to="/${user_id}">User Profile</Link>
+            <Link to="/favorites">Favorites</Link>
           {/* If user is is_estab show establishment page */}
           {true ? (
             <Link to="/establishment" />
@@ -27,6 +34,7 @@ const Navbar = () => {
           ) : (
             <button onClick={() => navigate("/login")}>Login</button>
           )}
+          </div>
         </li>
       </ul>
     </div>

@@ -49,9 +49,6 @@ class PostEventResource(Resource):
         current_user = get_jwt_identity()
         form_data = request.get_json()
         print(form_data)
-        # image = form_data.get('event_image')
-        # text = form_data.get('text')
-        # new_event = Event(user_id=current_user, event_image=image, text=text)
         new_event = event_schema.load(form_data)
         new_event.user_id = current_user
         db.session.add(new_event)
@@ -129,4 +126,4 @@ class UserToEstablishmentResource(Resource):
                 temp_teams_list.append(team_on_tv)
             establishment.teams = temp_teams_list
         db.session.commit()
-        return user_schema.dump(establishment), 200
+        return user_schema.dump(establishment), 201

@@ -8,12 +8,12 @@ const EstablishmentPage = () => {
     const auth = "Bearer " + token;
   const { registerEstablishmentUser } = useContext(AuthContext);
   const defaultValues = {
-    establishmentName: "",
-    openingTime: "",
-    closingTime: "",
-    menuUrl: "",
+    establishment_name: "",
+    opening_time: "",
+    closing_time: "",
+    menu_url: "",
     specials: "",
-    socialMedia: "",
+    social_media: "",
     entertainment:"",
     teams:"",
   };
@@ -27,14 +27,13 @@ const EstablishmentPage = () => {
   return (
     <div className="container">
       <form className="form" onSubmit={handleSubmit}>
-        {formData.is_establishment && (
           <div>
             <label>
               Establishment Name:{" "}
               <input
                 type="text"
-                name="establishmentName"
-                value={formData.establishmentName}
+                name="establishment_name"
+                value={formData.establishment_name}
                 onChange={handleInputChange}
               />
             </label>
@@ -42,8 +41,8 @@ const EstablishmentPage = () => {
               Opening Time:{" "}
               <input
                 type="time"
-                name="openingTime"
-                value={formData.openingTime}
+                name="opening_time"
+                value={formData.opening_time}
                 onChange={handleInputChange}
               />
             </label>
@@ -51,8 +50,8 @@ const EstablishmentPage = () => {
               Closing Time:{" "}
               <input
                 type="time"
-                name="closingTime"
-                value={formData.closingTime}
+                name="closing_time"
+                value={formData.closing_time}
                 onChange={handleInputChange}
               />
             </label>
@@ -60,8 +59,8 @@ const EstablishmentPage = () => {
               Menu URL:{" "}
               <input
                 type="text"
-                name="menuUrl"
-                value={formData.menuUrl}
+                name="menu_url"
+                value={formData.menu_url}
                 onChange={handleInputChange}
               />
             </label>
@@ -78,8 +77,8 @@ const EstablishmentPage = () => {
               Social Media:{" "}
               <input
                 type="text"
-                name="socialMedia"
-                value={formData.socialMedia}
+                name="social_media"
+                value={formData.social_media}
                 onChange={handleInputChange}
               />
             </label>
@@ -93,7 +92,6 @@ const EstablishmentPage = () => {
               />
             </label>
             </div>
-        )}
         <button>Update Profile</button>
       </form>
     </div>
