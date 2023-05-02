@@ -98,7 +98,7 @@ class EventDetailResource(Resource):
 class UserResource(Resource):
     def get(self, user_id):
         user = User.query.filter_by(id=user_id).first_or_404()
-        return user_schema.dump(user, options={"include": ["teams"]})
+        return user_schema.dump(user)
     
 class UserToEstablishmentResource(Resource):
     def put(self,user_id):

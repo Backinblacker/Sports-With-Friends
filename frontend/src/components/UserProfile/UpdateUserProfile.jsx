@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
-function UpdateUserProfile({ match }) {
-  const [user, setUser] = useState({});
+function UpdateUserProfile({  match  }) {
+  const [user, token] = useAuth()
+  const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({
     first_name: "",
@@ -16,25 +18,37 @@ function UpdateUserProfile({ match }) {
     specials: "",
     social_media: "",
     entertainment: "",
+    teams: "",
   });
 
   useEffect(() => {
-    async function fetchUser() {
-      const response = await axios.get(`/api/user/${match.params.user_id}`);
-      setUser(response.data);
-    }
-    fetchUser();
-  }, [match.params.user_id]);
+    const fetchUserProfile = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:5000/api/user/${user.id}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        
+        setUserProfile(response.data);
+        setUpdatedUser(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUserProfile();
+  }, [user, token]);
 
   function handleEdit() {
     setEditMode(true);
-    setUpdatedUser(user);
+    setUpdatedUser(userProfile);
   }
 
   async function handleSubmit() {
-    await axios.put(`/api/user/${user.id}`, updatedUser);
+    await axios.put(`http://127.0.0.1:5000/api/user/${user.id}/`, updatedUser);
     setEditMode(false);
-    setUser(updatedUser);
+    setUserProfile(updatedUser);
   }
 
   function handleCancel() {
@@ -50,7 +64,7 @@ function UpdateUserProfile({ match }) {
 
   return (
     <div>
-      <h1>User Profile</h1>
+      <h1>{user.first_name}'s Profile</h1>
       {editMode ? (
         <form onSubmit={handleSubmit}>
             <label>
@@ -152,6 +166,15 @@ function UpdateUserProfile({ match }) {
                 onChange={handleChange}
             />
             </label>
+            <label>
+            Entertainment:
+            <input
+                type="text"
+                name="entertainment"
+                value={updatedUser.entertainment}
+                onChange={handleChange}
+            />
+            </label>
             <button type="submit">Save</button>
             <button type="button" onClick={handleCancel}>
             Cancel
@@ -159,26 +182,29 @@ function UpdateUserProfile({ match }) {
         </form>
         ) : (
         <div>
-            <p>First Name: {user.first_name}</p>
-            <p>Last Name: {user.last_name}</p>
-            <p>Email: {user.email}</p>
-            <p>Is Establishment: {user.is_establishment ? "Yes" : "No"}</p>
-            {user.is_establishment && (
+            <p>First Name: {updatedUser.first_name}</p>
+            <p>Last Name: {updatedUser.last_name}</p>
+            <p>Email: {updatedUser.email}</p>
+            <p>Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
+            {updatedUser.is_establishment && (
             <>
-                <p>Establishment Name: {user.establishment_name}</p>
-                <p>Opening Time: {user.opening_time}</p>
-                <p>Closing Time: {user.closing_time}</p>
-                <p>Menu URL: {user.menu_url}</p>
-                <p>Specials: {user.specials}</p>
-                <p>Social Media: {user.social_media}</p>
-                <p>Entertainment: {user.entertainment}</p>
+                <p>Establishment Name: {updatedUser.establishment_name}</p>
+                <p>Opening Time: {updatedUser.opening_time}</p>
+                <p>Closing Time: {updatedUser.closing_time}</p>
+                <p>Menu URL: {updatedUser.menu_url}</p>
+                <p>Specials: {updatedUser.specials}</p>
+                <p>Social Media: {updatedUser.social_media}</p>
+                <p>Entertainment: {updatedUser.entertainment}</p>
+                <ul>Teams: {
+                updatedUser.teams.map(team=><li>{team.name}</li>)
+                }</ul>
             </>
             )}
             <button type="button" onClick={handleEdit}>
             Edit Profile
             </button>
         </div>
-        )};
+        )}
     </div>
 )};
 

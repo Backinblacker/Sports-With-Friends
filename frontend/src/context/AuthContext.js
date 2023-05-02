@@ -43,8 +43,8 @@ export const AuthProvider = ({ children }) => {
         username: registerData.username,
         password: registerData.password,
         email: registerData.email,
-        first_name: registerData.firstName,
-        last_name: registerData.lastName,
+        first_name: registerData.first_name,
+        last_name: registerData.last_name,
         is_establishment: registerData.is_establishment,
       };
       let response = await axios.post(`${BASE_URL}/register`, finalData);
@@ -72,12 +72,11 @@ export const AuthProvider = ({ children }) => {
         entertainment: registerData.entertainment,
         teams: registerData.teams
       };
-      // need
       let response = await axios.put(`http://127.0.0.1:5000/api/user/${user.id}/`, finalData);
       if (response.status === 201) {
         console.log("Successful registration! Log in to access token");
         setIsServerError(false);
-        navigate("/login");
+        navigate(`/`);
       } else {
         navigate("/register");
       }
@@ -96,7 +95,7 @@ export const AuthProvider = ({ children }) => {
         setUser(setUserObject(loggedInUser));
         setIsServerError(false);
         if (loggedInUser.is_establishment !==0 && loggedInUser.is_establishment !==null)
-          {navigate("/establishment")}
+          {navigate("/home")}
         else{  
         navigate("/")};
       } else {

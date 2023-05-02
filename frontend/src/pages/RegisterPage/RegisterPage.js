@@ -8,9 +8,9 @@ const RegisterPage = () => {
     username: "",
     email: "",
     password: "",
-    firstName: "",
-    lastName: "",
-    isEstablishment: false,
+    first_name: "",
+    last_name: "",
+    is_establishment: false,
   };
   const [formData, handleInputChange, handleSubmit] = useCustomForm(
     defaultValues,
@@ -33,8 +33,8 @@ const RegisterPage = () => {
           First Name:{" "}
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="first_name"
+            value={formData.first_name}
             onChange={handleInputChange}
           />
         </label>
@@ -42,8 +42,8 @@ const RegisterPage = () => {
           Last Name:{" "}
           <input
             type="text"
-            name="lastName"
-            value={formData.lastName}
+            name="last_name"
+            value={formData.last_name}
             onChange={handleInputChange}
           />
         </label>
@@ -70,8 +70,8 @@ const RegisterPage = () => {
           Are you setting up an establishment profile?
           <input
             type="checkbox"
-            name="isEstablishment"
-            checked={formData.isEstablishment}
+            name="is_establishment"
+            checked={formData.is_establishment}
             onChange={handleInputChange}
           />
         </label>
