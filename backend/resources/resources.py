@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
 from database.models import db, Review, Event, User, Team
-from database.schemas import review_schema, reviews_schema, event_schema, user_schema
+from database.schemas import review_schema, reviews_schema, event_schema, user_schema, teams_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -127,3 +127,8 @@ class UserToEstablishmentResource(Resource):
             establishment.teams = temp_teams_list
         db.session.commit()
         return user_schema.dump(establishment), 201
+    
+class TeamsResource(Resource):
+    def get(self, sport):
+        teams = Team.query.filter_by(sport=sport).all()
+        return teams_schema.dump(teams)

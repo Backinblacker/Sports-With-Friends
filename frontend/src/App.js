@@ -13,7 +13,8 @@ import Footer from "./components/Footer/Footer";
 
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
-import EstablishmentPage from "./pages/EstablishmentPage/EstablishmentPage";
+// import EstablishmentPage from "./pages/EstablishmentPage/EstablishmentPage";
+import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 
 function App() {
   return (
@@ -30,8 +31,8 @@ function App() {
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/establishment" element={<EstablishmentPage />} />
-        <Route path="/home" element={<HomePage />} />
+        {/* <Route path="/establishment" element={<EstablishmentPage />} /> */}
+        <Route path="/user/:user_id" element={<UserProfilePage />} />
       </Routes>
       <Footer />
     </div>

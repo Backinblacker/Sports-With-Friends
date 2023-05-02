@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import TeamSelector from "../TeamSelector/TeamSelector";
 
-function UpdateUserProfile({  match  }) {
-  const [user, token] = useAuth()
+function UpdateUserProfile({ match }) {
+  const [user, token] = useAuth();
   const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({
@@ -18,18 +19,21 @@ function UpdateUserProfile({  match  }) {
     specials: "",
     social_media: "",
     entertainment: "",
-    teams: "",
+    teams: [],
   });
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:5000/api/user/${user.id}/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        
+        const response = await axios.get(
+          `http://127.0.0.1:5000/api/user/${user.id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
         setUserProfile(response.data);
         setUpdatedUser(response.data);
       } catch (error) {
@@ -46,7 +50,10 @@ function UpdateUserProfile({  match  }) {
   }
 
   async function handleSubmit() {
-    await axios.put(`http://127.0.0.1:5000/api/user/${user.id}/`, updatedUser);
+    await axios.put(
+      `http://127.0.0.1:5000/api/user/${user.id}/`,
+      updatedUser
+    );
     setEditMode(false);
     setUserProfile(updatedUser);
   }
@@ -142,70 +149,74 @@ function UpdateUserProfile({  match  }) {
             <label>
             Specials:
             <input
-                type="text"
-                name="specials"
-                value={updatedUser.specials}
-                onChange={handleChange}
+              type="text"
+              name="specials"
+              value={updatedUser.specials}
+              onChange={handleChange}
             />
-            </label>
-            <label>
+          </label>
+          <label>
             Social Media:
             <input
-                type="text"
-                name="social_media"
-                value={updatedUser.social_media}
-                onChange={handleChange}
+              type="text"
+              name="social_media"
+              value={updatedUser.social_media}
+              onChange={handleChange}
             />
-            </label>
-            <label>
+          </label>
+          <label>
             Entertainment:
             <input
-                type="text"
-                name="entertainment"
-                value={updatedUser.entertainment}
-                onChange={handleChange}
+              type="text"
+              name="entertainment"
+              value={updatedUser.entertainment}
+              onChange={handleChange}
             />
-            </label>
-            <label>
-            Entertainment:
-            <input
-                type="text"
-                name="entertainment"
-                value={updatedUser.entertainment}
-                onChange={handleChange}
+          </label>
+          <label>
+            Teams:
+            <TeamSelector
+              sport={updatedUser.sport}
+              onSelectTeam={(selectedTeams) =>
+                setUpdatedUser({ ...updatedUser, teams: selectedTeams })
+              }
             />
-            </label>
-            <button type="submit">Save</button>
-            <button type="button" onClick={handleCancel}>
+          </label>
+          <button type="submit">Save</button>
+          <button type="button" onClick={handleCancel}>
             Cancel
-            </button>
+          </button>
         </form>
-        ) : (
+      ) : (
         <div>
-            <p>First Name: {updatedUser.first_name}</p>
-            <p>Last Name: {updatedUser.last_name}</p>
-            <p>Email: {updatedUser.email}</p>
-            <p>Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
-            {updatedUser.is_establishment && (
+          <p>First Name: {updatedUser.first_name}</p>
+          <p>Last Name: {updatedUser.last_name}</p>
+          <p>Email: {updatedUser.email}</p>
+          <p>Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
+          {updatedUser.is_establishment && (
             <>
-                <p>Establishment Name: {updatedUser.establishment_name}</p>
-                <p>Opening Time: {updatedUser.opening_time}</p>
-                <p>Closing Time: {updatedUser.closing_time}</p>
-                <p>Menu URL: {updatedUser.menu_url}</p>
-                <p>Specials: {updatedUser.specials}</p>
-                <p>Social Media: {updatedUser.social_media}</p>
-                <p>Entertainment: {updatedUser.entertainment}</p>
-                <ul>Teams: {
-                updatedUser.teams.map(team=><li>{team.name}</li>)
-                }</ul>
+              <p>Establishment Name: {updatedUser.establishment_name}</p>
+              <p>Opening Time: {updatedUser.opening_time}</p>
+              <p>Closing Time: {updatedUser.closing_time}</p>
+              <p>Menu URL: {updatedUser.menu_url}</p>
+              <p>Specials: {updatedUser.specials}</p>
+              <p>Social Media: {updatedUser.social_media}</p>
+              <p>Entertainment: {updatedUser.entertainment}</p>
+              <ul>
+                Teams:
+                {updatedUser.teams.map((team) => (
+                  <li key={team.id}>{team.name}</li>
+                ))}
+              </ul>
             </>
-            )}
-            <button type="button" onClick={handleEdit}>
+          )}
+          <button type="button" onClick={handleEdit}>
             Edit Profile
-            </button>
+          </button>
         </div>
-        )}
+      )}
     </div>
-)};
+  );
+}
 
 export default UpdateUserProfile;

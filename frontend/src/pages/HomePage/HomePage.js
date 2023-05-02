@@ -1,5 +1,4 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import UpdateUserProfile from "../../components/UserProfile/UpdateUserProfile";
 
