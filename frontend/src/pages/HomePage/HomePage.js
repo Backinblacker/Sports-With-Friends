@@ -1,6 +1,6 @@
 import React from "react";
 import useAuth from "../../hooks/useAuth";
-import UpdateUserProfile from "../../components/UserProfile/UpdateUserProfile";
+import bar from "../../assets/Rainy_bar.jpg"
 
 const HomePage = () => {
   const [user, token] = useAuth()
@@ -8,8 +8,8 @@ const HomePage = () => {
 
   return (
     <main>
-      <h1>Welcome to Sport With Friends</h1>
-      <UpdateUserProfile userId={user.id} auth={auth} />
+      <h1 className= "title">Welcome to Sport With Friends</h1>
+      <img className="bar-image" src={bar} alt='rainy bar'/>
     </main>
   )
 };

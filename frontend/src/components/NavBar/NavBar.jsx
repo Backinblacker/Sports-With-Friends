@@ -22,19 +22,13 @@ const Navbar = () => {
           <div className="dropdown-content">
             <Link to="/home">Home</Link>
             {/* Need to Fix */}
-            <Link to={`/user/${user.id}`}>User Profile</Link>
+            {/* <Link to={`/user/${user.id}`}>User Profile</Link> */}
             <Link to="/favorites">Favorites</Link>
-          {/* If user is is_estab show establishment page */}
-          {true ? (
-            <Link to="/establishment" />
-          ) : (
-            <Link to="/user" />
-          )}
-          {user ? (
-            <button onClick={logoutUser}>Logout</button>
-          ) : (
-            <button onClick={() => navigate("/login")}>Login</button>
-          )}
+            {user ? (
+              <a onClick={logoutUser}>Logout</a>
+            ) : (
+              <a onClick={() => navigate("/login")}>Login</a>
+            )}
           </div>
         </li>
       </ul>

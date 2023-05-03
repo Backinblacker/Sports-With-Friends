@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,700');
 
 *,
 *::before,
@@ -9,8 +9,8 @@
 }
 
 html {
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  font-family: 'Rubik', sans-serif;
 }
 
 p {
@@ -31,6 +31,31 @@ button:hover {
   cursor: pointer;
   color: white;
   background-color: steelblue;
+}
+
+.title{
+  display: flex;
+  background: linear-gradient(15deg, red , white, blue);
+  justify-content: center;
+  align-items: center;
+}
+
+.title-image {
+  display: block;
+  max-height: 15vh;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  margin-bottom: 2px;
+}
+
+.bar-image{
+  display: block;
+  padding: 5vw 0;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  margin: 5px;
 }
 
 .container {

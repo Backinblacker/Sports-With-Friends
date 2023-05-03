@@ -1,7 +1,7 @@
 // General Imports
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-
+import soccer from './assets/blur_soccer_stadium.jpg'
 // Pages Imports
 import HomePage from "./pages/HomePage/HomePage";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -19,6 +19,7 @@ import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 function App() {
   return (
     <div>
+      <img className="title-image" src={soccer} alt='blurry soccer stadium'/>
       <Navbar />
       <Routes>
         <Route
@@ -31,7 +32,7 @@ function App() {
         />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        {/* <Route path="/establishment" element={<EstablishmentPage />} /> */}
+        <Route path="/home" element={<HomePage />} />
         <Route path="/user/:user_id" element={<UserProfilePage />} />
       </Routes>
       <Footer />
