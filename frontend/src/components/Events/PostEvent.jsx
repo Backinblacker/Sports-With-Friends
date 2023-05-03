@@ -10,6 +10,7 @@ const PostEvent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
   const fetchEvents = async () => {
     try {
@@ -21,7 +22,7 @@ const PostEvent = () => {
           },
         }
       );
-      setEvents(response.data.events);
+      setEvents([...events, response.data]);
       setIsLoading(false);
     } catch (error) {
       console.log("Error in fetchEvents:", error);
@@ -36,6 +37,7 @@ const PostEvent = () => {
         {
           text: eventText,
           event_image: eventImage,
+          timestamp: currentDateTime
         },
         {
           headers: {
@@ -43,7 +45,7 @@ const PostEvent = () => {
           },
         }
       );
-      setEvents(...events, response.data);
+      setEvents([...events, response.data]);
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
@@ -67,7 +69,7 @@ const PostEvent = () => {
           <h2>Establishment's Events</h2>
           <ul className="reviewContainer">
           {events && events.map((event, index) => (
-            <li key={index}>{event}</li>
+            <li key={index}>{event.timestamp}</li>
           ))}
           </ul>
           {!isReviewing ? (

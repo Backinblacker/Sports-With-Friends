@@ -35,6 +35,7 @@ button:hover {
 
 .title{
   display: flex;
+  color:black;
   background: linear-gradient(15deg, red , white, blue);
   justify-content: center;
   align-items: center;
@@ -51,7 +52,7 @@ button:hover {
 
 .image-container {
   position: relative;
-  display: inline-block;
+  display: flex;
 }
 
 .stadium-image {
