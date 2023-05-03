@@ -23,7 +23,6 @@ b{
   font-family: inherit;
   box-shadow: 4px 2px 5px gray;
   color: black;
-  margin-bottom: 2rem;
   padding: 1.5rem 2rem;
 }
 
@@ -39,6 +38,7 @@ b{
 .dropdown {
   float: right;
   overflow: hidden;
+  margin-right: 35px;
 }
 
 .dropdown .dropbtn {
@@ -80,4 +80,8 @@ b{
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.link{
+  font-size: 16px;
 }

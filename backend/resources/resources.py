@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
 from database.models import db, Review, Event, User, Team
-from database.schemas import review_schema, reviews_schema, event_schema, user_schema, teams_schema
+from database.schemas import review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -59,16 +59,15 @@ class EventListResource(Resource):
     # Get Event by team_id
     @jwt_required()
     def get(self, team_id):
-        event = Event.query.get_or_404(team_id)
-        return event_schema.dump(event), 200
+        event = Event.query.filter_by(team_id=team_id)
+        return events_schema.dump(event), 200
 
 class EstablishmentEventListResource(Resource):
-    # Get Event by user_id
-    # This will need to have a if is_establishment = true in front end
+    # Get Events by user_id
     @jwt_required()
     def get(self, user_id):
-        event = Event.query.get_or_404(user_id)
-        return event_schema.dump(event), 200
+        event = Event.query.filter_by(user_id=user_id)
+        return events_schema.dump(event), 200
 
 class EventDetailResource(Resource):
     # Get Event

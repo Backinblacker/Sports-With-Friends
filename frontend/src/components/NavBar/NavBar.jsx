@@ -19,11 +19,16 @@ const Navbar = () => {
           <button className="dropbtn">Menu
             <i className="fa fa-caret-down"></i>
           </button>
-          <div className="dropdown-content">
+          <div className="dropdown-content link">
             <Link to="/home">Home</Link>
-            {/* Need to Fix */}
-            {/* <Link to={`/user/${user.id}`}>User Profile</Link> */}
-            <Link to="/favorites">Favorites</Link>
+            {user && (
+              <>
+                <Link to="/search">Search</Link>
+                <Link to={`/user/${user.id}`}>User Profile</Link>
+                <Link to={`/eventsbyuser/${user.id}`}>Events</Link>
+                <Link to="/favorites">Favorites</Link>
+              </>
+            )}
             {user ? (
               <a onClick={logoutUser}>Logout</a>
             ) : (
