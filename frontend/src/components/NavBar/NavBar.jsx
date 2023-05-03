@@ -21,6 +21,7 @@ const Navbar = () => {
           </button>
           <div className="dropdown-content">
             <Link to="/home">Home</Link>
+            {/* Need to Fix */}
             <Link to={`/user/${user.id}`}>User Profile</Link>
             <Link to="/favorites">Favorites</Link>
           {/* If user is is_estab show establishment page */}

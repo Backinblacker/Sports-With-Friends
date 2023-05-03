@@ -7,6 +7,7 @@ function UpdateUserProfile({ match }) {
   const [user, token] = useAuth();
   const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
+  const [selectedTeams, setSelectedTeams] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({
     first_name: "",
     last_name: "",
@@ -49,13 +50,30 @@ function UpdateUserProfile({ match }) {
     setUpdatedUser(userProfile);
   }
 
-  async function handleSubmit() {
-    await axios.put(
-      `http://127.0.0.1:5000/api/user/${user.id}/`,
-      updatedUser
-    );
-    setEditMode(false);
-    setUserProfile(updatedUser);
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    try {
+      const response = await axios.put(
+        `http://127.0.0.1:5000/api/user/${user.id}/`,
+        {
+          ...updatedUser,
+          teams: selectedTeams.map((team) => team.id),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setUserProfile(response.data);
+      setUpdatedUser(response.data);
+      setEditMode(false);
+    } catch (error) {
+      console.error(error);
+    }
+    setSelectedTeams([...selectedTeams, updatedUser.teams[updatedUser.teams.length - 1]]);
   }
 
   function handleCancel() {
