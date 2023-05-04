@@ -62,6 +62,45 @@ const PostEvent = () => {
     fetchEvents();
   }, []);
 
+  const editEvent = async (eventId, newText, newImageUrl) => {
+    try {
+      await axios.put(
+        `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
+        {
+          text: newText,
+          event_image_url: newImageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      fetchEvents();
+    } catch (error) {
+      console.log("Error in editEvent:", error);
+    }
+  };
+  
+  const deleteEvent = async (eventId) => {
+    try {
+      const confirmed = window.confirm("Are you sure you want to delete this event?");
+      if (!confirmed) {
+        return;
+      }
+
+      await axios.delete(`http://127.0.0.1:5000/api/eventdetails/${eventId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      setEvents(events.filter((event) => event.id !== eventId));
+    } catch (error) {
+      console.log("Error in deleteEvent:", error);
+    }
+  };
+
   return (
     <div>
       {isLoading ? (
@@ -70,9 +109,18 @@ const PostEvent = () => {
         <div>
           <h2>Establishment's Events</h2>
           <ul className="reviewContainer">
-          {events && events.map((event, index) => 
-            <li key={index}>{event.text} {event.event_image}</li>
-          )}
+            {events && events.map((event, index) => (
+              <li key={index}>
+              {event.text} {event.event_image}
+              <button onClick={() => {
+                setEventText(event.text);
+                setEventImage(event.event_image);
+                setIsReviewing(true);
+                editEvent();
+              }}>Edit</button>
+              <button onClick={() => deleteEvent(event.id)}>Delete</button>
+            </li>
+            ))}
           </ul>
           {!isReviewing ? (
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
