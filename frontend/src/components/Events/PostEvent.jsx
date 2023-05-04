@@ -10,6 +10,7 @@ const PostEvent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  // const [teamName, setTeamName] = useState("");
   const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
   const fetchEvents = async () => {
@@ -22,7 +23,7 @@ const PostEvent = () => {
           },
         }
       );
-      setEvents([...events, response.data]);
+      setEvents(response.data);
       setIsLoading(false);
     } catch (error) {
       console.log("Error in fetchEvents:", error);
@@ -37,7 +38,8 @@ const PostEvent = () => {
         {
           text: eventText,
           event_image: eventImage,
-          timestamp: currentDateTime
+          timestamp: currentDateTime,
+          // team_id: teamId
         },
         {
           headers: {
@@ -45,7 +47,7 @@ const PostEvent = () => {
           },
         }
       );
-      setEvents([...events, response.data]);
+      fetchEvents()
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
@@ -68,9 +70,9 @@ const PostEvent = () => {
         <div>
           <h2>Establishment's Events</h2>
           <ul className="reviewContainer">
-          {events && events.map((event, index) => (
-            <li key={index}>{event.timestamp}</li>
-          ))}
+          {events && events.map((event, index) => 
+            <li key={index}>{event.text} {event.event_image}</li>
+          )}
           </ul>
           {!isReviewing ? (
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
@@ -90,6 +92,13 @@ const PostEvent = () => {
                 value={eventImage}
                 onChange={(e) => setEventImage(e.target.value)}
               />
+              {/* <label htmlFor="team_name">Team Name:</label>
+              <input
+                type="text"
+                id="team_name"
+                value={teamName}
+                onChange={(e) => setTeamName(e.target.value)}
+              /> */}
               <button onClick={addEvent}>Submit</button>
               <button onClick={() => setIsReviewing(false)}>Cancel</button>
               {errorMessage && <p>{errorMessage}</p>}
