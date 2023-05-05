@@ -43,6 +43,14 @@ class ReviewDetailResource(Resource):
         db.session.delete(review_from_db)
         db.session.commit()
         return '', 204
+
+class EstablishmentReviewsResource(Resource):
+    # Get Review of establishments
+    @jwt_required()
+    def get(self):
+        review = Review.query.filter(Review.reviewer.has(is_establishment=True))
+        return reviews_schema.dump(review), 200
+    
     
 class PostEventResource(Resource):
     # Post Event
@@ -108,6 +116,8 @@ class UserToEstablishmentResource(Resource):
             establishment.is_establishment=request.json['is_establishment']
         if 'establishment_name' in request.json:
             establishment.establishment_name=request.json['establishment_name']
+        if 'zip_code' in request.json:
+            establishment.zip_code=request.json['zip_code']
         if 'opening_time' in request.json:
             establishment.opening_time=request.json['opening_time']
         if 'closing_time' in request.json:

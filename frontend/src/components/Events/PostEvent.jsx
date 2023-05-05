@@ -126,6 +126,7 @@ const PostEvent = () => {
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
           ) : (
             <div>
+              {/* Why aren't the labels displaying */}
               <label htmlFor="text">Event Description:</label>
               <input
                 type="text"

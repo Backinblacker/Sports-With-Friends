@@ -8,7 +8,7 @@ from database.models import db
 from database.schemas import ma
 from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
-from resources.resources import PostReviewResource,  TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
+from resources.resources import PostReviewResource, EstablishmentReviewsResource, TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
 from dotenv import load_dotenv
 from os import environ
 
@@ -57,13 +57,24 @@ def create_routes():
     api.add_resource(AllCarResource, '/api/cars')
     api.add_resource(UserCarResource, '/api/user_cars')
     # TODO: Create files for your Resources in resources folder, add them here
+    #post review
     api.add_resource(PostReviewResource, '/api/user_reviews')
+    #edit review, delete review
     api.add_resource(ReviewDetailResource, '/api/user_reviews/<int:review_id>')
+    #get reviews by user
+    api.add_resource(EstablishmentReviewsResource, '/api/establishment_reviews')
+    #post event
     api.add_resource(PostEventResource, '/api/events')
+    #edit event, delete event
     api.add_resource(EventDetailResource, '/api/eventdetails/<int:event_id>')
+    #find team events
     api.add_resource(EventListResource, '/api/eventsbyteam/<int:team_id>')
+    #find events by establishment
     api.add_resource(EstablishmentEventListResource, '/api/eventsbyuser/<int:user_id>')
+    #edit profile to be an establishment
     api.add_resource(UserToEstablishmentResource, '/api/user/<int:user_id>')
+    #search users
     api.add_resource(UserResource, '/api/userinfo/<int:user_id>/')
+    #search by team
     api.add_resource(TeamsResource, '/api/teams/<string:sport>')
     return api

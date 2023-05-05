@@ -68,6 +68,7 @@ class UserSchema(ma.Schema):
     is_establishment = fields.Boolean()
     # Only shows up if user is an establishment
     establishment_name = fields.String()
+    zip_code = fields.String()
     opening_time = fields.Time()
     closing_time = fields.Time()
     menu_url = fields.String()
@@ -78,7 +79,7 @@ class UserSchema(ma.Schema):
     reviews = fields.Nested('ReviewSchema', many=True, exclude=('reviewer',))
 
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams", "reviews")
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "zip_code", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams", "reviews")
 
 register_schema = RegisterSchema()
 user_schema = UserSchema()

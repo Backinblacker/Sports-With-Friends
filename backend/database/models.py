@@ -18,6 +18,7 @@ class User(db.Model):
     email = db.Column(db.String(255), unique=True, nullable=False)
     is_establishment = db.Column(db.Boolean)
     establishment_name = db.Column(db.String(255))
+    zip_code = db.Column(db.Integer)
     opening_time = db.Column(db.Time)
     closing_time = db.Column(db.Time)
     menu_url = db.Column(db.String(255))

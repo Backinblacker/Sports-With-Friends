@@ -2,18 +2,20 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 // Need
-const Reviews = ({ bookid }) => {
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [reviewUsername, setReviewUsername] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const { token } = useContext(AuthContext);
+  // get reviews for that specific user(establishment)
   const fetchReviews = async () => {
     try {
       let response = await axios.get(
-        `http://127.0.0.1:5000/api/user/${user_id}`,
+        `http://127.0.0.1:5000/api/establishment_reviews`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -32,7 +34,7 @@ const Reviews = ({ bookid }) => {
         `http://127.0.0.1:5000/api/user_reviews`,
         {
           user_id: user_id,
-          username: username,
+          username: reviewUsername,
           text: reviewText,
           rating: reviewRating,
         },
@@ -71,6 +73,13 @@ const Reviews = ({ bookid }) => {
             <button onClick={() => setIsReviewing(true)}>Add a review</button>
           ) : (
             <div>
+              <label htmlFor="text">Username:</label>
+              <input
+                type="text"
+                id="username"
+                value={reviewUsername}
+                onChange={(e) => setReviewUsername(e.target.value)}
+              />
               <label htmlFor="text">Review text:</label>
               <input
                 type="text"
