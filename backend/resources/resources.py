@@ -10,10 +10,10 @@ class PostReviewResource(Resource):
     def post(self):
         user_id = get_jwt_identity()
         form_data = request.get_json()
-        name = form_data.get('name')
+        username = form_data.get('username')
         rating = form_data.get('rating')
         text = form_data.get('text')
-        new_review = Review(user_id=user_id, name=name, rating=rating, text=text)
+        new_review = Review(username=username, rating=rating, text=text)
         db.session.add(new_review)
         db.session.commit()
         return review_schema.dump(new_review), 201

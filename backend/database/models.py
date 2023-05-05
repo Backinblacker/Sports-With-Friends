@@ -25,7 +25,8 @@ class User(db.Model):
     social_media = db.Column(db.String(255))
     entertainment = db.Column(db.String(255))
     teams = db.relationship("Team", secondary=establishment_teams, backref='establishment')
-
+    reviews = db.relationship('Review')
+    
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
 
@@ -61,6 +62,9 @@ class Review(db.Model):
     review_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
+    username = db.Column(db.String(50), db.ForeignKey('user.username'))
+    #back_populates helps create a two-way relationship between User and Review tables
+    reviewer = db.relationship('User', back_populates='reviews')
     
 class Event(db.Model):
     __tablename__ = 'event'

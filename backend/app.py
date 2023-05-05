@@ -64,6 +64,6 @@ def create_routes():
     api.add_resource(EventListResource, '/api/eventsbyteam/<int:team_id>')
     api.add_resource(EstablishmentEventListResource, '/api/eventsbyuser/<int:user_id>')
     api.add_resource(UserToEstablishmentResource, '/api/user/<int:user_id>')
-    api.add_resource(UserResource, '/api/user/<int:user_id>/')
+    api.add_resource(UserResource, '/api/userinfo/<int:user_id>/')
     api.add_resource(TeamsResource, '/api/teams/<string:sport>')
     return api

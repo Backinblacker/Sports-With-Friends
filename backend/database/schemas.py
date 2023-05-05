@@ -22,6 +22,22 @@ class RegisterSchema(ma.Schema):
     @post_load
     def create_user(self, data, **kwargs):
         return User(**data)
+    
+class ReviewSchema(ma.Schema):
+    review_id = fields.Integer(primary_key=True)
+    text = fields.String(required=True)
+    rating = fields.String(required=True)
+    username = fields.String(required=True)
+    reviewer = ma.Nested('UserSchema', exclude=('reviews',))
+    class Meta:
+        fields = ("review_id", "text", "rating", "reviewer")
+    
+    @post_load
+    def create_review(self,data,**kwargs):
+        return Review(**data)
+    
+review_schema = ReviewSchema()
+reviews_schema = ReviewSchema(many=True)
 
 class TeamSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
@@ -59,9 +75,10 @@ class UserSchema(ma.Schema):
     social_media = fields.String()
     entertainment = fields.String()
     teams = fields.Nested(TeamSchema, many=True)
-    class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams")
+    reviews = fields.Nested('ReviewSchema', many=True, exclude=('reviewer',))
 
+    class Meta:
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams", "reviews")
 
 register_schema = RegisterSchema()
 user_schema = UserSchema()
@@ -88,20 +105,6 @@ cars_schema = CarSchema(many=True)
 
 
 # TODO: Add your schemas below
-
-class ReviewSchema(ma.Schema):
-    review_id = fields.Integer(primary_key=True)
-    text = fields.String(required=True)
-    rating = fields.String(required=True)
-    class Meta:
-        fields = ("review_id", "text", "rating")
-    
-    @post_load
-    def create_review(self,data,**kwargs):
-        return Review(**data)
-    
-review_schema = ReviewSchema()
-reviews_schema = ReviewSchema(many=True)
 
 class EventSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
