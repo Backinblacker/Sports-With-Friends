@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 // Need
-const BookReviewList = ({ bookid }) => {
+const Reviews = ({ bookid }) => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
@@ -13,7 +13,7 @@ const BookReviewList = ({ bookid }) => {
   const fetchReviews = async () => {
     try {
       let response = await axios.get(
-        `http://127.0.0.1:5000/api/info/${bookid}`,
+        `http://127.0.0.1:5000/api/user/${user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,7 +31,8 @@ const BookReviewList = ({ bookid }) => {
       let response = await axios.post(
         `http://127.0.0.1:5000/api/user_reviews`,
         {
-          book_id: bookid,
+          user_id: user_id,
+          username: username,
           text: reviewText,
           rating: reviewRating,
         },
@@ -96,4 +97,4 @@ const BookReviewList = ({ bookid }) => {
     </div>
   );
 };
-export default BookReviewList;
+export default Reviews;
