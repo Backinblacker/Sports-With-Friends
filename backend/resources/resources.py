@@ -13,7 +13,9 @@ class PostReviewResource(Resource):
         username = form_data.get('username')
         rating = form_data.get('rating')
         text = form_data.get('text')
-        new_review = Review(username=username, rating=rating, text=text)
+        #must have the user and reviewer because this will populate the username field in the data base.
+        user = User.query.filter_by(id=user_id).first()
+        new_review = Review(username=username, rating=rating, text=text, reviewer=user)
         db.session.add(new_review)
         db.session.commit()
         return review_schema.dump(new_review), 201
