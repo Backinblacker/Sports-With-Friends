@@ -76,3 +76,12 @@ class Event(db.Model):
     user = db.relationship('User')
     team_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team = db.relationship('Team')
+    
+#need
+class Favorite(db.Model):
+    __tablename__ = 'favorites'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', foreign_keys = user_id)
+    establishment_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    establishment = db.relationship('User', foreign_keys = establishment_id)

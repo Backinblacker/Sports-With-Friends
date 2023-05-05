@@ -107,8 +107,8 @@ const PostEvent = () => {
         <div>Loading...</div>
       ) : (
         <div>
-          <h2>Establishment's Events</h2>
-          <ul className="reviewContainer">
+          <h2>Upcoming Events</h2>
+          <ul className="eed">
             {events && events.map((event, index) => (
               <li key={index}>
               {event.text} {event.event_image}
@@ -116,6 +116,8 @@ const PostEvent = () => {
                 setEventText(event.text);
                 setEventImage(event.event_image);
                 setIsReviewing(true);
+                // need
+                // I don't know if editEvent should go here. Get error POST http://127.0.0.1:5000/api/events net::ERR_FAILED 500 (INTERNAL SERVER ERROR)
                 editEvent();
               }}>Edit</button>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
@@ -126,7 +128,6 @@ const PostEvent = () => {
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
           ) : (
             <div>
-              {/* Why aren't the labels displaying */}
               <label htmlFor="text">Event Description:</label>
               <input
                 type="text"

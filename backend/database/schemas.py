@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car, Team, Review, Event
+from database.models import User, Car, Team, Review, Event, Favorite
 
 ma = Marshmallow()
 
@@ -68,7 +68,7 @@ class UserSchema(ma.Schema):
     is_establishment = fields.Boolean()
     # Only shows up if user is an establishment
     establishment_name = fields.String()
-    zip_code = fields.String()
+    zip_code = fields.Integer()
     opening_time = fields.Time()
     closing_time = fields.Time()
     menu_url = fields.String()
@@ -122,3 +122,20 @@ class EventSchema(ma.Schema):
     
 event_schema = EventSchema()
 events_schema = EventSchema(many=True)
+
+#need
+class FavoriteSchema(ma.Schema):
+    id = fields.Integer(primary_key=True)
+    user_id = fields.Integer()
+    user = ma.Nested(UserSchema, many=False)
+    establishment_id = fields.Integer()
+    establishment = ma.Nested(UserSchema, many=False)
+    class Meta:
+        fields = ("id", "user_id", "establishment_id", "establishment", "user")
+        
+    @post_load
+    def create_event(self,data,**kwargs):
+        return Favorite(**data)
+    
+favorite_schema = FavoriteSchema()
+favorites_schema = FavoriteSchema(many=True)

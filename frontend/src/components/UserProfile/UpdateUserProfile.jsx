@@ -14,6 +14,7 @@ function UpdateUserProfile({ match }) {
     email: "",
     is_establishment: false,
     establishment_name: "",
+    zip_code:"",
     opening_time: "",
     closing_time: "",
     menu_url: "",
@@ -27,7 +28,7 @@ function UpdateUserProfile({ match }) {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/user/${user.id}/`,
+          `http://127.0.0.1:5000/api/userinfo/${user.id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -55,7 +56,7 @@ function UpdateUserProfile({ match }) {
 
     try {
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/user/${user.id}/`,
+        `http://127.0.0.1:5000/api/user/${user.id}`,
         {
           ...updatedUser,
           teams: selectedTeams.map((team) => team.id),
@@ -138,6 +139,15 @@ function UpdateUserProfile({ match }) {
             />
             </label>
             <label>
+            Zip Code:
+            <input
+                type="integer"
+                name="zip_code"
+                value={updatedUser.zip_code}
+                onChange={handleChange}
+            />
+            </label>
+            <label>
             Opening Time:
             <input
                 type="time"
@@ -214,6 +224,7 @@ function UpdateUserProfile({ match }) {
           {updatedUser.is_establishment && (
             <>
               <p>Establishment Name: {updatedUser.establishment_name}</p>
+              <p>Zip Code: {updatedUser.zip_code}</p>
               <p>Opening Time: {updatedUser.opening_time}</p>
               <p>Closing Time: {updatedUser.closing_time}</p>
               <p>Menu URL: {updatedUser.menu_url}</p>

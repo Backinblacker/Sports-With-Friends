@@ -40,8 +40,6 @@ const FavoritesPage = () => {
             <ul className="favorites-grid">
               {favorites.map((favorite) => (
                 <li key={favorite.user_id}>
-                  <img src={favorite.thumbnail_url} alt={favorite.title} />
-                  <span>{favorite.title}</span>
                 </li>
               ))}
             </ul>

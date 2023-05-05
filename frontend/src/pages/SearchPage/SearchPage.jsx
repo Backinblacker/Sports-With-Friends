@@ -29,6 +29,7 @@ const SearchPage = () => {
   return (
     <div className="container search">
       <h1>What Team Are You Trying to Watch?</h1>
+      {/* need to be able to search by team or zip code */}
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

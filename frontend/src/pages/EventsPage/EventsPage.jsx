@@ -8,6 +8,7 @@ const EventsPage = () => {
 
   return (
     <main>
+      {/* need only to show if user = is_establishment = True */}
       <PostEvent userId={user.id} auth={auth} />
     </main>
   )

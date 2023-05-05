@@ -9,6 +9,7 @@ const UserProfilePage = () => {
   return (
     <main>
       <UpdateUserProfile userId={user.id} auth={auth} />
+      {/* need I also want to show events checked in for */}
     </main>
   )
 };

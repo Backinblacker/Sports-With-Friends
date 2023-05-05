@@ -1,8 +1,8 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
-from database.models import db, Review, Event, User, Team
-from database.schemas import review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
+from database.models import db, Review, Event, User, Team, Favorite
+from database.schemas import favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -143,3 +143,32 @@ class TeamsResource(Resource):
     def get(self, sport):
         teams = Team.query.filter_by(sport=sport).all()
         return teams_schema.dump(teams)
+    
+#need
+class PostFavoriteResource(Resource):
+    @jwt_required()
+    def post(self):
+        favorite_user = get_jwt_identity()
+        form_data = request.get_json()
+        print(form_data)
+        new_favorite = favorite_schema.load(form_data)
+        new_favorite.user_id = favorite_user
+        db.session.add(new_favorite)
+        db.session.commit()
+        return favorite_schema.dump(new_favorite), 201
+
+#need
+class GetFavoritesResouce(Resource):
+    #get all reviews
+    @jwt_required()
+    def get(self):
+        favorite = Favorite.query.filter_by(user_id=get_jwt_identity())
+        return favorites_schema.dump(favorite), 200
+ 
+class DeleteFavoriteResouce(Resource):   
+    #delete reviews
+    def delete(self, favorite_id):
+        favorite_from_db = Favorite.query.get_or_404(favorite_id)
+        db.session.delete(favorite_from_db)
+        db.session.commit()
+        return '', 204
