@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React from "react";
+import useAuth from "../../hooks/useAuth";
+import FavoriteEstablishment from "../../components/FavoriteEstablishment/FavoriteEstablishment";
 
 const FavoritesPage = () => {
   const [user, token] = useAuth()
@@ -6,8 +8,7 @@ const FavoritesPage = () => {
 
   return (
     <main>
-      {/* need only to show if user = is_establishment = True */}
-      {/* need show favorites for user */}
+      <FavoriteEstablishment userId={user.id} auth={auth} />
     </main>
   )
 };

@@ -17,6 +17,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 // import EstablishmentPage from "./pages/EstablishmentPage/EstablishmentPage";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 import EventsPage from "./pages/EventsPage/EventsPage";
+import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/home" element={<HomePage />} />
         <Route path="/user/:user_id" element={<UserProfilePage />} />
         <Route path="/eventsbyuser/:user_id" element={<EventsPage />} />
+        <Route path="/favorites" element={<FavoritesPage />}/>
       </Routes>
       <Footer />
     </div>

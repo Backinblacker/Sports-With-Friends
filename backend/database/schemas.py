@@ -123,7 +123,6 @@ class EventSchema(ma.Schema):
 event_schema = EventSchema()
 events_schema = EventSchema(many=True)
 
-#need
 class FavoriteSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
     user_id = fields.Integer()

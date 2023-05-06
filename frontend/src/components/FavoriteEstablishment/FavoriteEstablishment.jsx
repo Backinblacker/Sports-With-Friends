@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
 
-const FavoritesPage = () => {
+const FavoriteEstablishment = () => {
   const { token } = useContext(AuthContext);
   const [favorites, setFavorites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -10,7 +10,7 @@ const FavoritesPage = () => {
   const fetchFavorites = async () => {
     try {
       let response = await axios.get(
-        "http://127.0.0.1:5000/api/user_favorites",
+        "http://127.0.0.1:5000/api/all_user_favorites",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -37,12 +37,18 @@ const FavoritesPage = () => {
         <div className="container">
           <h1>Favorites</h1>
           <div className="favoritesList">
-            <ul className="favorites-grid">
-              {favorites.map((favorite) => (
-                <li key={favorite.user_id}>
-                </li>
-              ))}
-            </ul>
+            {favorites.map((favorite) => (
+              <ul key={favorite.id}>
+                <p>Establishment Name: {favorite.establishment.establishment_name}</p>
+                <p>Zip Code: {favorite.establishment.zip_code}</p>
+                <p>Teams on Tv:</p>
+                <ul>
+                  {favorite.establishment.teams.map((team) => (
+                    <li key={team.id}>{team.name}</li>
+                  ))}
+                </ul>
+              </ul>
+            ))}
           </div>
         </div>
       )}
@@ -50,4 +56,4 @@ const FavoritesPage = () => {
   );
 };
 
-export default FavoritesPage;
+export default FavoriteEstablishment;
