@@ -1,8 +1,8 @@
 from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
-from database.models import db, Review, Event, User, Team, Favorite
-from database.schemas import favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
+from database.models import db, Review, Event, User, Team, Favorite, FavoriteEvent
+from database.schemas import favorite_event_schema, favorite_events_schema, favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -94,6 +94,8 @@ class EventDetailResource(Resource):
             event.text=request.json['text']
         if 'event_image_url' in request.json:
             event.event_imate_url=request.json['event_image_url']
+        if 'team_id' in request.json:
+            event.team_id=request.json['team_id']
         db.session.commit()
         return event_schema.dump(event), 200
     
@@ -112,6 +114,12 @@ class UserResource(Resource):
 class UserToEstablishmentResource(Resource):
     def put(self,user_id):
         establishment = User.query.filter_by(id=user_id).first_or_404()
+        if 'first_name' in request.json:
+            establishment.first_name=request.json['first_name']
+        if 'last_name' in request.json:
+            establishment.last_name=request.json['last_name']
+        if 'email' in request.json:
+            establishment.email=request.json['email']
         if 'is_establishment' in request.json:
             establishment.is_establishment=request.json['is_establishment']
         if 'establishment_name' in request.json:
@@ -144,7 +152,6 @@ class TeamsResource(Resource):
         teams = Team.query.filter_by(sport=sport).all()
         return teams_schema.dump(teams)
     
-#need
 class PostFavoriteResource(Resource):
     @jwt_required()
     def post(self):
@@ -157,18 +164,38 @@ class PostFavoriteResource(Resource):
         db.session.commit()
         return favorite_schema.dump(new_favorite), 201
 
-#need
 class GetFavoritesResouce(Resource):
-    #get all reviews
+    #get all favorite
     @jwt_required()
     def get(self):
         favorite = Favorite.query.filter_by(user_id=get_jwt_identity())
         return favorites_schema.dump(favorite), 200
  
 class DeleteFavoriteResouce(Resource):   
-    #delete reviews
+    #delete favorite
     def delete(self, favorite_id):
         favorite_from_db = Favorite.query.get_or_404(favorite_id)
         db.session.delete(favorite_from_db)
         db.session.commit()
         return '', 204
+
+class PostFavoriteEventResource(Resource):
+    #post favorite event
+    @jwt_required()
+    def post(self):
+        favorite_user = get_jwt_identity()
+        form_data = request.get_json()
+        print(form_data)
+        new_favorite_event = favorite_event_schema.load(form_data)
+        new_favorite_event.user_id = favorite_user
+        db.session.add(new_favorite_event)
+        db.session.commit()
+        return favorite_event_schema.dump(new_favorite_event), 201
+
+class GetFavoritesEventsResouce(Resource):
+    @jwt_required()
+    #get all users who favorited an event
+    def get(self, event_id):
+        users = User.query.filter(User.favorite_events.any(FavoriteEvent.event_id==event_id))
+        usernames = [user.username for user in users]
+        return usernames, 200

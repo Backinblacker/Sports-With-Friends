@@ -11,7 +11,7 @@ const PostEvent = () => {
   const [isReviewing, setIsReviewing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   // const [teamName, setTeamName] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
+  // const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
   const fetchEvents = async () => {
     try {
@@ -38,7 +38,7 @@ const PostEvent = () => {
         {
           text: eventText,
           event_image: eventImage,
-          timestamp: currentDateTime,
+          // timestamp: currentDateTime,
           // team_id: teamId
         },
         {
@@ -64,6 +64,7 @@ const PostEvent = () => {
 
   const editEvent = async (eventId, newText, newImageUrl) => {
     try {
+      // need This does not update, instead creates a new event...
       await axios.put(
         `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
         {

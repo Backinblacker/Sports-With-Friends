@@ -87,14 +87,48 @@ button:hover {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
-.form input {
+.form label {
+  display: block;
+  width: 100%;
+}
+
+.form input[type="radio"] {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.form input[type="text"] {
   display: block;
   width: 100%;
   height: 25px;
   margin: 5px;
   padding: 3px 7px;
   font-size: 17px;
+}
+
+.form button {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 25px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
+}
+
+.form .search-box {
+  display: flex;
+  align-items: center;
+}
+
+.form .search-box input[type="text"] {
+  margin-right: 1em;
+  width: 100%;
+}
+
+.form .search-box button {
+  width: calc(100% - 130px); /* adjust the width based on your button padding and margin */
 }

@@ -8,42 +8,45 @@ const SearchBar = ({ searchTerm = '', setSearchTerm, handleSubmit }) => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
-      <label>
+    <form onSubmit={(e) => handleSubmit(e)} className="form">
+      <div className="search-box">
         <input
-          type="radio"
-          value="establishment_name"
-          checked={searchType === 'establishment_name'}
-          onChange={handleRadioChange}
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
         />
-        Establishment Name
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="zip_code"
-          checked={searchType === 'zip_code'}
-          onChange={handleRadioChange}
-        />
-        Zip Code
-      </label>
-      <label>
-        <input
-          type="radio"
-          value="teams"
-          checked={searchType === 'teams'}
-          onChange={handleRadioChange}
-        />
-        Teams
-      </label>
-      <input
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{ marginRight: '1em' }}
-      />
-      <button type="submit" className="need">
-        Search
-      </button>
+      </div>
+      <div className="radio-buttons">
+        <label>
+          <input
+            type="radio"
+            value="establishment_name"
+            checked={searchType === "establishment_name"}
+            onChange={handleRadioChange}
+          />
+          Establishment Name
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="zip_code"
+            checked={searchType === "zip_code"}
+            onChange={handleRadioChange}
+          />
+          Zip Code
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="teams"
+            checked={searchType === "teams"}
+            onChange={handleRadioChange}
+          />
+          Teams
+        </label>
+        <button type="submit">Search</button>
+      </div>
     </form>
   );
 };

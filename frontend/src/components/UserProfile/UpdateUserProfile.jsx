@@ -3,7 +3,7 @@ import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import TeamSelector from "../TeamSelector/TeamSelector";
 
-function UpdateUserProfile({ match }) {
+function UpdateUserProfile() {
   const [user, token] = useAuth();
   const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
@@ -53,13 +53,15 @@ function UpdateUserProfile({ match }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-
+  
+    const lastSelectedTeam = selectedTeams[selectedTeams.length - 1];
+  
     try {
       const response = await axios.put(
         `http://127.0.0.1:5000/api/user/${user.id}`,
         {
           ...updatedUser,
-          teams: selectedTeams.map((team) => team.id),
+          teams: [...updatedUser.teams, lastSelectedTeam],
         },
         {
           headers: {
@@ -67,14 +69,12 @@ function UpdateUserProfile({ match }) {
           },
         }
       );
-
+  
       setUserProfile(response.data);
-      setUpdatedUser(response.data);
       setEditMode(false);
     } catch (error) {
       console.error(error);
     }
-    setSelectedTeams([...selectedTeams, updatedUser.teams[updatedUser.teams.length - 1]]);
   }
 
   function handleCancel() {

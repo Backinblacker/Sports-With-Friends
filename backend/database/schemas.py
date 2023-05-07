@@ -1,6 +1,6 @@
 from flask_marshmallow import Marshmallow
 from marshmallow import post_load, fields
-from database.models import User, Car, Team, Review, Event, Favorite
+from database.models import User, Car, Team, Review, Event, Favorite, FavoriteEvent
 
 ma = Marshmallow()
 
@@ -138,3 +138,17 @@ class FavoriteSchema(ma.Schema):
     
 favorite_schema = FavoriteSchema()
 favorites_schema = FavoriteSchema(many=True)
+
+class FavoriteEventSchema(ma.Schema):
+    id = fields.Integer(primary_key=True)
+    event_id = fields.Integer()
+    event = ma.Nested(EventSchema, many=False)
+    class Meta:
+        fields = ("id", "user_id", "event_id", "event")
+        
+    @post_load
+    def create_event(self,data,**kwargs):
+        return FavoriteEvent(**data)
+    
+favorite_event_schema = FavoriteEventSchema()
+favorite_events_schema = FavoriteEventSchema(many=True)
