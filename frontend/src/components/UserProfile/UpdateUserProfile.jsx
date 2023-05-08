@@ -89,8 +89,8 @@ function UpdateUserProfile() {
   }
 
   return (
-    <div>
-      <h1>{user.first_name}'s Profile</h1>
+    <div className="profile">
+      <h1>{user.username}'s Profile</h1>
       {editMode ? (
         <form onSubmit={handleSubmit}>
             <label>
@@ -206,7 +206,7 @@ function UpdateUserProfile() {
             <TeamSelector
               sport={updatedUser.sport}
               onSelectTeam={(selectedTeams) =>
-                setUpdatedUser({ ...updatedUser, teams: selectedTeams })
+                setUpdatedUser(selectedTeams )
               }
             />
           </label>
@@ -217,26 +217,28 @@ function UpdateUserProfile() {
         </form>
       ) : (
         <div>
-          <p>First Name: {updatedUser.first_name}</p>
-          <p>Last Name: {updatedUser.last_name}</p>
-          <p>Email: {updatedUser.email}</p>
-          <p>Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
+          <p className="border-profile">First Name: {updatedUser.first_name}</p>
+          <p className="border-profile">Last Name: {updatedUser.last_name}</p>
+          <p className="border-profile">Email: {updatedUser.email}</p>
+          <p className="border-profile">Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
           {updatedUser.is_establishment && (
             <>
-              <p>Establishment Name: {updatedUser.establishment_name}</p>
-              <p>Zip Code: {updatedUser.zip_code}</p>
-              <p>Opening Time: {updatedUser.opening_time}</p>
-              <p>Closing Time: {updatedUser.closing_time}</p>
-              <p>Menu URL: {updatedUser.menu_url}</p>
-              <p>Specials: {updatedUser.specials}</p>
-              <p>Social Media: {updatedUser.social_media}</p>
-              <p>Entertainment: {updatedUser.entertainment}</p>
-              <ul>
-                Teams:
-                {updatedUser.teams.map((team) => (
-                  <li key={team.id}>{team.name}</li>
-                ))}
-              </ul>
+              <p className="border-profile">Establishment Name: {updatedUser.establishment_name}</p>
+              <p className="border-profile">Zip Code: {updatedUser.zip_code}</p>
+              <p className="border-profile">Opening Time: {updatedUser.opening_time}</p>
+              <p className="border-profile">Closing Time: {updatedUser.closing_time}</p>
+              <p className="border-profile">Menu URL: {updatedUser.menu_url}</p>
+              <p className="border-profile">Specials: {updatedUser.specials}</p>
+              <p className="border-profile">Social Media: {updatedUser.social_media}</p>
+              <p className="border-profile">Entertainment: {updatedUser.entertainment}</p>
+              <div className="border-profile">
+                <p>Teams: </p>
+                <ul className="profile-list">
+                  {updatedUser.teams.map((team) => (
+                    <div key={team.id}>{team.name}</div>
+                  ))}
+                </ul>
+              </div>
             </>
           )}
           <button type="button" onClick={handleEdit}>

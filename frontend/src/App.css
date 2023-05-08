@@ -11,11 +11,12 @@
 html {
   line-height: 1.6;
   font-family: 'Rubik', sans-serif;
+  margin-bottom: 50px;
 }
 
-p {
+/* p {
   font-size: 20px;
-}
+} */
 
 button {
   background-color: transparent;
@@ -35,15 +36,17 @@ button:hover {
 
 .title{
   display: flex;
+  flex-direction: column;
   color:black;
   background: linear-gradient(15deg, red , white, blue);
   justify-content: center;
   align-items: center;
+  font-size: 25px;
 }
 
 .title-image {
   display: block;
-  max-height: 20vh;
+  max-height: 15vh;
   width: 100%;
   object-fit: cover;
   object-position: center;
@@ -80,6 +83,23 @@ button:hover {
   max-width: 600px;
   overflow: auto;
   text-align: center;
+}
+
+.login-form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.login-form input {
+  display: block;
+  width: 100%;
+  height: 25px;
+  margin: 5px;
+  padding: 3px 7px;
+  font-size: 17px;
 }
 
 .form {
@@ -130,5 +150,57 @@ button:hover {
 }
 
 .form .search-box button {
-  width: calc(100% - 130px); /* adjust the width based on your button padding and margin */
+  width: calc(100% - 130px); 
+}
+
+.profile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.border-profile{
+  border: 1px solid black;
+  padding: 3px;
+  font-size: 20px;
+}
+
+.profile-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.events {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-row {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.event-info {
+  flex-basis: 50%;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+.event-label {
+  font-weight: bold;
+}
+
+.event-actions {
+  display: flex;
+  flex-basis: 20%;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 5px;
 }

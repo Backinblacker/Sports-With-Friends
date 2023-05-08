@@ -19,7 +19,7 @@ b{
 
 .navBar {
   overflow: hidden;
-  background: radial-gradient(circle, red , white, blue);
+  background: linear-gradient(15deg, red , white, blue);
   font-family: inherit;
   box-shadow: 4px 2px 5px gray;
   color: black;

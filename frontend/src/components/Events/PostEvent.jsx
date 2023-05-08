@@ -10,8 +10,6 @@ const PostEvent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  // const [teamName, setTeamName] = useState("");
-  // const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
   const fetchEvents = async () => {
     try {
@@ -38,8 +36,7 @@ const PostEvent = () => {
         {
           text: eventText,
           event_image: eventImage,
-          // timestamp: currentDateTime,
-          // team_id: teamId
+          // need to be able to select which team the event coincides with. 
         },
         {
           headers: {
@@ -64,12 +61,12 @@ const PostEvent = () => {
 
   const editEvent = async (eventId, newText, newImageUrl) => {
     try {
-      // need This does not update, instead creates a new event...
       await axios.put(
-        `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
+        `http://127.0.0.1:5000/api/eventdetails/${parseInt(eventId)}`,
         {
           text: newText,
-          event_image_url: newImageUrl,
+          event_image: newImageUrl,
+          // need to be able to edit the team that is selected
         },
         {
           headers: {
@@ -78,6 +75,7 @@ const PostEvent = () => {
         }
       );
       fetchEvents();
+      setIsReviewing(false);
     } catch (error) {
       console.log("Error in editEvent:", error);
     }
@@ -107,24 +105,29 @@ const PostEvent = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div>
+        <div className="profile">
           <h2>Upcoming Events</h2>
-          <ul className="eed">
-            {events && events.map((event, index) => (
-              <li key={index}>
-              {event.text} {event.event_image}
+          <ul className="events">
+          {events && events.map((event, index) => (
+            <li key={index} className="event-row">
+              <div className="event-info">
+                <p className="event-label">Event Name:</p>
+                <p>{event.text}</p>
+                <p className="event-label">Event Details:</p>
+                <p>{event.event_image}</p>
+              </div>
+              <div className="event-actions">
               <button onClick={() => {
                 setEventText(event.text);
                 setEventImage(event.event_image);
+                // need to be able to edit the team here
                 setIsReviewing(true);
-                // need
-                // I don't know if editEvent should go here. Get error POST http://127.0.0.1:5000/api/events net::ERR_FAILED 500 (INTERNAL SERVER ERROR)
-                editEvent();
               }}>Edit</button>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
+              </div>
             </li>
-            ))}
-          </ul>
+          ))}
+        </ul>
           {!isReviewing ? (
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
           ) : (
@@ -143,14 +146,14 @@ const PostEvent = () => {
                 value={eventImage}
                 onChange={(e) => setEventImage(e.target.value)}
               />
-              {/* <label htmlFor="team_name">Team Name:</label>
-              <input
-                type="text"
-                id="team_name"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-              /> */}
-              <button onClick={addEvent}>Submit</button>
+              {/* <label htmlFor="team_id">Team ID:</label>
+                  <input
+                    type="text"
+                    id="team_id"
+                    value={teamId}
+                    onChange={(e) => setTeamId(e.target.value)}
+                  />*/}
+              <button onClick={editEvent}>Submit</button>
               <button onClick={() => setIsReviewing(false)}>Cancel</button>
               {errorMessage && <p>{errorMessage}</p>}
             </div>
