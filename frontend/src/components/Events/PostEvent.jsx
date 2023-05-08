@@ -61,6 +61,7 @@ const PostEvent = () => {
 
   const editEvent = async (eventId, newText, newImageUrl) => {
     try {
+      //What value is being sent in here? eventID is clearly not sending in a number. why?
       await axios.put(
         `http://127.0.0.1:5000/api/eventdetails/${parseInt(eventId)}`,
         {
