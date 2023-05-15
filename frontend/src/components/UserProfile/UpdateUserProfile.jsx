@@ -53,10 +53,12 @@ function UpdateUserProfile() {
 
   async function handleSubmit(event) {
     event.preventDefault();
-  
-    const lastSelectedTeam = selectedTeams[selectedTeams.length - 1];
+    
+    // need to get the team ids instead of the entire team object
+    const lastSelectedTeam = selectedTeams.length > 0 ? selectedTeams[selectedTeams.length - 1] : null;
   
     try {
+      console.log("Request body:", updatedUser);
       const response = await axios.put(
         `http://127.0.0.1:5000/api/user/${user.id}`,
         {
@@ -69,7 +71,6 @@ function UpdateUserProfile() {
           },
         }
       );
-  
       setUserProfile(response.data);
       setEditMode(false);
     } catch (error) {
@@ -234,6 +235,7 @@ function UpdateUserProfile() {
               <div className="border-profile">
                 <p>Teams: </p>
                 <ul className="profile-list">
+                  {/* Here is the idea behind mappting to the team id */}
                   {updatedUser.teams.map((team) => (
                     <div key={team.id}>{team.name}</div>
                   ))}

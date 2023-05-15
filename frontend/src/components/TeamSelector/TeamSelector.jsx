@@ -4,7 +4,7 @@ import axios from 'axios';
 function TeamSelector({ onSelectTeam }) {
     const [teams, setTeams] = useState([]);
     const [selectedTeams, setSelectedTeams] = useState([]);
-    const [sport, setSport] = useState("Basketball");
+    const [sport, setSport] = useState("null");
 
     useEffect(() => {
         async function fetchTeams() {
@@ -27,6 +27,7 @@ function TeamSelector({ onSelectTeam }) {
         <div>
           <label htmlFor="sport">Sport:</label>
           <select id="sport" value={sport} onChange={(event) => setSport(event.target.value)}>
+            <option value='null'>--Select League--</option>
             <option value="Basketball">NBA</option>
             <option value="Baseball">MLB</option>
             <option value="Hockey">NHL</option>
