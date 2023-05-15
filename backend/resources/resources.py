@@ -92,8 +92,8 @@ class EventDetailResource(Resource):
         event = Event.query.get_or_404(event_id)
         if 'text' in request.json:
             event.text=request.json['text']
-        if 'event_image_url' in request.json:
-            event.event_imate_url=request.json['event_image_url']
+        if 'event_image' in request.json:
+            event.event_image=request.json['event_image']
         if 'team_id' in request.json:
             event.team_id=request.json['team_id']
         db.session.commit()

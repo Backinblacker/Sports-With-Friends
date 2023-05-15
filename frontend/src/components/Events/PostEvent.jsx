@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import EditEvent from "./EditEvent";
 
 const PostEvent = () => {
   const [user, token] = useAuth();
@@ -9,6 +10,7 @@ const PostEvent = () => {
   const [eventImage, setEventImage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
+  const [selectedEventId, setSelectedEventId] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
   // need to add teams, need to add time stamp
@@ -60,30 +62,6 @@ const PostEvent = () => {
   useEffect(() => {
     fetchEvents();
   }, []);
-
-  const editEvent = async (eventId, newText, newImageUrl) => {
-    try {
-      //What value is being sent in here? eventID is clearly not sending in a number. why?
-      console.log("Request:", eventId);
-      await axios.put(
-        `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
-        {
-          text: newText,
-          event_image: newImageUrl,
-          // need to be able to edit the team that is selected
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      fetchEvents();
-      setIsReviewing(false);
-    } catch (error) {
-      console.log("Error in editEvent:", error);
-    }
-  };
   
   const deleteEvent = async (eventId) => {
     try {
@@ -104,6 +82,10 @@ const PostEvent = () => {
     }
   };
 
+  const selectEventForEdit = (eventId) => {
+    setSelectedEventId(eventId);
+  };
+  
   return (
     <div>
       {isLoading ? (
@@ -121,14 +103,20 @@ const PostEvent = () => {
                 <p>{event.event_image}</p>
               </div>
               <div className="event-actions">
-              <button onClick={() => {
-                setEventText(event.text);
-                setEventImage(event.event_image);
-                // need to be able to edit the team here
-                setIsReviewing(true);
-                editEvent()
-              }}>Edit</button>
-              <button onClick={() => deleteEvent(event.id)}>Delete</button>
+                {selectedEventId === event.id ? (
+                  <EditEvent
+                    eventId={event.id}
+                    token={token}
+                    fetchEvents={fetchEvents}
+                    setIsReviewing={setIsReviewing}
+                    setSelectedEventId={setSelectedEventId}
+                  />
+                  ) : (
+                    <button onClick={() => selectEventForEdit(event.id)}>
+                      Edit
+                    </button>
+                  )}
+                <button onClick={() => deleteEvent(event.id)}>Delete</button>
               </div>
             </li>
           ))}
