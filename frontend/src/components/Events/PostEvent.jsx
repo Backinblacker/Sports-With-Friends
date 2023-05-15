@@ -11,6 +11,8 @@ const PostEvent = () => {
   const [isReviewing, setIsReviewing] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // need to add teams, need to add time stamp
+  // next iteration should have calendar.io
   const fetchEvents = async () => {
     try {
       let response = await axios.get(
@@ -62,8 +64,9 @@ const PostEvent = () => {
   const editEvent = async (eventId, newText, newImageUrl) => {
     try {
       //What value is being sent in here? eventID is clearly not sending in a number. why?
+      console.log("Request:", eventId);
       await axios.put(
-        `http://127.0.0.1:5000/api/eventdetails/${parseInt(eventId)}`,
+        `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
         {
           text: newText,
           event_image: newImageUrl,
@@ -123,6 +126,7 @@ const PostEvent = () => {
                 setEventImage(event.event_image);
                 // need to be able to edit the team here
                 setIsReviewing(true);
+                editEvent()
               }}>Edit</button>
               <button onClick={() => deleteEvent(event.id)}>Delete</button>
               </div>
@@ -133,15 +137,16 @@ const PostEvent = () => {
             <button onClick={() => setIsReviewing(true)}>Add an Event</button>
           ) : (
             <div>
+              {/* need styling to make them similar to the event */}
               <label htmlFor="text">Event Description:</label>
-              <input
+              <textarea
                 type="text"
                 id="text"
                 value={eventText}
                 onChange={(e) => setEventText(e.target.value)}
               />
               <label htmlFor="event_image">Event Poster:</label>
-              <input
+              <textarea
                 type="text"
                 id="event_image"
                 value={eventImage}
@@ -154,7 +159,7 @@ const PostEvent = () => {
                     value={teamId}
                     onChange={(e) => setTeamId(e.target.value)}
                   />*/}
-              <button onClick={editEvent}>Submit</button>
+              <button onClick={addEvent}>Submit</button>
               <button onClick={() => setIsReviewing(false)}>Cancel</button>
               {errorMessage && <p>{errorMessage}</p>}
             </div>
