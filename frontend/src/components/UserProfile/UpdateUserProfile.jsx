@@ -8,6 +8,7 @@ function UpdateUserProfile() {
   const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
   const [selectedTeams, setSelectedTeams] = useState([]);
+  const [teams, setTeams] = useState([]);
   const [updatedUser, setUpdatedUser] = useState({
     first_name: "",
     last_name: "",
@@ -57,14 +58,16 @@ function UpdateUserProfile() {
     // need to get the team ids instead of the entire team object
     const lastSelectedTeam = selectedTeams.length > 0 ? selectedTeams[selectedTeams.length - 1] : null;
   
+    const teamsIds = updatedUser.teams.map((team) => team.id);
+
     try {
       console.log("Request body:", updatedUser);
       const response = await axios.put(
         `http://127.0.0.1:5000/api/user/${user.id}`,
         {
           ...updatedUser,
-          teams: [...updatedUser.teams, lastSelectedTeam],
-        },
+          teams: teamsIds,
+          },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -77,6 +80,7 @@ function UpdateUserProfile() {
       console.error(error);
     }
   }
+
 
   function handleCancel() {
     setEditMode(false);

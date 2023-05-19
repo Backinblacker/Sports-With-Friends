@@ -15,12 +15,17 @@ function TeamSelector({ onSelectTeam }) {
     }, [sport]);
 
     function handleTeamSelect(event) {
-        const teamId = parseInt(event.target.value);
-        const team = teams.find(team => team.id === teamId);
-        if (!selectedTeams.some(selectedTeam => selectedTeam.id === team.id)) {
-          setSelectedTeams([...selectedTeams, team]);
-          onSelectTeam([...selectedTeams, team]);
-        }
+      const teamId = parseInt(event.target.value);
+      const team = teams.find((team) => team.id === teamId);
+      if (!selectedTeams.some((selectedTeam) => selectedTeam.id === team.id)) {
+        const updatedSelectedTeams = [...selectedTeams, team];
+        setSelectedTeams(updatedSelectedTeams);
+        const teamsObject = {};
+        updatedSelectedTeams.forEach((selectedTeam) => {
+          teamsObject[selectedTeam.id] = selectedTeam;
+        });
+        onSelectTeam(teamsObject);
+      }
     }
 
     return (
