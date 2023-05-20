@@ -32,6 +32,11 @@ const PostEvent = () => {
     }
   };
 
+  const resetForm = () => {
+    setEventText("");
+    setEventImage("");
+  };
+  
   const addEvent = async () => {
     try {
       console.log("Add event clicked");
@@ -50,6 +55,7 @@ const PostEvent = () => {
       );
       fetchEvents()
       setIsReviewing(false);
+      resetForm();
     } catch (error) {
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message);
