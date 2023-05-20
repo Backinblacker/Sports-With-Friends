@@ -24,7 +24,7 @@ function TeamSelector({ onSelectTeam }) {
         updatedSelectedTeams.forEach((selectedTeam) => {
           teamsObject[selectedTeam.id] = selectedTeam;
         });
-        onSelectTeam(teamsObject);
+        onSelectTeam(updatedSelectedTeams);
       }
     }
 

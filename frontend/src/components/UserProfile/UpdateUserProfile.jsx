@@ -93,6 +93,14 @@ function UpdateUserProfile() {
     });
   }
 
+  function handleTeamSelect(updatedSelectedTeams) { // Receive the updatedSelectedTeams
+    setSelectedTeams(updatedSelectedTeams);
+    setUpdatedUser({
+      ...updatedUser,
+      teams: updatedSelectedTeams, // Update the teams property with updatedSelectedTeams
+    });
+  }
+
   return (
     <div className="profile">
       <h1>{user.username}'s Profile</h1>
@@ -209,10 +217,9 @@ function UpdateUserProfile() {
           <label>
             Teams:
             <TeamSelector
-              sport={updatedUser.sport}
-              onSelectTeam={(selectedTeams) =>
-                setUpdatedUser(selectedTeams )
-              }
+            sport={updatedUser.sport}
+            onSelectTeam={handleTeamSelect} // Pass the handler function
+            selectedTeams={selectedTeams} // Pass selectedTeams as a prop
             />
           </label>
           <button type="submit">Save</button>
