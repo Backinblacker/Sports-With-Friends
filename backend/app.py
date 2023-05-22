@@ -8,7 +8,7 @@ from database.models import db
 from database.schemas import ma
 from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
-from resources.resources import PostFavoriteEventResource, GetFavoritesEventsResouce, PostFavoriteResource, GetFavoritesResouce, DeleteFavoriteResouce, PostReviewResource, EstablishmentReviewsResource, TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
+from resources.resources import EstablishmentUserResource, PostFavoriteEventResource, GetFavoritesEventsResouce, PostFavoriteResource, GetFavoritesResouce, DeleteFavoriteResouce, PostReviewResource, EstablishmentReviewsResource, TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
 from dotenv import load_dotenv
 from os import environ
 
@@ -73,6 +73,8 @@ def create_routes():
     api.add_resource(EstablishmentEventListResource, '/api/eventsbyuser/<int:user_id>')
     #edit profile to be an establishment
     api.add_resource(UserToEstablishmentResource, '/api/user/<int:user_id>')
+    #get establishments
+    api.add_resource(EstablishmentUserResource, '/api/users')
     #get users
     api.add_resource(UserResource, '/api/userinfo/<int:user_id>')
     #search by team

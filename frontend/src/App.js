@@ -19,6 +19,8 @@ import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 import EventsPage from "./pages/EventsPage/EventsPage";
 import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
+import ResultsList from "./components/ResultsList/ResultsList";
+import DetailsPage from "./pages/DetailsPage/DetailsPage";
 
 function App() {
   return (
@@ -41,6 +43,7 @@ function App() {
         <Route path="/eventsbyuser/:user_id" element={<EventsPage />} />
         <Route path="/favorites" element={<FavoritesPage />}/>
         <Route path="/search" element={<SearchPage />}/>
+        <Route path="/details/:user_id" element={<DetailsPage />}/>
       </Routes>
       <Footer />
     </div>

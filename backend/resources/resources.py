@@ -2,7 +2,7 @@ from flask import request
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from flask_restful import Resource
 from database.models import db, Review, Event, User, Team, Favorite, FavoriteEvent
-from database.schemas import favorite_event_schema, favorite_events_schema, favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, teams_schema
+from database.schemas import favorite_event_schema, favorite_events_schema, favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, users_schema, teams_schema
 
 class PostReviewResource(Resource):
     # Post Review
@@ -50,8 +50,7 @@ class EstablishmentReviewsResource(Resource):
     def get(self):
         review = Review.query.filter(Review.reviewer.has(is_establishment=True))
         return reviews_schema.dump(review), 200
-    
-    
+       
 class PostEventResource(Resource):
     # Post Event
     @jwt_required()
@@ -110,6 +109,11 @@ class UserResource(Resource):
     def get(self, user_id):
         user = User.query.filter_by(id=user_id).first_or_404()
         return user_schema.dump(user)
+    
+class EstablishmentUserResource(Resource):
+    def get(self):
+        users = User.query.filter_by(is_establishment=True)
+        return users_schema.dump(users)
     
 class UserToEstablishmentResource(Resource):
     def put(self,user_id):

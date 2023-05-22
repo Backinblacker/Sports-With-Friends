@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import axios from "axios";
 import ResultsList from "../../components/ResultsList/ResultsList";
@@ -10,14 +10,17 @@ const SearchPage = () => {
 
   const fetchEstablishments = async () => {
     try {
-      let lowerCaseSearchTerm = searchTerm.toLowerCase();
-      let response = await axios.get(`http://127.0.0.1:5000/api/userinfo?q=${lowerCaseSearchTerm}`);
-      setSearchResults([response.data]);
+      // let lowerCaseSearchTerm = searchTerm.toLowerCase();
+      let response = await axios.get(`http://127.0.0.1:5000/api/users`);
+      setSearchResults(response.data);
     } catch (error) {
       console.log("Error in fetchEstablishments request", error);
     }
   };
   
+  useEffect(() => {
+    fetchEstablishments()
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,7 +41,7 @@ const SearchPage = () => {
         handleSearchOptionChange={handleSearchOptionChange}
         searchOption={searchOption}
       />
-      <ResultsList searchResults={searchResults} />
+      <ResultsList searchResults={searchResults} searchTerm={searchTerm} />
     </div>
   );
 };
