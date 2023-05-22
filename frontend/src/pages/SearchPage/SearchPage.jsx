@@ -11,20 +11,13 @@ const SearchPage = () => {
   const fetchEstablishments = async () => {
     try {
       let lowerCaseSearchTerm = searchTerm.toLowerCase();
-      let url;
-      if (searchOption === "establishment") {
-        url = `http://127.0.0.1:5000/api/userinfo?establishment_name=${lowerCaseSearchTerm}`;
-      } else if (searchOption === "zip") {
-        url = `http://127.0.0.1:5000/api/userinfo?zip_code=${lowerCaseSearchTerm}`;
-      } else if (searchOption === "team") {
-        url = `http://127.0.0.1:5000/api/userinfo?teams=${lowerCaseSearchTerm}`;
-      }
-      let response = await axios.get(url);
-      setSearchResults(response.data);
+      let response = await axios.get(`http://127.0.0.1:5000/api/userinfo?q=${lowerCaseSearchTerm}`);
+      setSearchResults([response.data]);
     } catch (error) {
       console.log("Error in fetchEstablishments request", error);
     }
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

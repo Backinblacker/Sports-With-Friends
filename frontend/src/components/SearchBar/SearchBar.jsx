@@ -39,8 +39,8 @@ const SearchBar = ({ searchTerm = '', setSearchTerm, handleSubmit }) => {
         <label>
           <input
             type="radio"
-            value="teams"
-            checked={searchType === "teams"}
+            value="team"
+            checked={searchType === "team"}
             onChange={handleRadioChange}
           />
           Teams
