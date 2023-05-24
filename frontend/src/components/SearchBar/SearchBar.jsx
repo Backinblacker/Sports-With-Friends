@@ -17,35 +17,9 @@ const SearchBar = ({ searchTerm = '', setSearchTerm, handleSubmit }) => {
           placeholder="Search..."
         />
       </div>
-      <div className="radio-buttons">
-        <label>
-          <input
-            type="radio"
-            value="establishment_name"
-            checked={searchType === "establishment_name"}
-            onChange={handleRadioChange}
-          />
-          Establishment Name
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="zip_code"
-            checked={searchType === "zip_code"}
-            onChange={handleRadioChange}
-          />
-          Zip Code
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="team"
-            checked={searchType === "team"}
-            onChange={handleRadioChange}
-          />
-          Teams
-        </label>
+      <div>
         <button type="submit">Search</button>
+        <br/>
       </div>
     </form>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import taps from '../../assets/beer_taps.jpg'
+import mug from '../../assets/beermug.jpg'
 
 const ResultsList = ({ searchResults, searchTerm }) => {
   let results = searchResults.filter((establishment)=> {
@@ -13,19 +13,20 @@ const ResultsList = ({ searchResults, searchTerm }) => {
         <div key={user.id} className="need">
           <Link to={`/details/${user.id}`}>
             <div>
-              {/* <img className="need" src={taps} alt='beertaps'/> */}
+              <img className="bar-image" src={mug} alt='beer'/>
               <h3>{user.establishment_name}</h3>
+              <h3>Zip Code: {user.zip_code}</h3>
               {/* <h3>Teams: {user.teams} </h3> */}
-              <h3>Opens: {user.opening_time}</h3>
+              {/* <h3>Opens: {user.opening_time}</h3>
               <h3>Closes: {user.closing_time}</h3>
-              <h3>Menu: {user.menu_url}</h3>
+              <h3>Menu: {user.menu_url}</h3> */}
               <h3>Socials: {user.social_media}</h3>
-              <h3>Other Entertainment: {user.entertainment}</h3>
-              <h3>Reviews: {user.reviews?.map((review)=>(
+              {/* <h3>Other Entertainment: {user.entertainment}</h3> */}
+              {/* <h3>Reviews: {user.reviews?.map((review)=>(
                 <>
                 <p>User: {review.username}</p>
                 <p>Review: {review.text}</p></>
-              ))}</h3>
+              ))}</h3> */}
             </div>
           </Link>
         </div>
