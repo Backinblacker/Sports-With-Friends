@@ -15,7 +15,7 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchEstablishmentDetails = async () => {
       try {
-        const response = await axios.get(`/api/userinfo/${user_id}`, {
+        const response = await axios.get(`http://127.0.0.1:5000/api/userinfo/${user_id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -37,17 +37,15 @@ const DetailsPage = () => {
         <p>Loading...</p>
       ) : (
         <>
-          {establishmentDetails.map((user)=>
-            <div key={user_id} className="need">
-              <h2>{user.establishment_name}</h2>
-              <p>Opens: {user.opening_time}</p>
-              <p>Closes: {user.closing_time}</p>
-              <p>Menu: {user.menu_url}</p>
-              <p>Socials: {user.social_media}</p>
-              <p>Other Entertainment: {user.entertainment}</p>
-              {/* <Reviews establishmentId={user_id} /> */}
-            </div>
-          )};
+          <div key={user_id} className="need">
+            <h2>{establishmentDetails.establishment_name}</h2>
+            <p>Opens: {establishmentDetails.opening_time}</p>
+            <p>Closes: {establishmentDetails.closing_time}</p>
+            <p>Menu: {establishmentDetails.menu_url}</p>
+            <p>Socials: {establishmentDetails.social_media}</p>
+            <p>Other Entertainment: {establishmentDetails.entertainment}</p>
+            {/* <Reviews establishmentId={user_id} /> */}
+          </div>
         </>
       )}
     </main>
