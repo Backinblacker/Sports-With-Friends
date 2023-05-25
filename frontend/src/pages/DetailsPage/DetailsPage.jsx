@@ -3,7 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Reviews from '../../components/Reviews/Reviews'
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const DetailsPage = () => {
   const { user_id } = useParams();
@@ -31,6 +31,30 @@ const DetailsPage = () => {
     fetchEstablishmentDetails();
   }, [user_id, token]);
 
+  const handleFavorite = async () => {
+    try {
+      if (isFavorite) {
+        const response = await axios.delete(`http://127.0.0.1:5000/api/user_favorites/${establishmentDetails.favorite_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setIsFavorite(false);
+      } else {
+        const response = await axios.post('http://127.0.0.1:5000/api/user_favorites', {
+          establishment_id: user_id,
+        }, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setIsFavorite(true);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main>
       {isLoading ? (
@@ -44,6 +68,16 @@ const DetailsPage = () => {
             <p>Menu: {establishmentDetails.menu_url}</p>
             <p>Socials: {establishmentDetails.social_media}</p>
             <p>Other Entertainment: {establishmentDetails.entertainment}</p>
+            {isFavorite ? (
+              <button onClick={handleFavorite}>
+                Unfavorite
+              </button>
+            ) : (
+              <button onClick={handleFavorite}>
+                Favorite
+              </button>
+            )}
+            <Link to="/favorites">View Favorites</Link>
             {/* <Reviews establishmentId={user_id} /> */}
           </div>
         </>

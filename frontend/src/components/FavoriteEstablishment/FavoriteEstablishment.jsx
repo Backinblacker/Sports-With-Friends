@@ -24,6 +24,19 @@ const FavoriteEstablishment = () => {
     }
   };
 
+  const handleUnfavorite = async (favoriteId) => {
+    try {
+      await axios.delete(`http://127.0.0.1:5000/api/user_favorites/${favoriteId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      fetchFavorites(); // Fetch updated favorites list after unfavorite
+    } catch (error) {
+      console.error("Error in handleUnfavorite:", error);
+    }
+  };
+
   useEffect(() => {
     fetchFavorites();
   }, []);
@@ -33,7 +46,6 @@ const FavoriteEstablishment = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        // Need
         <div className="container">
           <h1>Favorites</h1>
           <div className="favoritesList">
@@ -47,6 +59,9 @@ const FavoriteEstablishment = () => {
                     <li key={team.id}>{team.name}</li>
                   ))}
                 </ul>
+                <button onClick={() => handleUnfavorite(favorite.id)}>
+                  Unfavorite
+                </button>
               </ul>
             ))}
           </div>

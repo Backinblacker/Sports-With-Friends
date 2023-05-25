@@ -14,12 +14,10 @@ import Footer from "./components/Footer/Footer";
 
 // Util Imports
 import PrivateRoute from "./utils/PrivateRoute";
-// import EstablishmentPage from "./pages/EstablishmentPage/EstablishmentPage";
 import UserProfilePage from "./pages/UserProfilePage/UserProfilePage";
 import EventsPage from "./pages/EventsPage/EventsPage";
 import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
-import ResultsList from "./components/ResultsList/ResultsList";
 import DetailsPage from "./pages/DetailsPage/DetailsPage";
 
 function App() {
