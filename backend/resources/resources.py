@@ -75,7 +75,7 @@ class EstablishmentEventListResource(Resource):
     # Get Events by user_id
     @jwt_required()
     def get(self, user_id):
-        event = Event.query.filter_by(user_id=user_id)
+        event = Event.query.filter_by(user_id=user_id).all()
         return events_schema.dump(event), 200
 
 class EventDetailResource(Resource):

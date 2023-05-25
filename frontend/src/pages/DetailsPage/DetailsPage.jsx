@@ -8,9 +8,10 @@ import { useParams, Link } from 'react-router-dom';
 const DetailsPage = () => {
   const { user_id } = useParams();
   const [establishmentDetails, setEstablishmentDetails] = useState({});
+  const [establishmentEvents, setEstablishmentEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
-  const { token } = useContext(AuthContext);
+  const [user, token] = useAuth()
 
   useEffect(() => {
     const fetchEstablishmentDetails = async () => {
@@ -28,7 +29,24 @@ const DetailsPage = () => {
       }
     };
 
+    const fetchEvents = async () => {
+      try {
+        console.log(token)
+        const eventResponse = await axios.get(`http://127.0.0.1:5000/api/eventsbyuser/${user_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setEstablishmentEvents(eventResponse.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+
     fetchEstablishmentDetails();
+    fetchEvents();
   }, [user_id, token]);
 
   const handleFavorite = async () => {
@@ -78,7 +96,18 @@ const DetailsPage = () => {
               </button>
             )}
             <Link to="/favorites">View Favorites</Link>
-            {/* <Reviews establishmentId={user_id} /> */}
+            {establishmentEvents.length > 0 ? (
+              <div>
+                <h3>Upcoming Events:</h3>
+                <ul>
+                  {establishmentEvents.map((event) => (
+                    <li key={event.id}>{event.text}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : (
+              <p>No events scheduled at this time.</p>
+            )}
           </div>
         </>
       )}
