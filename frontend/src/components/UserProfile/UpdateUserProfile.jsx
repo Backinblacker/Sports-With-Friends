@@ -55,7 +55,6 @@ function UpdateUserProfile() {
   async function handleSubmit(event) {
     event.preventDefault();
     
-    // need to get the team ids instead of the entire team object
     const lastSelectedTeam = selectedTeams.length > 0 ? selectedTeams[selectedTeams.length - 1] : null;
   
     const teamsIds = updatedUser.teams.map((team) => team.id);
@@ -232,9 +231,9 @@ function UpdateUserProfile() {
           <p className="border-profile">First Name: {updatedUser.first_name}</p>
           <p className="border-profile">Last Name: {updatedUser.last_name}</p>
           <p className="border-profile">Email: {updatedUser.email}</p>
-          <p className="border-profile">Is Establishment: {updatedUser.is_establishment ? "Yes" : "No"}</p>
           {updatedUser.is_establishment && (
             <>
+              <p className="border-profile">Are you an establishment profile: {updatedUser.is_establishment ? "Yes" : "No"}</p>
               <p className="border-profile">Establishment Name: {updatedUser.establishment_name}</p>
               <p className="border-profile">Zip Code: {updatedUser.zip_code}</p>
               <p className="border-profile">Opening Time: {updatedUser.opening_time}</p>

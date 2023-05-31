@@ -14,7 +14,7 @@ const Reviews = () => {
   // get reviews for that specific user(establishment)
   const fetchReviews = async () => {
     try {
-      let response = await axios.get(
+      const response = await axios.get(
         `http://127.0.0.1:5000/api/establishment_reviews`,
         {
           headers: {
@@ -22,7 +22,14 @@ const Reviews = () => {
           },
         }
       );
-      setReviews(response.data.reviews);
+  
+      if (Array.isArray(response.data)) {
+        setReviews(response.data.map((review) => ({ text: review.text, reviewer: review.reviewer, rating: review.rating })));
+      } else {
+        // If the response is only one review, this will change it into an array so that it won't mess with isLoading.
+        setReviews([{ text: response.data.text, reviewer: response.data.reviewer }]);
+      }
+  
       setIsLoading(false);
     } catch (error) {
       console.log("Error in fetchReviews:", error);
@@ -43,7 +50,7 @@ const Reviews = () => {
           },
         }
       );
-      setReviews([...reviews, response.data.text]);
+      setReviews([...reviews, { text: response.data.text, reviewer: response.data.reviewer, rating: response.data.rating }]);
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
@@ -65,20 +72,17 @@ const Reviews = () => {
           <h2>User Reviews</h2>
           <ul className="reviewContainer">
             {reviews.map((review, index) => (
-              <li key={index}>{review}</li>
+              <li key={index}>
+                {review.reviewer.username}: {review.text}
+                <br />
+                Rating: {review.rating}
+              </li>
             ))}
           </ul>
           {!isReviewing ? (
             <button onClick={() => setIsReviewing(true)}>Add a review</button>
           ) : (
             <div>
-              <label htmlFor="text">Username:</label>
-              <input
-                type="text"
-                id="username"
-                value={reviewUsername}
-                onChange={(e) => setReviewUsername(e.target.value)}
-              />
               <label htmlFor="text">Review text:</label>
               <input
                 type="text"
@@ -105,4 +109,5 @@ const Reviews = () => {
     </div>
   );
 };
+
 export default Reviews;

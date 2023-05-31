@@ -31,7 +31,6 @@ const DetailsPage = () => {
 
     const fetchEvents = async () => {
       try {
-        console.log(token)
         const eventResponse = await axios.get(`http://127.0.0.1:5000/api/eventsbyuser/${user_id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -108,6 +107,7 @@ const DetailsPage = () => {
             ) : (
               <p>No events scheduled at this time.</p>
             )}
+            <Reviews user_id={user_id} />
           </div>
         </>
       )}
