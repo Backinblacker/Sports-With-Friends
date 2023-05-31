@@ -29,8 +29,9 @@ class ReviewSchema(ma.Schema):
     rating = fields.String(required=True)
     username = fields.String(required=True)
     reviewer = ma.Nested('UserSchema', exclude=('reviews',))
+    reviewee = ma.Nested('UserSchema', exclude=('reviews',))
     class Meta:
-        fields = ("review_id", "text", "rating", "reviewer")
+        fields = ("review_id", "text", "rating", "reviewer", "reviewee")
     
     @post_load
     def create_review(self,data,**kwargs):

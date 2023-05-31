@@ -13,9 +13,10 @@ class PostReviewResource(Resource):
         username = form_data.get('username')
         rating = form_data.get('rating')
         text = form_data.get('text')
+        reviewee_id = form_data.get('reviewee_id')
         #must have the user and reviewer because this will populate the username field in the data base.
         user = User.query.filter_by(id=user_id).first()
-        new_review = Review(username=username, rating=rating, text=text, reviewer=user)
+        new_review = Review(username=username, rating=rating, text=text, reviewer=user, reviewee_id=reviewee_id)
         db.session.add(new_review)
         db.session.commit()
         return review_schema.dump(new_review), 201
@@ -35,6 +36,8 @@ class ReviewDetailResource(Resource):
             review.text=request.json['text']
         if 'rating' in request.json:
             review.rating=request.json['rating']
+        if 'reviewee_id' in request.json:
+            review.reviewee_id=request.json['reviewee_id']
         db.session.commit()
         return review_schema.dump(review), 200
     

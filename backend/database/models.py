@@ -26,7 +26,8 @@ class User(db.Model):
     social_media = db.Column(db.String(255))
     entertainment = db.Column(db.String(255))
     teams = db.relationship("Team", secondary=establishment_teams, backref='establishment')
-    reviews = db.relationship('Review')
+    reviews_written = db.relationship('Review', foreign_keys='Review.username')
+    reviews_received = db.relationship('Review', foreign_keys='Review.reviewee_id')
     favorite_events = db.relationship('FavoriteEvent', secondary='user_favorite_event', back_populates='favorited_by')
     
     def hash_password(self):
@@ -65,8 +66,10 @@ class Review(db.Model):
     text = db.Column(db.String(500), nullable=False)
     rating = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String(50), db.ForeignKey('user.username'))
+    reviewee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     #back_populates helps create a two-way relationship between User and Review tables
-    reviewer = db.relationship('User', back_populates='reviews')
+    reviewer = db.relationship('User', back_populates='reviews_written', foreign_keys=[username])
+    reviewee = db.relationship('User', back_populates='reviews_received', foreign_keys=[reviewee_id])
     
 class Event(db.Model):
     __tablename__ = 'event'
