@@ -1,5 +1,7 @@
 from flask_bcrypt import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
 
 db = SQLAlchemy()
 
@@ -67,6 +69,7 @@ class Review(db.Model):
     rating = db.Column(db.Integer, nullable=False)
     username = db.Column(db.String(50), db.ForeignKey('user.username'))
     reviewee_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date = db.Column(db.DateTime, default=datetime.utcnow)
     #back_populates helps create a two-way relationship between User and Review tables
     reviewer = db.relationship('User', back_populates='reviews_written', foreign_keys=[username])
     reviewee = db.relationship('User', back_populates='reviews_received', foreign_keys=[reviewee_id])

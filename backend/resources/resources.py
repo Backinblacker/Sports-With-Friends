@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_req
 from flask_restful import Resource
 from database.models import db, Review, Event, User, Team, Favorite, FavoriteEvent
 from database.schemas import favorite_event_schema, favorite_events_schema, favorite_schema, favorites_schema, review_schema, reviews_schema, event_schema, events_schema, user_schema, users_schema, teams_schema
+from datetime import datetime
 
 class PostReviewResource(Resource):
     # Post Review
@@ -14,6 +15,7 @@ class PostReviewResource(Resource):
         rating = form_data.get('rating')
         text = form_data.get('text')
         reviewee_id = form_data.get('reviewee_id')
+        date = datetime.utcnow()
         #must have the user and reviewer because this will populate the username field in the data base.
         user = User.query.filter_by(id=user_id).first()
         new_review = Review(username=username, rating=rating, text=text, reviewer=user, reviewee_id=reviewee_id)

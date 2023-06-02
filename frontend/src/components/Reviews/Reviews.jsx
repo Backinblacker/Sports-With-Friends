@@ -22,10 +22,9 @@ const Reviews = ({ user_id }) => {
           },
         }
       );
-      console.log("userId", user.id)
-      console.log("API Response:", response.data);
+
       if (Array.isArray(response.data)) {
-        setReviews(response.data.map((review) => ({ text: review.text, reviewer: review.reviewer, rating: review.rating })));
+        setReviews(response.data.map((review) => ({ text: review.text, reviewer: review.reviewer, rating: review.rating, date: review.date.toLocaleString() })));
       } else {
         // If the response is only one review, this will change it into an array so that it won't mess with isLoading.
         setReviews([{ text: response.data.text, reviewer: response.data.reviewer }]);
@@ -36,35 +35,50 @@ const Reviews = ({ user_id }) => {
       console.log("Error in fetchReviews:", error);
     }
   };
+  
   const addReview = async () => {
     try {
+      const currentDate = new Date();
+      const reviewData = {
+        reviewee_id: user_id,
+        username: reviewUsername,
+        text: reviewText,
+        rating: reviewRating,
+        date: currentDate.toLocaleString(),
+      };
       let response = await axios.post(
         `http://127.0.0.1:5000/api/user_reviews`,
+        reviewData,
         {
-          reviewee_id: user_id,
-          username: reviewUsername,
-          text: reviewText,
-          rating: reviewRating,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
+          headers:{
+            Authorization: `Bearer ${token}`
           },
         }
       );
-      setReviews([...reviews, { text: response.data.text, reviewer: response.data.reviewer, rating: response.data.rating }]);
+      setReviews([
+        ...reviews,
+        {
+          text: response.data.text,
+          reviewer: response.data.reviewer,
+          rating: response.data.rating,
+          date: response.data.date.toLocaleString(),
+        },
+      ]);
+      console.log(response.data.date)
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage("An unknown error occurred.");
+        setErrorMessage("An unknown error occured.");
       }
     }
   };
+
   useEffect(() => {
     fetchReviews();
   }, []);
+
   return (
     <div>
       {isLoading ? (
@@ -78,6 +92,8 @@ const Reviews = ({ user_id }) => {
                 {review.reviewer.username}: {review.text}
                 <br />
                 Rating: {review.rating}
+                <br />
+                Date: {review.date}
               </li>
             ))}
           </ul>

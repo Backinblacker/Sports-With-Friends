@@ -28,10 +28,11 @@ class ReviewSchema(ma.Schema):
     text = fields.String(required=True)
     rating = fields.String(required=True)
     username = fields.String(required=True)
+    date = fields.DateTime()
     reviewer = ma.Nested('UserSchema', exclude=('reviews',))
     reviewee = ma.Nested('UserSchema', exclude=('reviews',))
     class Meta:
-        fields = ("review_id", "text", "rating", "reviewer", "reviewee")
+        fields = ("review_id", "text", "rating", "date", "reviewer", "reviewee")
     
     @post_load
     def create_review(self,data,**kwargs):
