@@ -41,6 +41,7 @@ const Reviews = ({ user_id }) => {
       let response = await axios.post(
         `http://127.0.0.1:5000/api/user_reviews`,
         {
+          reviewee_id: user_id,
           username: reviewUsername,
           text: reviewText,
           rating: reviewRating,
