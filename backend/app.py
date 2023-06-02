@@ -62,7 +62,7 @@ def create_routes():
     #edit review, delete review
     api.add_resource(ReviewDetailResource, '/api/user_reviews/<int:review_id>')
     #get reviews by user
-    api.add_resource(EstablishmentReviewsResource, '/api/establishment_reviews')
+    api.add_resource(EstablishmentReviewsResource, '/api/establishment_reviews/<int:user_id>')
     #post event
     api.add_resource(PostEventResource, '/api/events')
     #edit event, delete event

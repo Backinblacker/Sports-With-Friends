@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
-// need
-const Reviews = () => {
+
+const Reviews = ({ user_id }) => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isReviewing, setIsReviewing] = useState(false);
@@ -10,19 +10,20 @@ const Reviews = () => {
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const { token } = useContext(AuthContext);
+  const { user, token } = useContext(AuthContext);
   // get reviews for that specific user(establishment)
   const fetchReviews = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/api/establishment_reviews`,
+        `http://127.0.0.1:5000/api/establishment_reviews/${user_id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-  
+      console.log("userId", user.id)
+      console.log("API Response:", response.data);
       if (Array.isArray(response.data)) {
         setReviews(response.data.map((review) => ({ text: review.text, reviewer: review.reviewer, rating: review.rating })));
       } else {

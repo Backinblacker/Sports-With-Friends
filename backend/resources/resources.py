@@ -50,9 +50,10 @@ class ReviewDetailResource(Resource):
 class EstablishmentReviewsResource(Resource):
     # Get Review of establishments
     @jwt_required()
-    def get(self):
-        review = Review.query.filter(Review.reviewer.has(is_establishment=True))
-        return reviews_schema.dump(review), 200
+    def get(self, user_id):
+        reviews = Review.query.filter_by(reviewee_id=user_id).all()
+        return reviews_schema.dump(reviews), 200
+
        
 class PostEventResource(Resource):
     # Post Event
