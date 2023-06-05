@@ -34,6 +34,10 @@ button:hover {
   background-color: steelblue;
 }
 
+h2{
+  text-align: center;
+}
+
 .title{
   display: flex;
   flex-direction: column;

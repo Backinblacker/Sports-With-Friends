@@ -4,6 +4,7 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Reviews from '../../components/Reviews/Reviews'
 import EditReviews from '../../components/Reviews/EditReviews';
+import CheckInEvent from '../../components/Events/CheckInForEvent';
 import { useParams, Link } from 'react-router-dom';
 
 const DetailsPage = () => {
@@ -15,6 +16,8 @@ const DetailsPage = () => {
   const [isReviewing, setIsReviewing] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [user, token] = useAuth()
+  const [eventId, setEventId] = useState(null);
+  const [checkedInEvents, setCheckedInEvents] = useState([]);
 
   useEffect(() => {
     const fetchEstablishmentDetails = async () => {
@@ -98,13 +101,33 @@ const DetailsPage = () => {
                 Favorite
               </button>
             )}
-            <Link to="/favorites">View Favorites</Link>
+            {user.is_establishment ? (
+              <Link to="/favorites">View Favorites</Link>
+            ) : (
+              <>
+                {establishmentEvents.map((event) => (
+                  <div key={event.id}>
+                    <p><strong>Event:</strong> {event.text}</p>
+                    <p><strong>Event Details:</strong> {event.event_image}</p>
+                    <CheckInEvent eventId={event.id} />
+                  </div>
+                ))}
+                {checkedInEvents.length > 0 && (
+                  <p>
+                    <Link to="/events">View Checked-in Events</Link>
+                  </p>
+                )}
+              </>
+            )}
             {establishmentEvents.length > 0 ? (
               <div>
-                <h3>Upcoming Events:</h3>
+                <h2>Upcoming Events:</h2>
                 <ul>
                   {establishmentEvents.map((event) => (
-                    <li key={event.id}>{event.text}</li>
+                    <li key={event.id}>
+                      <p><strong>Event:</strong> {event.text}</p>
+                      <p><strong>Event Details:</strong> {event.event_image}</p>
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -114,12 +137,12 @@ const DetailsPage = () => {
             <Reviews user_id={user_id} />
             {user && user.id === user_id && (
               <EditReviews
-              reviewId={reviewId}
-              token={token}
-              setIsReviewing={setIsReviewing}
-              setReviews={setReviews}
-              user={user}
-              />            
+                reviewId={reviewId}
+                token={token}
+                setIsReviewing={setIsReviewing}
+                setReviews={setReviews}
+                user={user}
+              />
             )}
           </div>
         </>
