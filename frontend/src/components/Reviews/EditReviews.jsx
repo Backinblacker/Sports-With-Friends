@@ -79,7 +79,6 @@ const EditReviews = ({ reviewId, token, setIsReviewing, setReviews, user, delete
       {!isEditing ? (
         <div>
           <p>Review successfully edited!</p>
-          <button onClick={() => setIsReviewing(false)}>OK</button>
         </div>
       ) : (
         <div>

@@ -6,13 +6,14 @@ import EditReviews from "./EditReviews";
 const Reviews = ({ user_id }) => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isReviewing, setIsReviewing] = useState(null);
+  const [isReviewing, setIsReviewing] = useState(false);
+  const [editReviewId, setEditReviewId] = useState(null);
   const [reviewUsername, setReviewUsername] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const { user, token } = useContext(AuthContext);
-  
+
   // get reviews for that specific user(establishment)
   const fetchReviews = async () => {
     try {
@@ -39,6 +40,9 @@ const Reviews = ({ user_id }) => {
   };
   
   const addReview = async () => {
+    if (!isReviewing){
+      return;
+    }
     try {
       const currentDate = new Date();
       const reviewData = {
@@ -108,40 +112,6 @@ const Reviews = ({ user_id }) => {
       ) : (
         <div>
           <h2>User Reviews</h2>
-          <ul className="reviewContainer">
-            {reviews.map((review, index) => (
-              <li key={index}>
-                {review.reviewer.username}: {review.text}
-                <br />
-                Rating: {review.rating}
-                <br />
-                Date: {review.date}
-                <br />
-                {user && user.username === review.reviewer.username && (
-                  <>
-                    {isReviewing && (
-                      <EditReviews
-                        reviewId={review.reviewId}
-                        token={token}
-                        setIsReviewing={setIsReviewing}
-                        setReviews={setReviews}
-                        user={user}
-                        deleteReview={deleteReview}
-                      />
-                    )}
-                    {!isReviewing && (
-                      <>
-                        <button onClick={() => setIsReviewing(review.reviewId)}>
-                          Edit
-                        </button>
-                        <button onClick={() => deleteReview(review.reviewId)}>Delete</button>
-                      </>
-                    )}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
           {!isReviewing ? (
             <button onClick={() => setIsReviewing(true)}>Add a review</button>
           ) : (
@@ -167,6 +137,37 @@ const Reviews = ({ user_id }) => {
               {errorMessage && <p>{errorMessage}</p>}
             </div>
           )}
+          <ul className="reviewContainer">
+            {reviews.map((review, index) => (
+              <li key={index}>
+                {review.reviewer.username}: {review.text}
+                <br />
+                Rating: {review.rating}
+                <br />
+                Date: {review.date}
+                <br />
+                {user && user.username === review.reviewer.username && (
+                  <>
+                    {editReviewId === review.reviewId ? ( // Use editReviewId to check if the current review is being edited
+                      <EditReviews
+                        reviewId={review.reviewId}
+                        token={token}
+                        setIsReviewing={setIsReviewing}
+                        setReviews={setReviews}
+                        user={user}
+                        deleteReview={deleteReview}
+                      />
+                    ) : (
+                      <>
+                        <button onClick={() => setEditReviewId(review.reviewId)}>Edit</button>
+                        <button onClick={() => deleteReview(review.reviewId)}>Delete</button>
+                      </>
+                    )}
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
