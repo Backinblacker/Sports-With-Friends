@@ -3,6 +3,7 @@ import useAuth from "../../hooks/useAuth";
 import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Reviews from '../../components/Reviews/Reviews'
+import EditReviews from '../../components/Reviews/EditReviews';
 import { useParams, Link } from 'react-router-dom';
 
 const DetailsPage = () => {
@@ -11,6 +12,8 @@ const DetailsPage = () => {
   const [establishmentEvents, setEstablishmentEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [user, token] = useAuth()
 
   useEffect(() => {
@@ -71,7 +74,8 @@ const DetailsPage = () => {
       console.error(error);
     }
   };
-
+  const reviewId = reviews.find((review) => review.user_id === user_id)?.id;
+  
   return (
     <main>
       {isLoading ? (
@@ -108,6 +112,15 @@ const DetailsPage = () => {
               <p>No events scheduled at this time.</p>
             )}
             <Reviews user_id={user_id} />
+            {user && user.id === user_id && (
+              <EditReviews
+              reviewId={reviewId}
+              token={token}
+              setIsReviewing={setIsReviewing}
+              setReviews={setReviews}
+              user={user}
+              />            
+            )}
           </div>
         </>
       )}

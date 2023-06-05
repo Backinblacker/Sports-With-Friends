@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/AuthContext";
+import EditReviews from "./EditReviews";
 
 const Reviews = ({ user_id }) => {
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isReviewing, setIsReviewing] = useState(false);
+  const [isReviewing, setIsReviewing] = useState(null);
   const [reviewUsername, setReviewUsername] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reviewRating, setReviewRating] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const { user, token } = useContext(AuthContext);
+  
   // get reviews for that specific user(establishment)
   const fetchReviews = async () => {
     try {
@@ -24,10 +26,10 @@ const Reviews = ({ user_id }) => {
       );
 
       if (Array.isArray(response.data)) {
-        setReviews(response.data.map((review) => ({ text: review.text, reviewer: review.reviewer, rating: review.rating, date: review.date.toLocaleString() })));
+        setReviews(response.data.map((review) => ({ reviewId: review.review_id, text: review.text, reviewer: review.reviewer, rating: review.rating, date: review.date.toLocaleString() })));
       } else {
         // If the response is only one review, this will change it into an array so that it won't mess with isLoading.
-        setReviews([{ text: response.data.text, reviewer: response.data.reviewer }]);
+        setReviews([{ reviewId: response.data.review_id, text: response.data.text, reviewer: response.data.reviewer }]);
       }
   
       setIsLoading(false);
@@ -79,6 +81,26 @@ const Reviews = ({ user_id }) => {
     fetchReviews();
   }, []);
 
+  const deleteReview = async (reviewId) => {
+    try {
+      const confirmed = window.confirm("Are you sure you want to delete this Review?");
+      if (!confirmed) {
+        return;
+      }
+  
+      await axios.delete(`http://127.0.0.1:5000/api/user_reviews/${reviewId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      fetchReviews();
+      setIsReviewing(false);
+    } catch (error) {
+      console.log("Error in deleteReview:", error);
+    }
+  };
+  
   return (
     <div>
       {isLoading ? (
@@ -94,6 +116,29 @@ const Reviews = ({ user_id }) => {
                 Rating: {review.rating}
                 <br />
                 Date: {review.date}
+                <br />
+                {user && user.username === review.reviewer.username && (
+                  <>
+                    {isReviewing && (
+                      <EditReviews
+                        reviewId={review.reviewId}
+                        token={token}
+                        setIsReviewing={setIsReviewing}
+                        setReviews={setReviews}
+                        user={user}
+                        deleteReview={deleteReview}
+                      />
+                    )}
+                    {!isReviewing && (
+                      <>
+                        <button onClick={() => setIsReviewing(review.reviewId)}>
+                          Edit
+                        </button>
+                        <button onClick={() => deleteReview(review.reviewId)}>Delete</button>
+                      </>
+                    )}
+                  </>
+                )}
               </li>
             ))}
           </ul>
