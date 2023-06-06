@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
 import TeamSelector from "../TeamSelector/TeamSelector";
+import {PersonFill} from "react-bootstrap-icons"
 
 function UpdateUserProfile() {
   const [user, token] = useAuth();
@@ -228,6 +229,7 @@ function UpdateUserProfile() {
         </form>
       ) : (
         <div>
+          <p className="icon_size"> <PersonFill /> </p>
           <p className="border-profile">First Name: {updatedUser.first_name}</p>
           <p className="border-profile">Last Name: {updatedUser.last_name}</p>
           <p className="border-profile">Email: {updatedUser.email}</p>
@@ -253,6 +255,7 @@ function UpdateUserProfile() {
               </div>
             </>
           )}
+          {/* need center the button */}
           <button type="button" onClick={handleEdit}>
             Edit Profile
           </button>

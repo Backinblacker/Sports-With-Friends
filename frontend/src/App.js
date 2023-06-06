@@ -19,6 +19,7 @@ import EventsPage from "./pages/EventsPage/EventsPage";
 import FavoritesPage from "./pages/FavoritesPage/FavoritesPage";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import DetailsPage from "./pages/DetailsPage/DetailsPage";
+// import EventDetailsPage from ".pages/EventDetailsPage/EventDetailsPage";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/favorites" element={<FavoritesPage />}/>
         <Route path="/search" element={<SearchPage />}/>
         <Route path="/details/:user_id" element={<DetailsPage />}/>
+        {/* <Route path="/eventdetails/:event_id" element={<EventDetailsPage />}/> */}
       </Routes>
       <Footer />
     </div>

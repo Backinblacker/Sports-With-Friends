@@ -4,8 +4,8 @@ import axios from 'axios';
 import AuthContext from '../../context/AuthContext';
 import Reviews from '../../components/Reviews/Reviews'
 import EditReviews from '../../components/Reviews/EditReviews';
-import CheckInEvent from '../../components/Events/CheckInForEvent';
 import { useParams, Link } from 'react-router-dom';
+import { TicketDetailed } from 'react-bootstrap-icons';
 
 const DetailsPage = () => {
   const { user_id } = useParams();
@@ -17,7 +17,6 @@ const DetailsPage = () => {
   const [reviews, setReviews] = useState([]);
   const [user, token] = useAuth()
   const [eventId, setEventId] = useState(null);
-  const [checkedInEvents, setCheckedInEvents] = useState([]);
 
   useEffect(() => {
     const fetchEstablishmentDetails = async () => {
@@ -101,39 +100,27 @@ const DetailsPage = () => {
                 Favorite
               </button>
             )}
-            {user.is_establishment ? (
-              <Link to="/favorites">View Favorites</Link>
-            ) : (
-              <>
-                {establishmentEvents.map((event) => (
-                  <div key={event.id}>
-                    <p><strong>Event:</strong> {event.text}</p>
-                    <p><strong>Event Details:</strong> {event.event_image}</p>
-                    <CheckInEvent eventId={event.id} />
-                  </div>
-                ))}
-                {checkedInEvents.length > 0 && (
-                  <p>
-                    <Link to="/events">View Checked-in Events</Link>
-                  </p>
-                )}
-              </>
-            )}
-            {establishmentEvents.length > 0 ? (
-              <div>
-                <h2>Upcoming Events:</h2>
-                <ul>
+            <Link to="/favorites">View Favorites</Link> 
+            {/* need card style to click on it and take user to event details page */}
+            <div className="resultsContainer">
+              {establishmentEvents.length > 0 ? (
+                <div>
+                  <h2> <TicketDetailed /> Upcoming Events:</h2>
                   {establishmentEvents.map((event) => (
-                    <li key={event.id}>
-                      <p><strong>Event:</strong> {event.text}</p>
-                      <p><strong>Event Details:</strong> {event.event_image}</p>
-                    </li>
+                    <div key={event.id} className="resultsCard" >
+                      {/* When this goes somewhere put this in the div onClick={() => handleEventClick(event.id)} */}
+                      <Link to={`/eventdetails/${event.id}`}>
+                        <div>
+                          <h3>Event: {event.text}</h3>
+                        </div>
+                      </Link>
+                    </div>
                   ))}
-                </ul>
-              </div>
-            ) : (
-              <p>No events scheduled at this time.</p>
-            )}
+                </div>
+              ) : (
+                <p>No events scheduled at this time.</p>
+              )}
+            </div>
             <Reviews user_id={user_id} />
             {user && user.id === user_id && (
               <EditReviews
