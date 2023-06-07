@@ -63,12 +63,15 @@ class PostEventResource(Resource):
     def post(self):
         current_user = get_jwt_identity()
         form_data = request.get_json()
-        print(form_data)
         new_event = event_schema.load(form_data)
         new_event.user_id = current_user
+
+        current_user.favorite_events.append(new_event)
+
         db.session.add(new_event)
         db.session.commit()
         return event_schema.dump(new_event), 201
+
 
 class EventListResource(Resource):
     # Get Event by team_id
@@ -202,10 +205,10 @@ class PostFavoriteEventResource(Resource):
         db.session.commit()
         return favorite_event_schema.dump(new_favorite_event), 201
 
-class GetFavoritesEventsResouce(Resource):
+class GetFavoritesEventsResource(Resource):
     @jwt_required()
     #get all users who favorited an event
     def get(self, event_id):
-        users = User.query.filter(User.favorite_events.any(FavoriteEvent.event_id==event_id))
-        usernames = [user.username for user in users]
-        return usernames, 200
+        users = User.query.filter(User.favorite_events.any(FavoriteEvent.event_id==event_id)).all()
+        # usernames = [user.username for user in users]
+        return users_schema.dump(users), 200

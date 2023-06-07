@@ -30,7 +30,7 @@ class User(db.Model):
     teams = db.relationship("Team", secondary=establishment_teams, backref='establishment')
     reviews_written = db.relationship('Review', foreign_keys='Review.username')
     reviews_received = db.relationship('Review', foreign_keys='Review.reviewee_id')
-    favorite_events = db.relationship('FavoriteEvent', secondary='user_favorite_event', back_populates='favorited_by')
+    favorite_events = db.relationship('FavoriteEvent', foreign_keys='FavoriteEvent.favorited_by_id')
     
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
@@ -97,7 +97,8 @@ class FavoriteEvent(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     event_id = db.Column(db.Integer, db.ForeignKey('event.id'), nullable=False)
     event = db.relationship('Event', foreign_keys = event_id)
-    favorited_by = db.relationship('User', secondary='user_favorite_event', back_populates='favorite_events')
+    favorited_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    favorited_by = db.relationship('User', back_populates='favorite_events', foreign_keys=[favorited_by_id])
     
 user_favorite_event = db.Table('user_favorite_event',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),

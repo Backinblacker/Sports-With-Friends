@@ -79,9 +79,10 @@ class UserSchema(ma.Schema):
     entertainment = fields.String()
     teams = fields.Nested(TeamSchema, many=True)
     reviews = fields.Nested('ReviewSchema', many=True, exclude=('reviewer',))
+    favorite_events = fields.Nested('FavoriteEventSchema', many=True, exclude=('favorited_by',))
 
     class Meta:
-        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "zip_code", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams", "reviews")
+        fields = ("id", "username", "first_name", "last_name", "email", "is_establishment", "establishment_name", "zip_code", "opening_time", "closing_time", "menu_url", "specials", "event", "social_media", "entertainment", "teams", "reviews", "favorite_events")
 
 register_schema = RegisterSchema()
 user_schema = UserSchema()
@@ -145,8 +146,11 @@ class FavoriteEventSchema(ma.Schema):
     id = fields.Integer(primary_key=True)
     event_id = fields.Integer()
     event = ma.Nested(EventSchema, many=False)
+    favorited_by_id = fields.Integer()
+    favortied_by = ma.Nested(UserSchema, many=False)
+    
     class Meta:
-        fields = ("id", "user_id", "event_id", "event")
+        fields = ("id", "event_id", "event", "favorited_by", "favorited_by")
         
     @post_load
     def create_event(self,data,**kwargs):
