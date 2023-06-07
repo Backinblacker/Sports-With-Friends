@@ -5,7 +5,7 @@ import AuthContext from '../../context/AuthContext';
 import Reviews from '../../components/Reviews/Reviews'
 import EditReviews from '../../components/Reviews/EditReviews';
 import { useParams, Link } from 'react-router-dom';
-import { TicketDetailed } from 'react-bootstrap-icons';
+import { TicketDetailed, Calendar2Event } from 'react-bootstrap-icons';
 
 const DetailsPage = () => {
   const { user_id } = useParams();
@@ -105,13 +105,14 @@ const DetailsPage = () => {
             <div className="resultsContainer">
               {establishmentEvents.length > 0 ? (
                 <div>
+                  {/* need to align ticket icon */}
                   <h2> <TicketDetailed /> Upcoming Events:</h2>
                   {establishmentEvents.map((event) => (
-                    <div key={event.id} className="resultsCard" >
-                      {/* When this goes somewhere put this in the div onClick={() => handleEventClick(event.id)} */}
-                      <Link to={`/eventdetails/${event.id}`}>
+                    <div key={event.id} className="resultsCard">
+                      <Link to={`/eventdetails/${eventId}`}>
                         <div>
-                          <h3>Event: {event.text}</h3>
+                          {/* need to align icon */}
+                          <h3>Event: {event.text} <Calendar2Event /></h3>
                         </div>
                       </Link>
                     </div>
