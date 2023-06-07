@@ -8,7 +8,7 @@ from database.models import db
 from database.schemas import ma
 from resources.auth import LoginResource, RegisterResource
 from resources.cars import AllCarResource, UserCarResource
-from resources.resources import EstablishmentUserResource, PostFavoriteEventResource, GetFavoritesEventsResource, PostFavoriteResource, GetFavoritesResouce, DeleteFavoriteResouce, PostReviewResource, EstablishmentReviewsResource, TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
+from resources.resources import EstablishmentUserResource, PostFavoriteEventResource, GetFavoritesEventsResource, GetUserFavoriteEventsResource, PostFavoriteResource, GetFavoritesResouce, DeleteFavoriteResouce, PostReviewResource, EstablishmentReviewsResource, TeamsResource, ReviewDetailResource, EventDetailResource, PostEventResource, UserToEstablishmentResource, EventListResource, EstablishmentEventListResource, UserResource
 from dotenv import load_dotenv
 from os import environ
 
@@ -89,4 +89,6 @@ def create_routes():
     api.add_resource(PostFavoriteEventResource, '/api/user_favorite_event')
     #get favorite event
     api.add_resource(GetFavoritesEventsResource, '/api/event/<int:event_id>/favorited_users')
+    #get user favorite events
+    api.add_resource(GetUserFavoriteEventsResource, '/api/user_checked_in_events/<int:user_id>')
     return api

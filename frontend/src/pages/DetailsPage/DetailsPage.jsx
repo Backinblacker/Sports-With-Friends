@@ -109,7 +109,7 @@ const DetailsPage = () => {
                   <h2> <TicketDetailed /> Upcoming Events:</h2>
                   {establishmentEvents.map((event) => (
                     <div key={event.id} className="resultsCard">
-                      <Link to={`/eventdetails/${eventId}`}>
+                      <Link to={`/eventdetails/${event.id}`}>
                         <div>
                           {/* need to align icon */}
                           <h3>Event: {event.text} <Calendar2Event /></h3>

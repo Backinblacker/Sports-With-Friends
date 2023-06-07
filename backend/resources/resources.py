@@ -210,5 +210,12 @@ class GetFavoritesEventsResource(Resource):
     #get all users who favorited an event
     def get(self, event_id):
         users = User.query.filter(User.favorite_events.any(FavoriteEvent.event_id==event_id)).all()
-        # usernames = [user.username for user in users]
         return users_schema.dump(users), 200
+    
+class GetUserFavoriteEventsResource(Resource):
+    @jwt_required()
+    def get(self, user_id):
+        user = User.query.get_or_404(user_id)
+
+        favorite_events = user.favorite_events
+        return favorite_events_schema.dump(favorite_events), 200

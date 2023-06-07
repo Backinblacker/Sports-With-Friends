@@ -147,10 +147,10 @@ class FavoriteEventSchema(ma.Schema):
     event_id = fields.Integer()
     event = ma.Nested(EventSchema, many=False)
     favorited_by_id = fields.Integer()
-    favortied_by = ma.Nested(UserSchema, many=False)
+    favorited_by = ma.Nested(UserSchema, many=False)
     
     class Meta:
-        fields = ("id", "event_id", "event", "favorited_by", "favorited_by")
+        fields = ("id", "event_id", "event", "favorited_by", "favorited_by_id")
         
     @post_load
     def create_event(self,data,**kwargs):
