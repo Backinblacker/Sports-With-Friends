@@ -89,7 +89,7 @@ const CheckInEvent = ({ eventId }) => {
       )}
       {checkedInEvents && checkedInEvents.length > 0 && (
         <p>
-          <Link to="/events">View Checked-in Events</Link>
+          <Link to={`/eventsbyuser/${user.id}`}>View Checked-in Events</Link>
         </p>
       )}
     </div>
