@@ -14,10 +14,6 @@ html {
   margin-bottom: 50px;
 }
 
-/* p {
-  font-size: 20px;
-} */
-
 button {
   background-color: transparent;
   border: 2px solid steelblue;
@@ -32,6 +28,12 @@ button:hover {
   cursor: pointer;
   color: white;
   background-color: steelblue;
+}
+
+.button-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h2{
@@ -84,7 +86,6 @@ h2{
 
 .container {
   margin: 0 auto;
-  max-width: 600px;
   overflow: auto;
   text-align: center;
 }
@@ -103,7 +104,7 @@ h2{
   width: 100%;
   height: 25px;
   margin: 5px;
-  padding: 3px 7px;
+  padding: 3px 3px;
   font-size: 17px;
 }
 
@@ -118,11 +119,6 @@ h2{
 .form label {
   display: block;
   width: 100%;
-}
-
-.form input[type="radio"] {
-  display: inline-block;
-  margin-right: 0.5rem;
 }
 
 .form input[type="text"] {
@@ -140,7 +136,7 @@ h2{
   max-width: none;
   height: 25px;
   margin: 5px;
-  padding: 3px 7px;
+  padding: 3px 3px;
   font-size: 17px;
 }
 
@@ -218,9 +214,9 @@ h2{
 }
 
 .resultsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   padding: 2px 16px;
   margin-top: 10px;
 }
@@ -228,7 +224,6 @@ h2{
 .resultsCard {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
-  flex: 1 1 20%;
   margin: 10px;
 }
 

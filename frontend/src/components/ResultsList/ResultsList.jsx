@@ -8,9 +8,9 @@ const ResultsList = ({ searchResults, searchTerm }) => {
   
   })
   return (
-    <div className="need">
+    <div className="resultsContainer">
       {results.map((user) => (
-        <div key={user.id} className="need">
+        <div key={user.id} className="resultsCard">
           <Link to={`/details/${user.id}`}>
             <div>
               <img className="bar-image" src={mug} alt='beer'/>

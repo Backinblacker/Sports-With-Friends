@@ -33,7 +33,7 @@ const SearchPage = () => {
 
   return (
     <div className="container search">
-      <h1>What Team Are You Trying to Watch?</h1>
+      <h1>Where Would You Like to Watch?</h1>
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

@@ -19,7 +19,7 @@ const RegisterPage = () => {
 
   return (
     <div className="container">
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={handleSubmit}>
         <label>
           Username:{" "}
           <input
@@ -75,7 +75,7 @@ const RegisterPage = () => {
             onChange={handleInputChange}
           />
         </label>
-        <button>Register!</button>
+        <button className="button-center">Register!</button>
       </form>
     </div>
   );
