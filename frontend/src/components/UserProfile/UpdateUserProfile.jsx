@@ -4,7 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import TeamSelector from "../TeamSelector/TeamSelector";
 import {PersonFill} from "react-bootstrap-icons"
 
-function UpdateUserProfile() {
+function UpdateUserProfile({ userId }) {
   const [user, token] = useAuth();
   const [userProfile, setUserProfile] = useState({});
   const [editMode, setEditMode] = useState(false);
@@ -30,7 +30,7 @@ function UpdateUserProfile() {
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/userinfo/${user.id}`,
+          `http://127.0.0.1:5000/api/userinfo/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ function UpdateUserProfile() {
     try {
       console.log("Request body:", updatedUser);
       const response = await axios.put(
-        `http://127.0.0.1:5000/api/user/${user.id}`,
+        `http://127.0.0.1:5000/api/user/${userId}`,
         {
           ...updatedUser,
           teams: teamsIds,
@@ -103,7 +103,7 @@ function UpdateUserProfile() {
 
   return (
     <div className="profile">
-      <h1>{user.username}'s Profile</h1>
+      <h1>User Profile</h1>
       <div className="iconSize">
         <PersonFill className="custom-icon" />
       </div>
