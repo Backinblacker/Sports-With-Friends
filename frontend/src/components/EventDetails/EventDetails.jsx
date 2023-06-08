@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth';
 import CheckInEvent from '../Events/CheckInForEvent';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -67,7 +67,15 @@ const EventDetails = () => {
           </p>
           <p>
             <strong>Favorited By:</strong>{' '}
-            {favoritedByUsers.length > 0 ? favoritedByUsers.join(', ') : 'None'}
+            {favoritedByUsers.length > 0 ? (
+              favoritedByUsers.map((item) => (
+                <Link to={`/user/${item.favorited_by_id}`} key={item.favorited_by_id}>
+                  {user.username}
+                </Link>
+              ))
+            ) : (
+              'None'
+            )}
           </p>
           <CheckInEvent eventId={eventId} />
         </div>
