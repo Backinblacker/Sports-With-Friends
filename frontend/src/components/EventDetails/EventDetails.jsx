@@ -9,11 +9,12 @@ const EventDetails = () => {
   const [event, setEvent] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [user, token] = useAuth();
+  const [favoritedByUsers, setFavoritedByUsers] = useState([]);
 
   useEffect(() => {
     const fetchEventDetails = async () => {
       try {
-        const response = await axios.get(
+        let response = await axios.get(
           `http://127.0.0.1:5000/api/eventdetails/${eventId}`,
           {
             headers: {
@@ -29,7 +30,26 @@ const EventDetails = () => {
       }
     };
 
+    const fetchFavoritedByUsers = async () => {
+      try {
+        let response = await axios.get(
+          `http://127.0.0.1:5000/api/event/${eventId}/favorited_users`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const usernames = response.data.map((item) => item.username);
+        setFavoritedByUsers(usernames);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
+
     fetchEventDetails();
+    fetchFavoritedByUsers();
   }, [eventId, token]);
 
   return (
@@ -39,8 +59,16 @@ const EventDetails = () => {
       ) : (
         <div>
           <h1>Event Details</h1>
-          <p><strong>Event Name:</strong>{event.text}</p>
-          <p><strong>Event Details:</strong>{event.event_image}</p>
+          <p>
+            <strong>Event Name:</strong> {event.text}
+          </p>
+          <p>
+            <strong>Event Details:</strong> {event.event_image}
+          </p>
+          <p>
+            <strong>Favorited By:</strong>{' '}
+            {favoritedByUsers.length > 0 ? favoritedByUsers.join(', ') : 'None'}
+          </p>
           <CheckInEvent eventId={eventId} />
         </div>
       )}

@@ -100,7 +100,3 @@ class FavoriteEvent(db.Model):
     favorited_by_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     favorited_by = db.relationship('User', back_populates='favorite_events', foreign_keys=[favorited_by_id])
     
-user_favorite_event = db.Table('user_favorite_event',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('favorite_event_id', db.Integer, db.ForeignKey('favorite_event.id'), primary_key=True)
-)
