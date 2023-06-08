@@ -161,16 +161,41 @@ h2{
   margin-bottom: 5px;
 }
 
-.border-profile{
+.border-profile-a{
+  padding: 3px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.border-profile-b{
   border: 1px solid black;
   padding: 3px;
   font-size: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .profile-list {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+.profile-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 5px;
+}
+
+.profile-column {
+  flex: 1;
+}
+
+.profile-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .events {
@@ -249,9 +274,15 @@ h2{
   height: 100%;
 }
 
-.icon_size {
+.iconSize {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 40px;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.custom-icon svg {
+  width: 2em;
+  height: 2em;
 }

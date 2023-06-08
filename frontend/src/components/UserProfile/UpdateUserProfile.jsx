@@ -104,6 +104,9 @@ function UpdateUserProfile() {
   return (
     <div className="profile">
       <h1>{user.username}'s Profile</h1>
+      <div className="iconSize">
+        <PersonFill className="custom-icon" />
+      </div>
       {editMode ? (
         <form onSubmit={handleSubmit}>
             <label>
@@ -218,8 +221,8 @@ function UpdateUserProfile() {
             Teams:
             <TeamSelector
             sport={updatedUser.sport}
-            onSelectTeam={handleTeamSelect} // Pass the handler function
-            selectedTeams={selectedTeams} // Pass selectedTeams as a prop
+            onSelectTeam={handleTeamSelect} 
+            selectedTeams={selectedTeams}
             />
           </label>
           <button type="submit">Save</button>
@@ -228,38 +231,65 @@ function UpdateUserProfile() {
           </button>
         </form>
       ) : (
-        <div>
-          <p className="icon_size"> <PersonFill /> </p>
-          <p className="border-profile">First Name: {updatedUser.first_name}</p>
-          <p className="border-profile">Last Name: {updatedUser.last_name}</p>
-          <p className="border-profile">Email: {updatedUser.email}</p>
-          {updatedUser.is_establishment && (
-            <>
-              <p className="border-profile">Are you an establishment profile: {updatedUser.is_establishment ? "Yes" : "No"}</p>
-              <p className="border-profile">Establishment Name: {updatedUser.establishment_name}</p>
-              <p className="border-profile">Zip Code: {updatedUser.zip_code}</p>
-              <p className="border-profile">Opening Time: {updatedUser.opening_time}</p>
-              <p className="border-profile">Closing Time: {updatedUser.closing_time}</p>
-              <p className="border-profile">Menu URL: {updatedUser.menu_url}</p>
-              <p className="border-profile">Specials: {updatedUser.specials}</p>
-              <p className="border-profile">Social Media: {updatedUser.social_media}</p>
-              <p className="border-profile">Entertainment: {updatedUser.entertainment}</p>
-              <div className="border-profile">
-                <p>Teams: </p>
-                <ul className="profile-list">
-                  {/* Here is the idea behind mappting to the team id */}
-                  {updatedUser.teams.map((team) => (
-                    <div key={team.id}>{team.name}</div>
-                  ))}
-                </ul>
+        <>
+          <div className="profile-info">
+            <div className="profile-column">
+              <div className="profile-item">
+                <p className="border-profile-a">First Name:</p>
+                <p className="border-profile-a">Last Name:</p>
+                <p className="border-profile-a">Email:</p>
+                {updatedUser.is_establishment && (
+                  <>
+                    <p className="border-profile-a">Are you an establishment profile:</p>
+                    <p className="border-profile-a">Establishment Name:</p>
+                    <p className="border-profile-a">Zip Code:</p>
+                  </>
+                )}
               </div>
-            </>
-          )}
-          {/* need center the button */}
+            </div>
+            <div className="profile-column">
+              <div className="profile-item">
+                <p className="border-profile-b">{updatedUser.first_name}</p>
+                <p className="border-profile-b">{updatedUser.last_name}</p>
+                <p className="border-profile-b">{updatedUser.email}</p>
+                {updatedUser.is_establishment && (
+                  <>
+                    <p className="border-profile-b">{updatedUser.is_establishment ? "Yes" : "No"}</p>
+                    <p className="border-profile-b">{updatedUser.establishment_name}</p>
+                    <p className="border-profile-b">{updatedUser.zip_code}</p>
+                  </>
+                )}
+              </div>
+            </div>
+            {updatedUser.is_establishment && (
+              <>
+                <div className="profile-column">
+                  <div className="profile-item">
+                    <p className="border-profile-a">Opening Time:</p>
+                    <p className="border-profile-a">Closing Time:</p>
+                    <p className="border-profile-a">Menu URL:</p>
+                    <p className="border-profile-a">Specials:</p>
+                    <p className="border-profile-a">Social Media:</p>
+                    <p className="border-profile-a">Entertainment:</p>
+                  </div>
+                </div>
+                <div className="profile-column">
+                  <div className="profile-item">
+                    <p className="border-profile-b">{updatedUser.opening_time}</p>
+                    <p className="border-profile-b">{updatedUser.closing_time}</p>
+                    <p className="border-profile-b">{updatedUser.menu_url}</p>
+                    <p className="border-profile-b">{updatedUser.specials}</p>
+                    <p className="border-profile-b">{updatedUser.social_media}</p>
+                    <p className="border-profile-b">{updatedUser.entertainment}</p>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
           <button type="button" onClick={handleEdit}>
-            Edit Profile
+              Edit Profile
           </button>
-        </div>
+        </>
       )}
     </div>
   );
