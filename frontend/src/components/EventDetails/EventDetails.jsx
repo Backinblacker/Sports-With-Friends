@@ -40,13 +40,11 @@ const EventDetails = () => {
             },
           }
         );
-        const usernames = response.data.map((item) => item.username);
-        setFavoritedByUsers(usernames);
+        setFavoritedByUsers(response.data);
       } catch (error) {
         console.error(error);
       }
-    };
-    
+    };    
 
     fetchEventDetails();
     fetchFavoritedByUsers();
@@ -66,16 +64,16 @@ const EventDetails = () => {
             <strong>Event Details:</strong> {event.event_image}
           </p>
           <p>
-            <strong>Favorited By:</strong>{' '}
-            {favoritedByUsers.length > 0 ? (
-              favoritedByUsers.map((item) => (
-                <Link to={`/user/${item.favorited_by_id}`} key={item.favorited_by_id}>
-                  {user.username}
-                </Link>
-              ))
-            ) : (
-              'None'
-            )}
+          <strong>Checked-in Users:</strong>{' '}
+          {favoritedByUsers.length > 0 ? (
+            favoritedByUsers.map((user) => (
+              <span key={user.id}>
+                <Link to={`/user/${user.id}`}>{user.username}</Link>{' '}
+              </span>
+            ))
+          ) : (
+            'None'
+          )}
           </p>
           <CheckInEvent eventId={eventId} />
         </div>
