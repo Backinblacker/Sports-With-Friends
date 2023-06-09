@@ -30,7 +30,9 @@ function TeamSelector({ onSelectTeam }) {
 
     return (
         <div>
-          <label htmlFor="sport">Sport:</label>
+          <label htmlFor="sport">
+            <strong>Sport:</strong>
+          </label>
           <select id="sport" value={sport} onChange={(event) => setSport(event.target.value)}>
             <option value='null'>--Select League--</option>
             <option value="Basketball">NBA</option>
@@ -38,8 +40,10 @@ function TeamSelector({ onSelectTeam }) {
             <option value="Hockey">NHL</option>
             <option value="Football">NFL</option>
           </select>
-    
-          <label htmlFor="team">Team:</label>
+          <br/>
+          <label htmlFor="team">
+            <strong>Team(s):</strong>
+          </label>
           <select id="team" onChange={handleTeamSelect}>
             <option value=""></option>
             {teams.map((team) => (

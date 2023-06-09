@@ -104,6 +104,7 @@ function UpdateUserProfile({ user_id }) {
   const isUserLoggedIn = user && user.id.toString() === user_id.toString();
 
   return (
+    // need When an establishment is showing the labels and data aren't aligned
     <div className="profile">
       <h1>User Profile</h1>
       <div className="iconSize">
@@ -112,7 +113,7 @@ function UpdateUserProfile({ user_id }) {
       {editMode ? (
         <form onSubmit={handleSubmit}>
             <label>
-            First Name:
+            <strong>First Name:</strong>
             <input
                 type="text"
                 name="first_name"
@@ -122,7 +123,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Last Name:
+            <strong>Last Name:</strong>
             <input
                 type="text"
                 name="last_name"
@@ -132,7 +133,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Email:
+            <strong>Email:</strong>
             <input
                 type="text"
                 name="email"
@@ -142,7 +143,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Is Establishment:
+            <strong>Are you an Establishment:</strong>
             <input
                 type="checkbox"
                 name="is_establishment"
@@ -152,7 +153,7 @@ function UpdateUserProfile({ user_id }) {
             </label>
             <br/>
             <label>
-            Establishment Name:
+            <strong>Establishment Name:</strong>
             <input
                 type="text"
                 name="establishment_name"
@@ -162,7 +163,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Zip Code:
+            <strong>Zip Code:</strong>v
             <input
                 type="integer"
                 name="zip_code"
@@ -172,7 +173,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Opening Time:
+            <strong>Opening Time:</strong>
             <input
                 type="time"
                 name="opening_time"
@@ -182,7 +183,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Closing Time:
+            <strong>Closing Time:</strong>
             <input
                 type="time"
                 name="closing_time"
@@ -192,7 +193,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Menu URL:
+            <strong>Menu URL:</strong>
             <input
                 type="text"
                 name="menu_url"
@@ -202,7 +203,7 @@ function UpdateUserProfile({ user_id }) {
             />
             </label>
             <label>
-            Specials:
+            <strong>Specials:</strong>
             <input
               type="text"
               name="specials"
@@ -212,7 +213,7 @@ function UpdateUserProfile({ user_id }) {
             />
           </label>
           <label>
-            Social Media:
+          <strong>Social Media:</strong>
             <input
               type="text"
               name="social_media"
@@ -222,7 +223,7 @@ function UpdateUserProfile({ user_id }) {
             />
           </label>
           <label>
-            Entertainment:
+          <strong>Other Entertainment:</strong>
             <input
               type="text"
               name="entertainment"
@@ -232,7 +233,7 @@ function UpdateUserProfile({ user_id }) {
             />
           </label>
           <label>
-            Teams:
+          <strong>Teams:</strong>
             <TeamSelector
             sport={updatedUser.sport}
             onSelectTeam={handleTeamSelect} 

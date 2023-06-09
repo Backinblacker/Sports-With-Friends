@@ -51,29 +51,31 @@ const EventDetails = () => {
   }, [eventId, token]);
 
   return (
-    <div>
+    <div className="eventContainer">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <div>
-          <h1>Event Details</h1>
-          <p>
+          <h2>Event Details</h2>
+          <p className="event-info">
             <strong>Event Name:</strong> {event.text}
           </p>
-          <p>
+          <br/>
+          <p className="event-info">
             <strong>Event Details:</strong> {event.event_image}
           </p>
-          <p>
-          <strong>Checked-in Users:</strong>{' '}
-          {favoritedByUsers.length > 0 ? (
-            favoritedByUsers.map((user) => (
-              <span key={user.id}>
-                <Link to={`/user/${user.id}`}>{user.username}</Link>{' '}
-              </span>
-            ))
-          ) : (
-            'None'
-          )}
+          <br/>
+          <p className="event-info">
+            <strong>Checked-in Users:</strong>{' '}
+            {favoritedByUsers.length > 0 ? (
+              favoritedByUsers.map((user) => (
+                <span key={user.id}>
+                  <Link to={`/user/${user.id}`}>{user.username}</Link>{' '}
+                </span>
+              ))
+            ) : (
+              'None'
+            )}
           </p>
           <CheckInEvent eventId={eventId} />
         </div>

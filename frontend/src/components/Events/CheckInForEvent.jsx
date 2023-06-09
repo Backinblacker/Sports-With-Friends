@@ -80,7 +80,7 @@ const CheckInEvent = ({ eventId }) => {
           {isLoading ? (
             <p>Loading...</p>
           ) : (
-            <button onClick={checkInEvent} disabled={isLoading}>
+            <button onClick={checkInEvent} disabled={isLoading} className="editButton">
               Check-In
             </button>
           )}
