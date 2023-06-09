@@ -100,15 +100,17 @@ const DetailsPage = () => {
                 <p className='border-profile-b'>{establishmentDetails.entertainment}</p>
               </div>
             </div>
-            {isFavorite ? (
-              <button onClick={handleFavorite}>
-                Unfavorite
-              </button>
-            ) : (
-              <button onClick={handleFavorite}>
-                Favorite
-              </button>
-            )}
+            <div className='editButton'>
+              {isFavorite ? (
+                <button onClick={handleFavorite}>
+                  Unfavorite
+                </button>
+              ) : (
+                <button onClick={handleFavorite}>
+                  Favorite
+                </button>
+              )}
+            </div>
             <Link to="/favorites">View Favorites</Link>
             <br/> 
             <div className='profile'>

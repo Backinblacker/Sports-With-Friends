@@ -27,20 +27,34 @@ const Reviews = ({ user_id }) => {
       );
 
       if (Array.isArray(response.data)) {
-        setReviews(response.data.map((review) => ({ reviewId: review.review_id, text: review.text, reviewer: review.reviewer, rating: review.rating, date: review.date.toLocaleString() })));
+        setReviews(
+          response.data.map((review) => ({
+            reviewId: review.review_id,
+            text: review.text,
+            reviewer: review.reviewer,
+            rating: review.rating,
+            date: review.date.toLocaleString(),
+          }))
+        );
       } else {
         // If the response is only one review, this will change it into an array so that it won't mess with isLoading.
-        setReviews([{ reviewId: response.data.review_id, text: response.data.text, reviewer: response.data.reviewer }]);
+        setReviews([
+          {
+            reviewId: response.data.review_id,
+            text: response.data.text,
+            reviewer: response.data.reviewer,
+          },
+        ]);
       }
-  
+
       setIsLoading(false);
     } catch (error) {
       console.log("Error in fetchReviews:", error);
     }
   };
-  
+
   const addReview = async () => {
-    if (!isReviewing){
+    if (!isReviewing) {
       return;
     }
     try {
@@ -56,8 +70,8 @@ const Reviews = ({ user_id }) => {
         `http://127.0.0.1:5000/api/user_reviews`,
         reviewData,
         {
-          headers:{
-            Authorization: `Bearer ${token}`
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -70,13 +84,13 @@ const Reviews = ({ user_id }) => {
           date: response.data.date.toLocaleString(),
         },
       ]);
-      console.log(response.data.date)
+      console.log(response.data.date);
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
         setErrorMessage(error.response.data.message);
       } else {
-        setErrorMessage("An unknown error occured.");
+        setErrorMessage("An unknown error occurred.");
       }
     }
   };
@@ -91,87 +105,114 @@ const Reviews = ({ user_id }) => {
       if (!confirmed) {
         return;
       }
-  
+
       await axios.delete(`http://127.0.0.1:5000/api/user_reviews/${reviewId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       fetchReviews();
       setIsReviewing(false);
     } catch (error) {
       console.log("Error in deleteReview:", error);
     }
   };
-  
+
   return (
     <div>
       {isLoading ? (
         <div>Loading...</div>
       ) : (
         <div>
-          <h2>User Reviews</h2>
-          {!isReviewing ? (
-            <button onClick={() => setIsReviewing(true)}>Add a review</button>
+          <h2>User Reviews:</h2>
+          {reviews.length === 0 ? (
+            <p>No reviews available</p>
           ) : (
-            <div>
-              <label htmlFor="text">Review text:</label>
-              <input
-                type="text"
-                id="text"
-                value={reviewText}
-                onChange={(e) => setReviewText(e.target.value)}
-              />
-              <label htmlFor="rating">Rating:</label>
-              <input
-                type="number"
-                id="rating"
-                min="1"
-                max="5"
-                value={reviewRating}
-                onChange={(e) => setReviewRating(e.target.value)}
-              />
-              <button onClick={addReview}>Submit</button>
-              <button onClick={() => setIsReviewing(false)}>Cancel</button>
-              {errorMessage && <p>{errorMessage}</p>}
-            </div>
+            <>
+              {isReviewing ? (
+                <div className="review-form">
+                  <label htmlFor="text">Review text:</label>
+                  <input
+                    type="text"
+                    id="text"
+                    value={reviewText}
+                    onChange={(e) => setReviewText(e.target.value)}
+                  />
+                  <label htmlFor="rating">Rating:</label>
+                  <input
+                    type="number"
+                    id="rating"
+                    min="1"
+                    max="5"
+                    value={reviewRating}
+                    onChange={(e) => setReviewRating(e.target.value)}
+                  />
+                  <button className="review-form-btn" onClick={addReview}>
+                    Submit
+                  </button>
+                  <button className="review-form-btn" onClick={() => setIsReviewing(false)}>
+                    Cancel
+                  </button>
+                  {errorMessage && <p>{errorMessage}</p>}
+                </div>
+              ) : (
+                <>
+                  <ul className="review-container">
+                    {reviews.map((review, index) => (
+                      <li key={index}>
+                        <span className="reviewer-username">{review.reviewer.username}</span>:{" "}
+                        {review.text}
+                        <br />
+                        Rating: {review.rating}
+                        <br />
+                        Date: {review.date}
+                        <br />
+                        {user && user.username === review.reviewer.username && (
+                          <>
+                            {editReviewId === review.reviewId ? (
+                              // Use editReviewId to check if the current review is being edited
+                              <EditReviews
+                                reviewId={review.reviewId}
+                                token={token}
+                                setIsReviewing={setIsReviewing}
+                                setReviews={setReviews}
+                                user={user}
+                                deleteReview={deleteReview}
+                              />
+                            ) : (
+                              <>
+                                <button
+                                  className="review-action-btn"
+                                  onClick={() => setEditReviewId(review.reviewId)}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="review-action-btn"
+                                  onClick={() => deleteReview(review.reviewId)}
+                                >
+                                  Delete
+                                </button>
+                              </>
+                            )}
+                          </>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <button onClick={() => setIsReviewing(true)}>
+                    Add a Review
+                  </button>
+                </>
+              )}
+            </>
           )}
-          <ul className="reviewContainer">
-            {reviews.map((review, index) => (
-              <li key={index}>
-                {review.reviewer.username}: {review.text}
-                <br />
-                Rating: {review.rating}
-                <br />
-                Date: {review.date}
-                <br />
-                {user && user.username === review.reviewer.username && (
-                  <>
-                    {editReviewId === review.reviewId ? ( // Use editReviewId to check if the current review is being edited
-                      <EditReviews
-                        reviewId={review.reviewId}
-                        token={token}
-                        setIsReviewing={setIsReviewing}
-                        setReviews={setReviews}
-                        user={user}
-                        deleteReview={deleteReview}
-                      />
-                    ) : (
-                      <>
-                        <button onClick={() => setEditReviewId(review.reviewId)}>Edit</button>
-                        <button onClick={() => deleteReview(review.reviewId)}>Delete</button>
-                      </>
-                    )}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
         </div>
       )}
     </div>
   );
+  
 };
 
 export default Reviews;

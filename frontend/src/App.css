@@ -319,3 +319,50 @@ h2{
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.review-form {
+  margin-top: 10px;
+}
+
+.review-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.review-form input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.review-form-btn {
+  background-color: #f9f9f9;
+  color: #333;
+  border: 1px solid #333;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.review-container {
+  list-style-type: none;
+  margin-top: 20px;
+  padding: 0;
+}
+
+.review-container li {
+  margin-bottom: 10px;
+}
+
+.reviewer-username {
+  font-weight: bold;
+}
+
+.review-action-btn {
+  background-color: #f9f9f9;
+  color: #333;
+  border: 1px solid #333;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin-right: 5px;
+}
