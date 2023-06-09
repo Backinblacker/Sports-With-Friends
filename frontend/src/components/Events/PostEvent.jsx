@@ -97,67 +97,69 @@ const PostEvent = () => {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="profile">
-          <h2>Upcoming Events</h2>
-          <ul className="events">
-          {events && events.map((event, index) => (
-            <li key={index} className="event-row">
-              <div className="event-info">
-                <p className="event-label">Event Name:</p>
-                <p>{event.text}</p>
-                <p className="event-label">Event Details:</p>
-                <p>{event.event_image}</p>
+        <div className="eventContainer">
+          <div className="profile">
+            <h2>Upcoming Events</h2>
+            <ul className="events">
+              {events && events.map((event, index) => (
+                <li key={index} className="event-row">
+                  <div className="event-info">
+                    <p className="event-label">Event Name:</p>
+                    <p>{event.text}</p>
+                    <p className="event-label">Event Details:</p>
+                    <p>{event.event_image}</p>
+                  </div>
+                  <div className="event-actions">
+                    {selectedEventId === event.id ? (
+                      <EditEvent
+                        eventId={event.id}
+                        token={token}
+                        fetchEvents={fetchEvents}
+                        setIsReviewing={setIsReviewing}
+                        setSelectedEventId={setSelectedEventId}
+                      />
+                      ) : (
+                        <button onClick={() => selectEventForEdit(event.id)}>
+                          Edit
+                        </button>
+                      )}
+                    <button onClick={() => deleteEvent(event.id)}>Delete</button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            {!isReviewing ? (
+              <button onClick={() => setIsReviewing(true)}>Add an Event</button>
+            ) : (
+              <div>
+                {/* need styling to make them similar to the event */}
+                <label htmlFor="text">Event Description:</label>
+                <textarea
+                  type="text"
+                  id="text"
+                  value={eventText}
+                  onChange={(e) => setEventText(e.target.value)}
+                />
+                <label htmlFor="event_image">Event Poster:</label>
+                <textarea
+                  type="text"
+                  id="event_image"
+                  value={eventImage}
+                  onChange={(e) => setEventImage(e.target.value)}
+                />
+                {/* <label htmlFor="team_id">Team ID:</label>
+                    <input
+                      type="text"
+                      id="team_id"
+                      value={teamId}
+                      onChange={(e) => setTeamId(e.target.value)}
+                    />*/}
+                <button onClick={addEvent}>Submit</button>
+                <button onClick={() => setIsReviewing(false)}>Cancel</button>
+                {errorMessage && <p>{errorMessage}</p>}
               </div>
-              <div className="event-actions">
-                {selectedEventId === event.id ? (
-                  <EditEvent
-                    eventId={event.id}
-                    token={token}
-                    fetchEvents={fetchEvents}
-                    setIsReviewing={setIsReviewing}
-                    setSelectedEventId={setSelectedEventId}
-                  />
-                  ) : (
-                    <button onClick={() => selectEventForEdit(event.id)}>
-                      Edit
-                    </button>
-                  )}
-                <button onClick={() => deleteEvent(event.id)}>Delete</button>
-              </div>
-            </li>
-          ))}
-        </ul>
-          {!isReviewing ? (
-            <button onClick={() => setIsReviewing(true)}>Add an Event</button>
-          ) : (
-            <div>
-              {/* need styling to make them similar to the event */}
-              <label htmlFor="text">Event Description:</label>
-              <textarea
-                type="text"
-                id="text"
-                value={eventText}
-                onChange={(e) => setEventText(e.target.value)}
-              />
-              <label htmlFor="event_image">Event Poster:</label>
-              <textarea
-                type="text"
-                id="event_image"
-                value={eventImage}
-                onChange={(e) => setEventImage(e.target.value)}
-              />
-              {/* <label htmlFor="team_id">Team ID:</label>
-                  <input
-                    type="text"
-                    id="team_id"
-                    value={teamId}
-                    onChange={(e) => setTeamId(e.target.value)}
-                  />*/}
-              <button onClick={addEvent}>Submit</button>
-              <button onClick={() => setIsReviewing(false)}>Cancel</button>
-              {errorMessage && <p>{errorMessage}</p>}
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>
