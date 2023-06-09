@@ -84,13 +84,22 @@ const DetailsPage = () => {
         <p>Loading...</p>
       ) : (
         <>
-          <div key={user_id} className="need">
+          <div key={user_id} className="profile">
             <h2>{establishmentDetails.establishment_name}</h2>
-            <p>Opens: {establishmentDetails.opening_time}</p>
-            <p>Closes: {establishmentDetails.closing_time}</p>
-            <p>Menu: {establishmentDetails.menu_url}</p>
-            <p>Socials: {establishmentDetails.social_media}</p>
-            <p>Other Entertainment: {establishmentDetails.entertainment}</p>
+            <div className="profile-column">
+              <div className="profile-item">
+                <label>Opens:</label>
+                <p className='border-profile-b'>{establishmentDetails.opening_time}</p>
+                <label>Closes:</label>
+                <p className='border-profile-b'>{establishmentDetails.closing_time}</p>
+                <label>Menu:</label>
+                <p className='border-profile-b'>{establishmentDetails.menu_url}</p>
+                <label>Socials:</label>
+                <p className='border-profile-b'>{establishmentDetails.social_media}</p>
+                <label>Entertainment:</label>
+                <p className='border-profile-b'>{establishmentDetails.entertainment}</p>
+              </div>
+            </div>
             {isFavorite ? (
               <button onClick={handleFavorite}>
                 Unfavorite
@@ -100,28 +109,33 @@ const DetailsPage = () => {
                 Favorite
               </button>
             )}
-            <Link to="/favorites">View Favorites</Link> 
-            {/* need card style to click on it and take user to event details page */}
-            <div className="resultsContainer">
-              {establishmentEvents.length > 0 ? (
-                <div>
-                  {/* need to align ticket icon */}
-                  <h2> <TicketDetailed /> Upcoming Events:</h2>
-                  {establishmentEvents.map((event) => (
-                    <div key={event.id} className="resultsCard">
+            <Link to="/favorites">View Favorites</Link>
+            <br/> 
+            <div className='profile'>
+            <h2> <TicketDetailed /> Upcoming Events:</h2>
+              <div>
+                {establishmentEvents.length > 0 ? (
+                  <div className='resultsContainer'>
+                    {/* need to align ticket icon */}
+                    {establishmentEvents.map((event) => (
+                      <div key={event.id} className="resultsCard">
                       <Link to={`/eventdetails/${event.id}`}>
                         <div>
-                          {/* need to align icon */}
-                          <h3>Event: {event.text} <Calendar2Event /></h3>
+                          <div className="iconContainer">
+                            <Calendar2Event className="eventIcon" />
+                          </div>
+                          <h3>Event: {event.text}</h3>
                         </div>
                       </Link>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <p>No events scheduled at this time.</p>
-              )}
+                    ))}
+                  </div>
+                ) : (
+                  <p>No events scheduled at this time.</p>
+                )}
+              </div>
             </div>
+            <br/>
             <Reviews user_id={user_id} />
             {user && user.id === user_id && (
               <EditReviews

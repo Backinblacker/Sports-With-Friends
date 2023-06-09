@@ -67,6 +67,7 @@ const EditEvent = ({ eventId, token, fetchEvents, setIsReviewing, setSelectedEve
         <div>
           <label htmlFor="newText">New Event Description:</label>
           <textarea
+            className="editInput"
             type="text"
             id="newText"
             value={newText}
@@ -74,13 +75,13 @@ const EditEvent = ({ eventId, token, fetchEvents, setIsReviewing, setSelectedEve
           />
           <label htmlFor="newImageUrl">New Event Poster:</label>
           <textarea
+            className="editInput"
             type="text"
             id="newImageUrl"
             value={newImageUrl}
             onChange={(e) => setNewImageUrl(e.target.value)}
           />
-          <button onClick={()=>editEvent()}>Save</button>
-          
+          <button onClick={editEvent}>Save</button>
         </div>
       )}
     </div>

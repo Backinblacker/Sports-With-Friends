@@ -282,7 +282,15 @@ h2{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-align: center;
   height: 100%;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
 .iconSize {
@@ -301,4 +309,13 @@ h2{
 .editButton{
   margin-top: 5px;
   align-items: center;
+}
+
+.editInput {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

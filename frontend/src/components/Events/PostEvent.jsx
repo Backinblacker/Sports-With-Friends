@@ -118,12 +118,12 @@ const PostEvent = () => {
                         setIsReviewing={setIsReviewing}
                         setSelectedEventId={setSelectedEventId}
                       />
-                      ) : (
-                        <button onClick={() => selectEventForEdit(event.id)}>
-                          Edit
-                        </button>
-                      )}
-                    <button onClick={() => deleteEvent(event.id)}>Delete</button>
+                    ) : (
+                      <>
+                        <button onClick={() => selectEventForEdit(event.id)}>Edit</button>
+                        <button onClick={() => deleteEvent(event.id)}>Delete</button>
+                      </>
+                    )}
                   </div>
                 </li>
               ))}
@@ -140,7 +140,7 @@ const PostEvent = () => {
                   value={eventText}
                   onChange={(e) => setEventText(e.target.value)}
                 />
-                <label htmlFor="event_image">Event Poster:</label>
+                <label htmlFor="event_image">Event Details:</label>
                 <textarea
                   type="text"
                   id="event_image"

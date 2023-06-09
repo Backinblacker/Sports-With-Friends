@@ -101,7 +101,7 @@ function UpdateUserProfile({ user_id }) {
     });
   }
 
-  const isUserLoggedIn = user.id === user_id;
+  const isUserLoggedIn = user && user.id.toString() === user_id.toString();
 
   return (
     <div className="profile">
