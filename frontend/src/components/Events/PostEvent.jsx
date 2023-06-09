@@ -45,7 +45,6 @@ const PostEvent = () => {
         {
           text: eventText,
           event_image: eventImage,
-          // need to be able to select which team the event coincides with. 
         },
         {
           headers: {
@@ -53,7 +52,7 @@ const PostEvent = () => {
           },
         }
       );
-      fetchEvents()
+      fetchEvents();
       setIsReviewing(false);
       resetForm();
     } catch (error) {

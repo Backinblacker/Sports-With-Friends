@@ -66,7 +66,7 @@ class PostEventResource(Resource):
         new_event = event_schema.load(form_data)
         new_event.user_id = current_user
 
-        current_user.favorite_events.append(new_event)
+        # current_user.favorite_events.append(new_event)
 
         db.session.add(new_event)
         db.session.commit()
