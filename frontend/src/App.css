@@ -242,6 +242,10 @@ h2{
   margin-top: 5px;
 }
 
+.eventText {
+  text-align: center;
+}
+
 .bar-image {
   border: 1px solid #ddd;
   border-radius: 4px;

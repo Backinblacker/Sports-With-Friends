@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
+import { Calendar2Event } from "react-bootstrap-icons";
 
 const CheckedInEvents = () => {
   const [user, token] = useAuth();
@@ -30,14 +32,22 @@ const CheckedInEvents = () => {
   return (
     <div>
       <h2>Checked-in Events</h2>
-      {checkedInEventsData.map((event) => {
-        return (
-            // need styling
-          <div key={event.id}>
-            <h3>{event.event.text}</h3>
-          </div>
-        );
-      })}
+      <div className="resultsContainer">
+        {checkedInEventsData.map((event) => {
+          return (
+            <div key={event.id} className="resultsCard">
+              <Link to={`/eventdetails/${event.event.id}`}>
+                <div>
+                  <div className="iconContainer">
+                    <Calendar2Event className="eventIcon" />
+                  </div>
+                  <h3 className="eventText">{event.event.text}</h3>
+                </div>
+              </Link>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
