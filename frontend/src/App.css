@@ -339,15 +339,6 @@ h2{
   margin-bottom: 10px;
 }
 
-.review-form-btn {
-  background-color: #f9f9f9;
-  color: #333;
-  border: 1px solid #333;
-  padding: 5px 10px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
 .review-container {
   list-style-type: none;
   margin-top: 20px;
@@ -369,4 +360,17 @@ h2{
   padding: 5px 10px;
   cursor: pointer;
   margin-right: 5px;
+}
+
+.favoritesList{
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+  list-style-type: none;
+}
+
+.teamsList{
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
 }

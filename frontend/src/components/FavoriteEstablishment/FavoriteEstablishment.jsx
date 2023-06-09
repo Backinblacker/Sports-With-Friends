@@ -42,30 +42,40 @@ const FavoriteEstablishment = () => {
   }, []);
 
   return (
-    <div>
+    <div className="container">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-        <div className="container">
+        <>
           <h1>Favorites</h1>
-          <div className="favoritesList">
+          <div>
             {favorites.map((favorite) => (
-              <ul key={favorite.id}>
-                <p>Establishment Name: {favorite.establishment.establishment_name}</p>
-                <p>Zip Code: {favorite.establishment.zip_code}</p>
-                <p>Teams on Tv:</p>
-                <ul>
-                  {favorite.establishment.teams.map((team) => (
-                    <li key={team.id}>{team.name}</li>
-                  ))}
-                </ul>
-                <button onClick={() => handleUnfavorite(favorite.id)}>
-                  Unfavorite
-                </button>
+              <ul key={favorite.id} className="favoritesList">
+                <li>
+                  <p><strong>Establishment Name:</strong> {favorite.establishment.establishment_name}</p>
+                </li>
+                <li>
+                  <p><strong>Zip Code:</strong> {favorite.establishment.zip_code}</p>
+                </li>
+                <li>
+                  <label><strong>Teams on TV:</strong></label>
+                  <ul className="teamsList">
+                    {favorite.establishment.teams.map((team) => (
+                      <li key={team.id}>
+                        {team.name}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+                <li>
+                  <button onClick={() => handleUnfavorite(favorite.id)}>
+                    Unfavorite
+                  </button>
+                </li>
               </ul>
             ))}
           </div>
-        </div>
+        </>
       )}
     </div>
   );

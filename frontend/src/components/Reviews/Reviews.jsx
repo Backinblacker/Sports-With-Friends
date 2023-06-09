@@ -183,13 +183,11 @@ const Reviews = ({ user_id }) => {
                             ) : (
                               <>
                                 <button
-                                  className="review-action-btn"
                                   onClick={() => setEditReviewId(review.reviewId)}
                                 >
                                   Edit
                                 </button>
                                 <button
-                                  className="review-action-btn"
                                   onClick={() => deleteReview(review.reviewId)}
                                 >
                                   Delete
