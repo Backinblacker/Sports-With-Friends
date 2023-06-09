@@ -286,3 +286,8 @@ h2{
   width: 2em;
   height: 2em;
 }
+
+.editButton{
+  margin-top: 5px;
+  align-items: center;
+}

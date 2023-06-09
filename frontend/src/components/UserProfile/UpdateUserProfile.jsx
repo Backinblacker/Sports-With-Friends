@@ -46,7 +46,7 @@ function UpdateUserProfile({ user_id }) {
     };
 
     fetchUserProfile();
-  }, [user, token]);
+  }, [user, token, user_id]);
 
   function handleEdit() {
     setEditMode(true);
@@ -101,6 +101,8 @@ function UpdateUserProfile({ user_id }) {
     });
   }
 
+  const isUserLoggedIn = user.id === user_id;
+
   return (
     <div className="profile">
       <h1>User Profile</h1>
@@ -116,6 +118,7 @@ function UpdateUserProfile({ user_id }) {
                 name="first_name"
                 value={updatedUser.first_name}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -125,6 +128,7 @@ function UpdateUserProfile({ user_id }) {
                 name="last_name"
                 value={updatedUser.last_name}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -134,6 +138,7 @@ function UpdateUserProfile({ user_id }) {
                 name="email"
                 value={updatedUser.email}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -145,6 +150,7 @@ function UpdateUserProfile({ user_id }) {
                 onChange={handleChange}
             />
             </label>
+            <br/>
             <label>
             Establishment Name:
             <input
@@ -152,6 +158,7 @@ function UpdateUserProfile({ user_id }) {
                 name="establishment_name"
                 value={updatedUser.establishment_name}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -161,6 +168,7 @@ function UpdateUserProfile({ user_id }) {
                 name="zip_code"
                 value={updatedUser.zip_code}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -170,6 +178,7 @@ function UpdateUserProfile({ user_id }) {
                 name="opening_time"
                 value={updatedUser.opening_time}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -179,6 +188,7 @@ function UpdateUserProfile({ user_id }) {
                 name="closing_time"
                 value={updatedUser.closing_time}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -188,6 +198,7 @@ function UpdateUserProfile({ user_id }) {
                 name="menu_url"
                 value={updatedUser.menu_url}
                 onChange={handleChange}
+                className={editMode ? "border-profile-b" : ""}
             />
             </label>
             <label>
@@ -197,6 +208,7 @@ function UpdateUserProfile({ user_id }) {
               name="specials"
               value={updatedUser.specials}
               onChange={handleChange}
+              className={editMode ? "border-profile-b" : ""}
             />
           </label>
           <label>
@@ -206,6 +218,7 @@ function UpdateUserProfile({ user_id }) {
               name="social_media"
               value={updatedUser.social_media}
               onChange={handleChange}
+              className={editMode ? "border-profile-b" : ""}
             />
           </label>
           <label>
@@ -215,6 +228,7 @@ function UpdateUserProfile({ user_id }) {
               name="entertainment"
               value={updatedUser.entertainment}
               onChange={handleChange}
+              className={editMode ? "border-profile-b" : ""}
             />
           </label>
           <label>
@@ -226,7 +240,7 @@ function UpdateUserProfile({ user_id }) {
             />
           </label>
           <button type="submit">Save</button>
-          <button type="button" onClick={handleCancel}>
+          <button type="button" onClick={handleCancel} className="editButton">
             Cancel
           </button>
         </form>
@@ -286,9 +300,11 @@ function UpdateUserProfile({ user_id }) {
               </>
             )}
           </div>
-          <button type="button" onClick={handleEdit}>
+          {isUserLoggedIn && (
+            <button type="button" onClick={handleEdit} className="editButton">
               Edit Profile
-          </button>
+            </button>
+          )}
         </>
       )}
     </div>
