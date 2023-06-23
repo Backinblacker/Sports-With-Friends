@@ -33,7 +33,8 @@ const Reviews = ({ user_id }) => {
             text: review.text,
             reviewer: review.reviewer,
             rating: review.rating,
-            date: review.date.toLocaleString(),
+            date: new Date(review.date).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' }) + ' ' +
+                  new Date(review.date).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
           }))
         );
       } else {
@@ -61,12 +62,11 @@ const Reviews = ({ user_id }) => {
       const currentDate = new Date();
       const reviewData = {
         reviewee_id: user_id,
-        username: reviewUsername,
         text: reviewText,
         rating: reviewRating,
-        date: currentDate.toLocaleString(),
+        date: currentDate.toISOString(),
       };
-      let response = await axios.post(
+      const response = await axios.post(
         `http://127.0.0.1:5000/api/user_reviews`,
         reviewData,
         {
@@ -75,16 +75,24 @@ const Reviews = ({ user_id }) => {
           },
         }
       );
-      setReviews([
-        ...reviews,
-        {
-          text: response.data.text,
-          reviewer: response.data.reviewer,
-          rating: response.data.rating,
-          date: response.data.date.toLocaleString(),
-        },
-      ]);
-      console.log(response.data.date);
+      const newReview = {
+        reviewId: response.data.review_id,
+        text: response.data.text,
+        reviewer: response.data.reviewer,
+        rating: response.data.rating,
+        date: new Date(response.data.date).toLocaleDateString([], {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }) +
+          ' ' +
+          new Date(response.data.date).toLocaleTimeString([], {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+          }),
+      };
+      setReviews([...reviews, newReview]);
       setIsReviewing(false);
     } catch (error) {
       if (error.response && error.response.data) {
@@ -94,6 +102,7 @@ const Reviews = ({ user_id }) => {
       }
     }
   };
+  
 
   useEffect(() => {
     fetchReviews();
@@ -126,91 +135,71 @@ const Reviews = ({ user_id }) => {
       ) : (
         <div>
           <h2>User Reviews:</h2>
-          {reviews.length === 0 ? (
-            <p>No reviews available</p>
+          <ul className="review-container">
+            {reviews.map((review, index) => (
+              <li key={index}>
+                <span className="reviewer-username">{review.reviewer.username}</span>: {review.text}
+                <br />
+                Rating: {review.rating}
+                <br />
+                Date: {review.date}
+                <br />
+                {user && user.username === review.reviewer.username && (
+                  <>
+                    {editReviewId === review.reviewId ? (
+                      // Use editReviewId to check if the current review is being edited
+                      <EditReviews
+                        reviewId={review.reviewId}
+                        token={token}
+                        setIsReviewing={setIsReviewing}
+                        setReviews={setReviews}
+                        user={user}
+                        deleteReview={deleteReview}
+                      />
+                    ) : (
+                      <>
+                        <button onClick={() => setEditReviewId(review.reviewId)}>Edit</button>
+                        <button onClick={() => deleteReview(review.reviewId)}>Delete</button>
+                      </>
+                    )}
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+          {isReviewing ? (
+            <div className="review-form">
+              <label htmlFor="text">Review text:</label>
+              <input
+                type="text"
+                id="text"
+                value={reviewText}
+                onChange={(e) => setReviewText(e.target.value)}
+              />
+              <label htmlFor="rating">Rating:</label>
+              <input
+                type="number"
+                id="rating"
+                min="1"
+                max="5"
+                value={reviewRating}
+                onChange={(e) => setReviewRating(e.target.value)}
+              />
+              <button className="review-form-btn" onClick={addReview}>
+                Submit
+              </button>
+              <button className="review-form-btn" onClick={() => setIsReviewing(false)}>
+                Cancel
+              </button>
+              {errorMessage && <p>{errorMessage}</p>}
+            </div>
           ) : (
-            <>
-              {isReviewing ? (
-                <div className="review-form">
-                  <label htmlFor="text">Review text:</label>
-                  <input
-                    type="text"
-                    id="text"
-                    value={reviewText}
-                    onChange={(e) => setReviewText(e.target.value)}
-                  />
-                  <label htmlFor="rating">Rating:</label>
-                  <input
-                    type="number"
-                    id="rating"
-                    min="1"
-                    max="5"
-                    value={reviewRating}
-                    onChange={(e) => setReviewRating(e.target.value)}
-                  />
-                  <button className="review-form-btn" onClick={addReview}>
-                    Submit
-                  </button>
-                  <button className="review-form-btn" onClick={() => setIsReviewing(false)}>
-                    Cancel
-                  </button>
-                  {errorMessage && <p>{errorMessage}</p>}
-                </div>
-              ) : (
-                <>
-                  <ul className="review-container">
-                    {reviews.map((review, index) => (
-                      <li key={index}>
-                        <span className="reviewer-username">{review.reviewer.username}</span>:{" "}
-                        {review.text}
-                        <br />
-                        Rating: {review.rating}
-                        <br />
-                        Date: {review.date}
-                        <br />
-                        {user && user.username === review.reviewer.username && (
-                          <>
-                            {editReviewId === review.reviewId ? (
-                              // Use editReviewId to check if the current review is being edited
-                              <EditReviews
-                                reviewId={review.reviewId}
-                                token={token}
-                                setIsReviewing={setIsReviewing}
-                                setReviews={setReviews}
-                                user={user}
-                                deleteReview={deleteReview}
-                              />
-                            ) : (
-                              <>
-                                <button
-                                  onClick={() => setEditReviewId(review.reviewId)}
-                                >
-                                  Edit
-                                </button>
-                                <button
-                                  onClick={() => deleteReview(review.reviewId)}
-                                >
-                                  Delete
-                                </button>
-                              </>
-                            )}
-                          </>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <button onClick={() => setIsReviewing(true)}>
-                    Add a Review
-                  </button>
-                </>
-              )}
-            </>
+            <button onClick={() => setIsReviewing(true)}>Add a Review</button>
           )}
         </div>
       )}
     </div>
   );
-  
 };
 
 export default Reviews;
